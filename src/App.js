@@ -58,7 +58,6 @@ const Center = styled.div`
   height: 100%;
   z-index: 9999;
   transition: width 0.25s ease;
-  background-color: ${({ theme }) => theme.onlyLight};
 `
 
 const WarningWrapper = styled.div`
@@ -85,9 +84,6 @@ const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
       <ContentWrapper open={savedOpen}>
         <SideNav />
         <Center id="center">{children}</Center>
-        <Right open={savedOpen}>
-          <PinnedData open={savedOpen} setSavedOpen={setSavedOpen} />
-        </Right>
       </ContentWrapper>
     </>
   )
@@ -105,6 +101,111 @@ function App() {
   // show warning
   const showWarning = headBlock && latestBlock ? headBlock - latestBlock > BLOCK_DIFFERENCE_THRESHOLD : false
 
+  // return (
+  //   <ApolloProvider client={client}>
+  //     <AppWrapper>
+  //       {showWarning && (
+  //         <WarningWrapper>
+  //           <WarningBanner>
+  //             {`Warning: The data on this site has only synced to Ethereum block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
+  //           </WarningBanner>
+  //         </WarningWrapper>
+  //       )}
+  //       {globalData &&
+  //       Object.keys(globalData).length > 0 &&
+  //       globalChartData &&
+  //       Object.keys(globalChartData).length > 0 ? (
+  //         <BrowserRouter>
+  //           <Route component={GoogleAnalyticsReporter} />
+  //           <Switch>
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/token/:tokenAddress"
+  //               render={({ match }) => {
+  //                 if (
+  //                   isAddress(match.params.tokenAddress.toLowerCase()) &&
+  //                   !Object.keys(TOKEN_BLACKLIST).includes(match.params.tokenAddress.toLowerCase())
+  //                 ) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <TokenPage address={match.params.tokenAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/pair/:pairAddress"
+  //               render={({ match }) => {
+  //                 if (
+  //                   isAddress(match.params.pairAddress.toLowerCase()) &&
+  //                   !Object.keys(PAIR_BLACKLIST).includes(match.params.pairAddress.toLowerCase())
+  //                 ) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <PairPage pairAddress={match.params.pairAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/account/:accountAddress"
+  //               render={({ match }) => {
+  //                 if (isAddress(match.params.accountAddress.toLowerCase())) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <AccountPage account={match.params.accountAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+
+  //             <Route path="/home">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <GlobalPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/tokens">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AllTokensPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/pairs">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AllPairsPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/accounts">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AccountLookup />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Redirect to="/home" />
+  //           </Switch>
+  //         </BrowserRouter>
+  //       ) : (
+  //         <LocalLoader fill="true" /> 
+  //       )}
+  //     </AppWrapper>
+  //   </ApolloProvider>
+  // )
   return (
     <ApolloProvider client={client}>
       <AppWrapper>
@@ -115,10 +216,7 @@ function App() {
             </WarningBanner>
           </WarningWrapper>
         )}
-        {globalData &&
-        Object.keys(globalData).length > 0 &&
-        globalChartData &&
-        Object.keys(globalChartData).length > 0 ? (
+        {true ? (
           <BrowserRouter>
             <Route component={GoogleAnalyticsReporter} />
             <Switch>
@@ -205,7 +303,7 @@ function App() {
             </Switch>
           </BrowserRouter>
         ) : (
-          <LocalLoader fill="true" />
+          <LocalLoader /> 
         )}
       </AppWrapper>
     </ApolloProvider>

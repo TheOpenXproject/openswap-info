@@ -30,6 +30,12 @@ const theme = (darkMode, color) => ({
   text4: darkMode ? '#565A69' : '#C3C5CB',
   text5: darkMode ? '#2C2F36' : '#EDEEF2',
 
+  // OpenSwap Text Colors
+  oSText1: darkMode ? 'rgba(229, 231, 235, 1)' : '#4B5563',
+
+  // OpenSwap Icon Colors
+  oSIcon1: darkMode ? 'rgba(24, 213, 187, 1)' : 'rgba(107, 114, 128, 1)',
+
   // special case text types
   white: '#FFFFFF',
 
@@ -40,6 +46,13 @@ const theme = (darkMode, color) => ({
   bg4: darkMode ? '#565A69' : '#CED0D9',
   bg5: darkMode ? '#565A69' : '#888D9B',
   bg6: darkMode ? '#000' : '#FFFFFF',
+
+  // gradient backgound
+  bgGradient: darkMode ? 
+    'linear-gradient(to right, #262334, #313547)' : 
+    'linear-gradient(to right, #d1d5db, #edeff2)',
+
+  bgComponentGradient: darkMode ? 'linear-gradient(to left, #313547, #262334)' : 'linear-gradient(to left, #edeff2, #d1d5db)',
 
   //specialty colors
   modalBG: darkMode ? 'rgba(0,0,0,0.85)' : 'rgba(0,0,0,0.6)',
@@ -155,20 +168,14 @@ export const ThemedBackground = styled.div`
 `
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://rsms.me/inter/inter.css');
-  html { font-family: 'Inter', sans-serif; }
-  @supports (font-variation-settings: normal) {
-    html { font-family: 'Inter var', sans-serif; }
-  }
-  
   html,
   body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    font-size: 14px;    
-    background-color: ${({ theme }) => theme.bg6};
+    font-size: 14px;
+    background-image: ${({ theme }) => theme.bgGradient};
   }
 
   a {

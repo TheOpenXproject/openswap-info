@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Line Awesome Icons
+$la-font-path: "~line-awesome/dist/line-awesome/fonts" !default;
+@import '~line-awesome/dist/line-awesome/scss/line-awesome.scss';
