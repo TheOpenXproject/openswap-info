@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { Text, Box } from 'rebass'
 
 import Link from './Link'
@@ -130,6 +131,10 @@ export const PageWrapper = styled.div`
   }
 `
 
+export const TWPageWrapper = tw.div`
+  flex flex-col pt-9 pb-20
+`
+
 export const ContentWrapper = styled.div`
   display: grid;
   justify-content: start;
@@ -145,6 +150,12 @@ export const ContentWrapper = styled.div`
     grid-template-columns: 1fr;
     padding: 0 1rem;
   }
+`
+
+export const TWContentWrapper = tw.div`
+  flex w-full flex-col 
+  justify-start items-start
+  box-border
 `
 
 export const ContentWrapperLarge = styled.div`

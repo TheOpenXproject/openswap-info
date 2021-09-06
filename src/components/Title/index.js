@@ -1,14 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-
+import tw from 'tailwind-styled-components'
 import { Flex } from 'rebass'
 import Link from '../Link'
 import { RowFixed } from '../Row'
 import Logo from '../../assets/oswap_logo.png'
-
 import { BasicLink } from '../Link'
 import { useMedia } from 'react-use'
+import { withRouter } from 'react-router-dom'
 
 const TitleWrapper = styled.div`
   text-decoration: none;
@@ -33,9 +33,17 @@ const Option = styled.div`
   }
 `
 
-export default function Title() {
+const TWOption = tw(Option)`
+  flex space-x-3
+`
+
+const TWIcon = styled.div`
+  color: ${({ theme }) => (theme.oSIcon1)}  
+`
+
+function Title() {
   const history = useHistory()
-  const below1080 = useMedia('(max-width: 1080px)')
+  const below1024 = useMedia('(max-width: 1024px)')
 
   return (
     <TitleWrapper onClick={() => history.push('/')}>
@@ -45,44 +53,58 @@ export default function Title() {
             <img className="h-10" src={Logo} alt="logo" />
           </OswapIcon>
         </RowFixed>
-        {below1080 && (
+        {below1024 && (
           <RowFixed style={{ alignItems: 'flex-end' }}>
             <BasicLink to="/home">
-              <Option activeText={history.location.pathname === '/home' ?? undefined}>Overview</Option>
+              <TWOption activeText={history.location.pathname === '/home' ?? undefined}>
+                <TWIcon>
+                  <i class="las la-chart-line text-xl"></i>
+                </TWIcon>
+                <p class="ss:hidden xs:block">Overview</p>
+              </TWOption>
             </BasicLink>
             <BasicLink to="/tokens">
-              <Option
+              <TWOption
                 activeText={
                   (history.location.pathname.split('/')[1] === 'tokens' ||
                     history.location.pathname.split('/')[1] === 'token') ??
                   undefined
                 }
               >
-                Tokens
-              </Option>
+                <TWIcon>
+                  <i class="las la-coins text-xl"></i>
+                </TWIcon>
+                <p class="ss:hidden xs:block">Tokens</p>
+              </TWOption>
             </BasicLink>
             <BasicLink to="/pairs">
-              <Option
+              <TWOption
                 activeText={
                   (history.location.pathname.split('/')[1] === 'pairs' ||
                     history.location.pathname.split('/')[1] === 'pair') ??
                   undefined
                 }
               >
-                Pairs
-              </Option>
+                <TWIcon>
+                  <i class="las la-spinner text-xl"></i>
+                </TWIcon>
+                <p class="ss:hidden xs:block">Pairs</p>
+              </TWOption>
             </BasicLink>
 
             <BasicLink to="/accounts">
-              <Option
+              <TWOption
                 activeText={
                   (history.location.pathname.split('/')[1] === 'accounts' ||
                     history.location.pathname.split('/')[1] === 'account') ??
                   undefined
                 }
               >
-                Accounts
-              </Option>
+                <TWIcon>
+                  <i class="las la-user text-xl"></i>
+                </TWIcon>
+                <p class="ss:hidden xs:block">Accounts</p>
+              </TWOption>
             </BasicLink>
           </RowFixed>
         )}
@@ -90,3 +112,5 @@ export default function Title() {
     </TitleWrapper>
   )
 }
+
+export default withRouter(Title)

@@ -11,23 +11,15 @@ import Link from '../Link'
 import { useSessionStart } from '../../contexts/Application'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 import Toggle from '../Toggle'
+import TWMobileMenu from '../TWMobileMenu'
 
 const Wrapper = styled.div`
   height: ${({ isMobile }) => (isMobile ? 'initial' : '100vh')};
   z-index: 9999;
-
-  @media screen and (max-width: 800px) {
-    grid-template-columns: 1fr;
-    position: relative;
-  }
-
-  @media screen and (max-width: 600px) {
-    padding: 1rem;
-  }
 `
 
 const TWWrapper = tw(Wrapper)`
-  sticky
+  sticky lg:w-56 flex flex-none
   top-0
   box-border
 `
@@ -39,7 +31,6 @@ const Menu = styled.div`
 const TWMenu = tw(Menu)`
   flex flex-col
   mt-3 p-6
-  rounded-2xl
 `
 
 const TWMenuMiddle = tw.div`
@@ -47,7 +38,7 @@ const TWMenuMiddle = tw.div`
 `
 
 const TWMenuBottom = tw.div`
-  fixed bottom-0 left-0
+  absolute bottom-0 left-3
   flex flex-col
   p-6
 `
@@ -71,15 +62,10 @@ const TWIcon = styled.div`
 `
 
 const DesktopWrapper = tw.div`
-  flex
+  flex relative
   flex-col
   h-screen
-`
-
-const MobileWrapper = tw.div`
-  flex
-  justify-between
-  items-center
+  pl-3
 `
 
 const HeaderText = styled.div`
@@ -110,21 +96,19 @@ const TWPolling = tw(Polling)`
 `
 
 function SideNav({ history }) {
-  const below1080 = useMedia('(max-width: 1080px)')
-
-  const below1180 = useMedia('(max-width: 1180px)')
+  const below1024 = useMedia('(max-width: 1024px)')
 
   const seconds = useSessionStart()
 
   const [isDark, toggleDarkMode] = useDarkModeManager()
 
   return (
-    <TWWrapper isMobile={below1080}>
-      {!below1080 ? (
+    <TWWrapper isMobile={below1024}>
+      {!below1024 ? (
         <DesktopWrapper>
           <TWMenu>
             <Title />
-            {!below1080 && (
+            {!below1024 && (
               <AutoColumn gap="1.25rem" style={{ marginTop: '1.5rem' }}>
                 <BasicLink to="/home">
                   <TWOption activeText={history.location.pathname === '/home' ?? undefined}>
@@ -219,9 +203,7 @@ function SideNav({ history }) {
           </TWMenuBottom>
         </DesktopWrapper>
       ) : (
-        <MobileWrapper>
-          <Title />
-        </MobileWrapper>
+        <TWMobileMenu />
       )}
     </TWWrapper>
   )

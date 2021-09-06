@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { ApolloProvider } from 'react-apollo'
 import { client } from './apollo/client'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
@@ -20,24 +21,15 @@ import { useLatestBlocks } from './contexts/Application'
 import GoogleAnalyticsReporter from './components/analytics/GoogleAnalyticsReporter'
 import { PAIR_BLACKLIST, TOKEN_BLACKLIST } from './constants'
 
-const AppWrapper = styled.div`
+const TWAppWrapper = tw.div`
   position: relative;
   width: 100%;
+  flex relative
+  w-full
 `
-const ContentWrapper = styled.div`
-  display: grid;
-  grid-template-columns: ${({ open }) => (open ? '220px 1fr 200px' : '220px 1fr 64px')};
 
-  @media screen and (max-width: 1400px) {
-    grid-template-columns: 220px 1fr;
-  }
-
-  @media screen and (max-width: 1080px) {
-    grid-template-columns: 1fr;
-    max-width: 100vw;
-    overflow: hidden;
-    grid-gap: 0;
-  }
+const TWContentWrapper = tw.div`
+  flex flex-col w-full lg:flex-row lg:max-w-screen-xl mx-auto
 `
 
 const Right = styled.div`
@@ -55,9 +47,12 @@ const Right = styled.div`
 `
 
 const Center = styled.div`
-  height: 100%;
-  z-index: 9999;
   transition: width 0.25s ease;
+`
+
+const TWCenter = tw(Center)`
+  h-full w-full
+  z-30 px-3
 `
 
 const WarningWrapper = styled.div`
@@ -81,10 +76,10 @@ const WarningBanner = styled.div`
 const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
   return (
     <>
-      <ContentWrapper open={savedOpen}>
+      <TWContentWrapper open={savedOpen}>
         <SideNav />
-        <Center id="center">{children}</Center>
-      </ContentWrapper>
+        <TWCenter id="center">{children}</TWCenter>
+      </TWContentWrapper>
     </>
   )
 }
@@ -208,7 +203,7 @@ function App() {
   // )
   return (
     <ApolloProvider client={client}>
-      <AppWrapper>
+      <TWAppWrapper>
         {showWarning && (
           <WarningWrapper>
             <WarningBanner>
@@ -305,7 +300,7 @@ function App() {
         ) : (
           <LocalLoader /> 
         )}
-      </AppWrapper>
+      </TWAppWrapper>
     </ApolloProvider>
   )
 }

@@ -21,7 +21,7 @@ import { formattedNum, formattedPercent } from '../utils'
 import { TYPE } from '../Theme'
 import { CustomLink } from '../components/Link'
 
-import { PageWrapper, ContentWrapper } from '../components'
+import { TWPageWrapper, TWContentWrapper } from '../components'
 import CheckBox from '../components/Checkbox'
 import QuestionHelper from '../components/QuestionHelper'
 
@@ -67,8 +67,8 @@ function GlobalPage() {
   const [useTracked, setUseTracked] = useState(true)
 
   return (
-    <PageWrapper>
-      <ContentWrapper>
+    <TWPageWrapper>
+      <TWContentWrapper>
         <div>
           <AutoColumn gap="24px" style={{ paddingBottom: below800 ? '0' : '24px' }}>
             <TYPE.largeHeader>{below800 ? 'OpenSwap Analytics' : 'OpenSwap Analytics'}</TYPE.largeHeader>
@@ -167,8 +167,8 @@ function GlobalPage() {
             <TxnList transactions={transactions} />
           </Panel>
         </div>
-      </ContentWrapper>
-    </PageWrapper>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 
