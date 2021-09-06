@@ -33,20 +33,23 @@ const TWWrapper = tw(Wrapper)`
 `
 
 const Menu = styled.div`
-  background-image: ${({ theme }) => (theme.bgComponentGradient)}
+  // background-image: ${({ theme }) => (theme.bgComponentGradient)}
 `
 
 const TWMenu = tw(Menu)`
   flex flex-col
-  mx-6 mt-6 p-6
+  mt-3 p-6
   rounded-2xl
+`
+
+const TWMenuMiddle = tw.div`
+  flex flex-col pb-6 space-y-1
 `
 
 const TWMenuBottom = tw.div`
   fixed bottom-0 left-0
   flex flex-col
-  mx-6 p-6
-  rounded-xl
+  p-6
 `
 
 const Option = styled.div`
@@ -80,11 +83,6 @@ const MobileWrapper = tw.div`
 `
 
 const HeaderText = styled.div`
-  margin-right: 0.75rem;
-  font-size: 0.825rem;
-  font-weight: 500;
-  display: inline-box;
-  display: -webkit-inline-box;
   opacity: 0.8;
   :hover {
     opacity: 1;
@@ -92,6 +90,10 @@ const HeaderText = styled.div`
   a {
     color: ${({ theme }) => theme.oSText1};
   }
+`
+
+const TWHeaderText = tw(HeaderText)`
+  flex items-center space-x-3 text-xs
 `
 
 const Polling = styled.div`
@@ -104,19 +106,7 @@ const Polling = styled.div`
 `
 
 const TWPolling = tw(Polling)`
-  flex
-  mx-6 pl-10 py-3
-`
-
-const PollingDot = styled.div`
-  width: 8px;
-  height: 8px;
-  min-height: 8px;
-  min-width: 8px;
-  margin-right: 0.5rem;
-  margin-top: 3px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.green1};
+  flex items-center space-x-3
 `
 
 function SideNav({ history }) {
@@ -187,40 +177,44 @@ function SideNav({ history }) {
                     <p>Accounts</p>
                   </TWOption>
                 </BasicLink>
+                <TWPolling>
+                  <i class="las la-clock text-xl text-oswapGreen-dark"></i>
+                  <a href="/">
+                    <TYPE.small>
+                      Updated {!!seconds ? seconds + 's' : '-'} ago <br />
+                    </TYPE.small>
+                  </a>
+                </TWPolling>
               </AutoColumn>
             )}
           </TWMenu>
-          {!below1180 && (
-            <TWPolling style={{ marginLeft: '.5rem' }}>
-              <PollingDot />
-              <a href="/">
-                <TYPE.small>
-                  Updated {!!seconds ? seconds + 's' : '-'} ago <br />
-                </TYPE.small>
-              </a>
-            </TWPolling>
-          )}
           <TWMenuBottom>
-            <HeaderText>
-              <Link href="https://openswap.one" target="_blank">
-                Openswap.one
-              </Link>
-            </HeaderText>
-            <HeaderText>
-              <Link href="https://docs.openswap.one/" target="_blank">
-                Docs
-              </Link>
-            </HeaderText>
-            <HeaderText>
-              <Link href="https://discord.gg/hznnXUxert" target="_blank">
-                Discord
-              </Link>
-            </HeaderText>
-            <HeaderText>
-              <Link href="https://twitter.com/OpenSwap_one" target="_blank">
-                Twitter
-              </Link>
-            </HeaderText>
+            <TWMenuMiddle>
+              <TWHeaderText>
+                <Link className="flex items-center space-x-3" href="https://openswap.one" target="_blank">
+                  <i class="las la-link text-lg"></i>
+                  <p>Openswap.one</p>
+                </Link>
+              </TWHeaderText>
+              <TWHeaderText>
+                <Link className="flex items-center space-x-3" href="https://docs.openswap.one/" target="_blank">
+                  <i class="las la-book text-lg"></i>
+                  <p>Docs</p>
+                </Link>
+              </TWHeaderText>
+              <TWHeaderText>
+                <Link className="flex items-center space-x-3" href="https://discord.gg/hznnXUxert" target="_blank">
+                  <i class="lab la-discord text-lg"></i>
+                  <p>Discord</p>
+                </Link>
+              </TWHeaderText>
+              <TWHeaderText>
+                <Link className="flex items-center space-x-3" href="https://twitter.com/OpenSwap_one" target="_blank">
+                  <i class="lab la-twitter text-lg"></i>
+                  <p>Twitter</p>
+                </Link>
+              </TWHeaderText>
+            </TWMenuMiddle>
             <Toggle isActive={isDark} toggle={toggleDarkMode} />
           </TWMenuBottom>
         </DesktopWrapper>
