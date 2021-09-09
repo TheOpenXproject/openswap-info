@@ -63,7 +63,7 @@ const TradingViewChart = ({
   const topScale = type === CHART_TYPES.AREA ? 0.32 : 0.2
 
   const [darkMode] = useDarkModeManager()
-  const textColor = darkMode ? 'white' : 'black'
+  const textColor = darkMode ? '#edeff2' : '#313547'
   const previousTheme = usePrevious(darkMode)
 
   // reset the chart if them switches
@@ -117,7 +117,7 @@ const TradingViewChart = ({
             visible: true,
             style: 0,
             width: 2,
-            color: 'rgba(32, 38, 46, 0.1)',
+            color: 'rgba(32, 38, 46, 0.3)',
             labelVisible: false,
           },
         },
@@ -129,7 +129,7 @@ const TradingViewChart = ({
       var series =
         type === CHART_TYPES.BAR
           ? chart.addHistogramSeries({
-              color: '#ff007a',
+              color: '#13b4ba',
               priceFormat: {
                 type: 'volume',
               },
@@ -137,13 +137,13 @@ const TradingViewChart = ({
                 top: 0.32,
                 bottom: 0,
               },
-              lineColor: '#ff007a',
+              lineColor: '#13b4ba',
               lineWidth: 3,
             })
           : chart.addAreaSeries({
-              topColor: '#ff007a',
-              bottomColor: 'rgba(255, 0, 122, 0)',
-              lineColor: '#ff007a',
+              topColor: '#13b4ba',
+              bottomColor: '#13b4ba00',
+              lineColor: '#13b4ba',
               lineWidth: 3,
             })
 

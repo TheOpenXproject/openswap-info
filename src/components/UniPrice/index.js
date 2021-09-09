@@ -14,7 +14,7 @@ const PriceCard = styled(Panel)`
   top: -20px;
   z-index: 9999;
   height: fit-content;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: ${({ theme }) => theme.slightDark.DEFAULT};
 `
 
 function formatPercent(rawPercent) {
@@ -42,19 +42,19 @@ export default function UniPrice() {
     <PriceCard>
       <AutoColumn gap="10px">
         <RowFixed>
-          <TYPE.main>DAI/ETH: {formattedNum(daiPerEth, true)}</TYPE.main>
+          <TYPE.main>DAI/oSWAP: {formattedNum(daiPerEth, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
             {daiPair && totalLiquidity ? formatPercent(daiPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>
         </RowFixed>
         <RowFixed>
-          <TYPE.main>USDC/ETH: {formattedNum(usdcPerEth, true)}</TYPE.main>
+          <TYPE.main>USDC/oSWAP: {formattedNum(usdcPerEth, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
             {usdcPair && totalLiquidity ? formatPercent(usdcPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>
         </RowFixed>
         <RowFixed>
-          <TYPE.main>USDT/ETH: {formattedNum(usdtPerEth, true)}</TYPE.main>
+          <TYPE.main>USDT/oSWAP: {formattedNum(usdtPerEth, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
             {usdtPair && totalLiquidity ? formatPercent(usdtPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>

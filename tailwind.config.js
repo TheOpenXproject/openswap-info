@@ -981,5 +981,8 @@ module.exports = {
   plugins: [
     require("tailwindcss-glow")(),
     require("tailwindcss-nested-groups"),
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    })
   ],
 }

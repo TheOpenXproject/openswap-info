@@ -8,7 +8,7 @@ import { useMedia } from 'react-use'
 import { useCurrentCurrency } from '../../contexts/Application'
 import { RowFixed, RowBetween } from '../Row'
 
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { Box, Flex, Text } from 'rebass'
 import Link from '../Link'
 import { Divider, EmptyCard } from '..'
@@ -86,7 +86,7 @@ const DashGrid = styled.div`
 `
 
 const ClickableText = styled(Text)`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText1};
   user-select: none;
   text-align: end;
 
@@ -103,7 +103,7 @@ const ClickableText = styled(Text)`
 const DataText = styled(Flex)`
   align-items: center;
   text-align: right;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText1};
 
   & > * {
     font-size: 1em;
@@ -304,7 +304,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
         )}
         {!below1080 && (
           <DataText area="account">
-            <Link color={color} external href={'https://etherscan.io/address/' + item.account}>
+            <Link color={color} external href={'https://explorer.harmony.one/address/' + item.account}>
               {item.account && item.account.slice(0, 6) + '...' + item.account.slice(38, 42)}
             </Link>
           </DataText>
@@ -423,7 +423,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
       <Divider />
       <List p={0}>
         {!filteredList ? (
-          <LocalLoader />
+          <DataLoader />
         ) : filteredList.length === 0 ? (
           <EmptyCard>No recent transactions found.</EmptyCard>
         ) : (

@@ -24,7 +24,7 @@ const theme = (darkMode, color) => ({
   shadowColor: darkMode ? '#000' : '#2F80ED',
   mercuryGray: darkMode ? '#333333' : '#E1E1E1',
 
-  text1: darkMode ? '#FAFAFA' : '#1F1F1F',
+  text1: darkMode ? 'rgba(229, 231, 235, 1)' : '#4B5563',
   text2: darkMode ? '#C3C5CB' : '#565A69',
   text3: darkMode ? '#6C7284' : '#888D9B',
   text4: darkMode ? '#565A69' : '#C3C5CB',
@@ -32,9 +32,14 @@ const theme = (darkMode, color) => ({
 
   // OpenSwap Text Colors
   oSText1: darkMode ? 'rgba(229, 231, 235, 1)' : '#4B5563',
+  oSText2: darkMode ? '#18d5bb' : 'rgba(107, 114, 128, 1)',
 
   // OpenSwap Icon Colors
   oSIcon1: darkMode ? 'rgba(24, 213, 187, 1)' : 'rgba(107, 114, 128, 1)',
+  oSIcon2: darkMode ? '#18d5bb' : 'rgba(107, 114, 128, 1)',
+
+  // OpenSwap Hover Colors
+  oSHover1: darkMode ? '#262334' : 'rgba(243, 244, 246, 1)',
 
   // special case text types
   white: '#FFFFFF',
@@ -47,18 +52,50 @@ const theme = (darkMode, color) => ({
   bg5: darkMode ? '#565A69' : '#888D9B',
   bg6: darkMode ? '#000' : '#FFFFFF',
 
+  // OpenSwap colors
+  oswapGreen: {
+    light: '#1bf2ba',
+    DEFAULT: '#18d5bb',
+    dark: '#13b4ba',
+  },
+  oswapBlue: {
+    light: '#109dbb',
+    DEFAULT: '#0462b3',
+    dark: '#077db5',
+  },
+  oswapDark: {
+    gray: '#262334',
+    DEFAULT: '#2a2138',
+    purple: '#241b2e',
+    dark: '#17151f'
+  },
+  slightGray: {
+    DEFAULT: '#edeff2'
+  },
+  slightDark: {
+    DEFAULT: '#313547'
+  },
+
+  bgOSwap1: darkMode ? '#313547' : '#edeff2',
+
   // gradient backgound
   bgGradient: darkMode ? 
     'linear-gradient(to right, #262334, #313547)' : 
     'linear-gradient(to right, #d1d5db, #edeff2)',
 
-  bgComponentGradient: darkMode ? 'linear-gradient(to left, #313547, #262334)' : 'linear-gradient(to left, #edeff2, #d1d5db)',
+  bgComponentGradient: darkMode ? 
+    'linear-gradient(to left, #313547, #26233400)' : 
+    'linear-gradient(to left, #edeff2, #d1d5db00)',
+
+  bgComponentGradient2: darkMode ? 
+    'linear-gradient(to left, #17151f30, #26233400)' : 
+    'linear-gradient(to left, #f5f5f5, #d1d5db00)',
 
   //specialty colors
   modalBG: darkMode ? 'rgba(0,0,0,0.85)' : 'rgba(0,0,0,0.6)',
-  advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.4)',
+  advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
   onlyLight: darkMode ? '#22242a' : 'transparent',
-  divider: darkMode ? 'rgba(43, 43, 43, 0.435)' : 'rgba(43, 43, 43, 0.035)',
+  divider: darkMode ? '#31354740' : 'rgba(43, 43, 43, 0.035)',
 
   //primary colors
   primary1: darkMode ? '#2172E5' : '#ff007a',
@@ -89,7 +126,7 @@ const theme = (darkMode, color) => ({
 })
 
 const TextWrapper = styled(Text)`
-  color: ${({ color, theme }) => theme[color]};
+  color: ${({ theme }) => theme.oSText1};
 `
 
 export const TYPE = {

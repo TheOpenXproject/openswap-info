@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Box } from 'rebass'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 import { AutoRow, RowBetween } from '../components/Row'
 import { AutoColumn } from '../components/Column'
@@ -16,6 +17,7 @@ import { useGlobalData, useGlobalTransactions } from '../contexts/GlobalData'
 import { useAllPairData } from '../contexts/PairData'
 import { useMedia } from 'react-use'
 import Panel from '../components/Panel'
+import TWoSwapPanel from '../components/oSwapPanel'
 import { useAllTokenData } from '../contexts/TokenData'
 import { formattedNum, formattedPercent } from '../utils'
 import { TYPE } from '../Theme'
@@ -23,6 +25,7 @@ import { CustomLink } from '../components/Link'
 
 import { TWPageWrapper, TWContentWrapper } from '../components'
 import CheckBox from '../components/Checkbox'
+import TWCheckbox from '../components/TWCheckbox'
 import QuestionHelper from '../components/QuestionHelper'
 
 const ListOptions = styled(AutoRow)`
@@ -43,6 +46,18 @@ const GridRow = styled.div`
   column-gap: 6px;
   align-items: start;
   justify-content: space-between;
+`
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
 `
 
 function GlobalPage() {
@@ -71,7 +86,10 @@ function GlobalPage() {
       <TWContentWrapper>
         <div>
           <AutoColumn gap="24px" style={{ paddingBottom: below800 ? '0' : '24px' }}>
-            <TYPE.largeHeader>{below800 ? 'OpenSwap Analytics' : 'OpenSwap Analytics'}</TYPE.largeHeader>
+            <TWIconTextTitle>
+              <i class="las la-chart-line text-3xl"></i>
+              <p class="text-3xl">OpenSwap Analytics</p>
+            </TWIconTextTitle>
             <Search />
             <GlobalStats />
           </AutoColumn>
@@ -113,59 +131,69 @@ function GlobalPage() {
           )}
           {!below800 && (
             <GridRow>
-              <Panel style={{ height: '100%', minHeight: '300px' }}>
+              <TWoSwapPanel style={{ minHeight: '300px' }}>
                 <GlobalChart display="liquidity" />
-              </Panel>
-              <Panel style={{ height: '100%' }}>
+              </TWoSwapPanel>
+              <TWoSwapPanel>
                 <GlobalChart display="volume" />
-              </Panel>
+              </TWoSwapPanel>
             </GridRow>
           )}
           {below800 && (
             <AutoColumn style={{ marginTop: '6px' }} gap="24px">
-              <Panel style={{ height: '100%', minHeight: '300px' }}>
+              <TWoSwapPanel>
                 <GlobalChart display="liquidity" />
-              </Panel>
+              </TWoSwapPanel>
             </AutoColumn>
           )}
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <RowBetween>
-              <TYPE.main fontSize={'1.125rem'} style={{ whiteSpace: 'nowrap' }}>
-                Top Tokens
-              </TYPE.main>
+              <TWIconTextTitle>
+                <i class="las la-medal text-2xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Top Tokens
+                </TYPE.main>
+              </TWIconTextTitle>
               <CustomLink to={'/tokens'}>See All</CustomLink>
             </RowBetween>
           </ListOptions>
-          <Panel style={{ marginTop: '6px', padding: '1.125rem 0 ' }}>
+          <TWoSwapPanel style={{ marginTop: '6px', padding: '1.125rem 0 ' }}>
             <TopTokenList tokens={allTokens} />
-          </Panel>
+          </TWoSwapPanel>
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <RowBetween>
-              <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
-                Top Pairs
-              </TYPE.main>
+              <TWIconTextTitle>
+                <i class="las la-trophy text-2xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Top Pairs
+                </TYPE.main>
+              </TWIconTextTitle>
               <AutoRow gap="4px" width="100%" justifyContent="flex-end">
-                <CheckBox
+                <TWCheckbox 
+                  label="Hide untracked pairs"
+                  value="value"
                   checked={useTracked}
                   setChecked={() => setUseTracked(!useTracked)}
-                  text={'Hide untracked pairs'}
                 />
                 <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
                 <CustomLink to={'/pairs'}>See All</CustomLink>
               </AutoRow>
             </RowBetween>
           </ListOptions>
-          <Panel style={{ marginTop: '6px', padding: '1.125rem 0 ' }}>
+          <TWoSwapPanel style={{ marginTop: '6px', padding: '1.125rem 0 ' }}>
             <PairList pairs={allPairs} useTracked={useTracked} />
-          </Panel>
+          </TWoSwapPanel>
           <span>
-            <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '2rem' }}>
-              Transactions
-            </TYPE.main>
+            <TWIconTextTitle style={{ marginTop: '2rem' }}>
+              <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
+              <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                Transactions
+              </TYPE.main>
+            </TWIconTextTitle>
           </span>
-          <Panel style={{ margin: '1rem 0' }}>
+          <TWoSwapPanel style={{ marginTop: '16px', padding: '20px' }}>
             <TxnList transactions={transactions} />
-          </Panel>
+          </TWoSwapPanel>
         </div>
       </TWContentWrapper>
     </TWPageWrapper>
