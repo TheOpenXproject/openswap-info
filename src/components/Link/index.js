@@ -9,7 +9,7 @@ const WrappedLink = ({ external, children, ...rest }) => (
   <RebassLink
     target={external ? '_blank' : null}
     rel={external ? 'noopener noreferrer' : null}
-    color="#2f80ed"
+    color="#109dbb"
     {...rest}
   >
     {children}
@@ -21,7 +21,7 @@ WrappedLink.propTypes = {
 }
 
 const Link = styled(WrappedLink)`
-  color: ${({ color, theme }) => (color ? color : theme.link)};
+  color: ${({ theme }) => theme.oswapBlue.light};
 `
 
 export default Link
@@ -30,23 +30,23 @@ export const CustomLink = styled(RouterLink)`
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  color: ${({ color, theme }) => (color ? color : theme.link)};
+  color: ${({ color, theme }) => (color ? color : theme.oswapBlue.light)};
 
   &:visited {
-    color: ${({ color, theme }) => (color ? lighten(0.1, color) : lighten(0.1, theme.link))};
+    color: ${({ color, theme }) => (color ? lighten(0.1, color) : lighten(0.1, theme.oswapBlue.light))};
   }
 
   &:hover {
     cursor: pointer;
     text-decoration: none;
     underline: none;
-    color: ${({ color, theme }) => (color ? darken(0.1, color) : darken(0.1, theme.link))};
+    color: ${({ color, theme }) => (color ? darken(0.1, color) : darken(0.1, theme.oswapBlue.light))};
   }
 `
 
 export const BasicLink = styled(RouterLink)`
   text-decoration: none;
-  color: inherit;
+  color: ${({ theme }) => theme.oswapBlue.light }
   &:hover {
     cursor: pointer;
     text-decoration: none;

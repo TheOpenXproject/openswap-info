@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button as RebassButton } from 'rebass/styled-components'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { Plus, ChevronDown, ChevronUp } from 'react-feather'
 import { darken, transparentize } from 'polished'
 import { RowBetween } from '../Row'
@@ -8,15 +9,28 @@ import { StyledIcon } from '..'
 
 const Base = styled(RebassButton)`
   padding: 8px 12px;
-  font-size: 0.825rem;
-  font-weight: 600;
-  border-radius: 12px;
+`
+
+const TWBase = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  outline: none;
-  border: 1px solid transparent;
-  outline: none;
-  border-bottom-right-radius: ${({ open }) => open && '0'};
-  border-bottom-left-radius: ${({ open }) => open && '0'};
+  border-radius: 9999px;
+  min-width: fit-content;
+  white-space: nowrap;
+  background-color: ${({ active, theme }) => ( active ? 'rgba(24, 213, 187, 1)' : theme.bgOSwap1)};
+  color: ${({ active, theme }) => ( active ? theme.btnOSwap1 : 'rgba(24, 213, 187, 1)')};
+
+  :hover {
+    color: ${({ theme }) => theme.btnOSwap1 };
+  }
+`
+
+export const TWButtonLight = tw(TWBase)`
+  px-4 border border-oswapGreen
+  hover:bg-oswapGreen
+  transition duration-500
 `
 
 const BaseCustom = styled(RebassButton)`
@@ -79,20 +93,20 @@ export const ButtonLight = styled(Base)`
 
 export function ButtonDropdown({ disabled = false, children, open, ...rest }) {
   return (
-    <ButtonFaded {...rest} disabled={disabled} ope={open}>
+    <TWButtonFaded {...rest} disabled={disabled} open={open}>
       <RowBetween>
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
         {open ? (
           <StyledIcon>
-            <ChevronUp size={24} />
+            <i class="las la-chevron-circle-up text-2xl text-oswapGreen"></i>
           </StyledIcon>
         ) : (
           <StyledIcon>
-            <ChevronDown size={24} />
+            <i class="las la-chevron-circle-down text-2xl text-oswapGreen"></i>
           </StyledIcon>
         )}
       </RowBetween>
-    </ButtonFaded>
+    </TWButtonFaded>
   )
 }
 
@@ -109,13 +123,23 @@ export const ButtonDark = styled(Base)`
 `
 
 export const ButtonFaded = styled(Base)`
-  background-color: ${({ theme }) => theme.bg2};
-  color: (255, 255, 255, 0.5);
+  background-color: ${({ theme }) => theme.bgOSwap1 };
+  color: ${({ theme }) => theme.oSText1 }
   white-space: nowrap;
+  z-index: 999;
+  
+  border-top-right-radius: ${({ open }) => (open ? '24px' : '9999px')};
+  border-top-left-radius: ${({ open }) => (open ? '24px' : '9999px')};
+  border-bottom-right-radius: ${({ open }) => (open ? '0px' : '9999px')};
+  border-bottom-left-radius: ${({ open }) => (open ? '0px' : '9999px')};
 
   :hover {
-    opacity: 0.5;
+    opacity: 0.8;
   }
+`
+
+export const TWButtonFaded = tw(ButtonFaded)`
+  h-12
 `
 
 export function ButtonPlusDull({ disabled, children, ...rest }) {
@@ -151,3 +175,4 @@ export const OptionButton = styled.div`
     cursor: ${({ disabled }) => !disabled && 'pointer'};
   }
 `
+

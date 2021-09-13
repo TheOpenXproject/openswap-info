@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 import Row, { RowFixed } from '../Row'
 import TokenLogo from '../TokenLogo'
@@ -21,26 +22,21 @@ import { TYPE } from '../../Theme'
 import { updateNameData } from '../../utils/data'
 
 const Container = styled.div`
-  height: 48px;
-  z-index: 30;
-  position: relative;
+  height: 54px;
+`
 
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
+const TWContainer = tw(Container)`
+  relative z-30
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: ${({ theme, small, open }) => (small ? (open ? theme.bg6 : 'none') : transparentize(0.4, theme.bg6))};
-  border-bottom-right-radius: ${({ open }) => (open ? '0px' : '12px')};
-  border-bottom-left-radius: ${({ open }) => (open ? '0px' : '12px')};
+  background: ${({ theme, small, open }) => (small ? (open ? theme.bgOSwap1 : 'none') : theme.bgOSwap1)};
+
+  border-top-right-radius: ${({ open }) => (open ? '24px' : '9999px')};
+  border-top-left-radius: ${({ open }) => (open ? '24px' : '9999px')};
+  border-bottom-right-radius: ${({ open }) => (open ? '0px' : '9999px')};
+  border-bottom-left-radius: ${({ open }) => (open ? '0px' : '9999px')};
+
   z-index: 9999;
   width: 100%;
   min-width: 300px;
@@ -49,14 +45,13 @@ const Wrapper = styled.div`
     !open && !small
       ? '0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04) '
       : 'none'};
-  @media screen and (max-width: 500px) {
-    background: ${({ theme }) => theme.bg6};
-    box-shadow: ${({ open }) =>
-      !open
-        ? '0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04) '
-        : 'none'};
-  }
 `
+
+const TWWrapper = tw(Wrapper)`
+  flex flex-row relative 
+  items-center justify-end p-3 pl-4
+`
+
 const Input = styled.input`
   position: relative;
   display: flex;
@@ -66,7 +61,7 @@ const Input = styled.input`
   border: none;
   outline: none;
   width: 100%;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText2};
   font-size: ${({ large }) => (large ? '20px' : '14px')};
 
   ::placeholder {
@@ -88,7 +83,7 @@ const SearchIconLarge = styled(SearchIcon)`
   position: absolute;
   right: 10px;
   pointer-events: none;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.oswapGreen.DEFAULT};
 `
 
 const CloseIcon = styled(X)`
@@ -97,7 +92,7 @@ const CloseIcon = styled(X)`
   margin-right: 0.5rem;
   position: absolute;
   right: 10px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.oswapGreen.DEFAULT};
   :hover {
     cursor: pointer;
   }
@@ -113,24 +108,23 @@ const Menu = styled.div`
   overflow: auto;
   left: 0;
   padding-bottom: 20px;
-  background: ${({ theme }) => theme.bg6};
-  border-bottom-right-radius: 12px;
-  border-bottom-left-radius: 12px;
+  background: ${({ theme }) => theme.bgOSwap1};
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.04);
   display: ${({ hide }) => hide && 'none'};
 `
 
 const MenuItem = styled(Row)`
-  padding: 1rem;
-  font-size: 0.85rem;
-  & > * {
-    margin-right: 6px;
-  }
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.bg2};
+    background-color: ${({ theme }) => theme.oSHover1};
   }
+`
+
+const TWMenuItem = tw(MenuItem)`
+  flex space-x-3 items-center p-3
 `
 
 const Heading = styled(Row)`
@@ -139,15 +133,27 @@ const Heading = styled(Row)`
 `
 
 const Gray = styled.span`
-  color: #888d9b;
+  color: ${({ theme }) => (theme.oswapGreen.dark)};;
 `
 
 const Blue = styled.span`
-  color: #2172e5;
+  color: ${({ theme }) => theme.oswapBlue.light};
   :hover {
     cursor: pointer;
   }
 `
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+` 
 
 export const Search = ({ small = false }) => {
   let allTokens = useAllTokensInUniswap()
@@ -418,22 +424,22 @@ export const Search = ({ small = false }) => {
   })
 
   return (
-    <Container small={small}>
-      <Wrapper open={showMenu} shadow={true} small={small}>
+    <TWContainer small={small}>
+      <TWWrapper open={showMenu} shadow={true} small={small}>
         <Input
           large={!small}
           type={'text'}
           ref={wrapperRef}
           placeholder={
             small
-              ? ''
+              ? 'Search...'
               : below410
               ? 'Search...'
               : below470
-              ? 'Search Uniswap...'
+              ? 'Search OpenSwap...'
               : below700
               ? 'Search pairs and tokens...'
-              : 'Search Uniswap pairs and tokens...'
+              : 'Search OpenSwap pairs and tokens...'
           }
           value={value}
           onChange={(e) => {
@@ -446,16 +452,19 @@ export const Search = ({ small = false }) => {
           }}
         />
         {!showMenu ? <SearchIconLarge /> : <CloseIcon onClick={() => toggleMenu(false)} />}
-      </Wrapper>
+      </TWWrapper>
       <Menu hide={!showMenu} ref={menuRef}>
         <Heading>
-          <Gray>Pairs</Gray>
+          <TWIconTextTitle>
+            <i class="las la-spinner text-2xl"></i>
+            <p>Pairs</p>
+          </TWIconTextTitle>
         </Heading>
         <div>
           {filteredPairList && Object.keys(filteredPairList).length === 0 && (
-            <MenuItem>
+            <TWMenuItem>
               <TYPE.body>No results</TYPE.body>
-            </MenuItem>
+            </TWMenuItem>
           )}
           {filteredPairList &&
             filteredPairList.slice(0, pairsShown).map((pair) => {
@@ -463,12 +472,12 @@ export const Search = ({ small = false }) => {
               updateNameData(pair)
               return (
                 <BasicLink to={'/pair/' + pair.id} key={pair.id} onClick={onDismiss}>
-                  <MenuItem>
-                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} margin={true} />
-                    <TYPE.body style={{ marginLeft: '10px' }}>
+                  <TWMenuItem>
+                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} size="40px" />
+                    <TYPE.body>
                       {pair.token0.symbol + '-' + pair.token1.symbol} Pair
                     </TYPE.body>
-                  </MenuItem>
+                  </TWMenuItem>
                 </BasicLink>
               )
             })}
@@ -485,26 +494,26 @@ export const Search = ({ small = false }) => {
           </Heading>
         </div>
         <Heading>
-          <Gray>Tokens</Gray>
+          <TWIconTextTitle>
+            <i class="las la-coins text-2xl"></i>
+            <p>Tokens</p>
+          </TWIconTextTitle>
         </Heading>
         <div>
           {Object.keys(filteredTokenList).length === 0 && (
-            <MenuItem>
+            <TWMenuItem>
               <TYPE.body>No results</TYPE.body>
-            </MenuItem>
+            </TWMenuItem>
           )}
           {filteredTokenList.slice(0, tokensShown).map((token) => {
             // update displayed names
             updateNameData({ token0: token })
             return (
               <BasicLink to={'/token/' + token.id} key={token.id} onClick={onDismiss}>
-                <MenuItem>
-                  <RowFixed>
-                    <TokenLogo address={token.id} style={{ marginRight: '10px' }} />
-                    <FormattedName text={token.name} maxCharacters={20} style={{ marginRight: '6px' }} />
-                    (<FormattedName text={token.symbol} maxCharacters={6} />)
-                  </RowFixed>
-                </MenuItem>
+                <TWMenuItem>
+                    <TokenLogo address={token.id} size="40px" />
+                    <FormattedName text={token.name} maxCharacters={20} />
+                </TWMenuItem>
               </BasicLink>
             )
           })}
@@ -522,7 +531,7 @@ export const Search = ({ small = false }) => {
           </Heading>
         </div>
       </Menu>
-    </Container>
+    </TWContainer>
   )
 }
 

@@ -4,13 +4,13 @@ import tw from "tailwind-styled-components"
 const Wrapper = tw.div`
   flex
   items-center
-  justify-center
-  h-screen
-  w-screen
+  justify-center p-8
+  h-full
+  w-full
   pointer-events-none
 `
 
-const LocalLoader = () => {
+const DataLoader = () => {
   return (
     <Wrapper>
       <svg class="animate-spin h-8 w-8 text-oswapGreen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -21,4 +21,4 @@ const LocalLoader = () => {
   )
 }
 
-export default LocalLoader
+export default DataLoader

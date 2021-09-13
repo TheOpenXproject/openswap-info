@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useUserTransactions, useUserPositions, useMiningPositions } from '../contexts/User'
 import TxnList from '../components/TxnList'
-import Panel from '../components/Panel'
 import { formattedNum } from '../utils'
 import Row, { AutoRow, RowFixed, RowBetween } from '../components/Row'
 import { AutoColumn } from '../components/Column'
@@ -11,51 +11,48 @@ import PairReturnsChart from '../components/PairReturnsChart'
 import PositionList from '../components/PositionList'
 import MiningPositionList from '../components/MiningPositionList'
 import { TYPE } from '../Theme'
-import { ButtonDropdown, ButtonLight } from '../components/ButtonStyled'
-import { PageWrapper, ContentWrapper, StyledIcon } from '../components'
+import { ButtonDropdown, TWButtonLight } from '../components/ButtonStyled'
+import { StyledIcon } from '../components'
 import DoubleTokenLogo from '../components/DoubleLogo'
-import { Bookmark, Activity } from 'react-feather'
+import { Activity } from 'react-feather'
 import Link from '../components/Link'
 import { FEE_WARNING_TOKENS } from '../constants'
-import { BasicLink } from '../components/Link'
 import { useMedia } from 'react-use'
 import Search from '../components/Search'
 import { useSavedAccounts } from '../contexts/LocalStorage'
 
-const AccountWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 6px 16px;
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+import { TWPageWrapper, TWContentWrapper } from '../components'
+import TWoSwapPanel from '../components/oSwapPanel'
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
 `
 
-const Header = styled.div``
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+`
 
 const DashboardWrapper = styled.div`
   width: 100%;
 `
 
-const DropdownWrapper = styled.div`
-  position: relative;
-  margin-bottom: 1rem;
-  border: 1px solid #edeef2;
-  border-radius: 12px;
+const TWDropdownWrapper = tw.div`
+  relative mb-6 h-12
 `
 
 const Flyout = styled.div`
   position: absolute;
-  top: 38px;
-  left: -1px;
+  top: 48px;
   width: 100%;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: ${({ theme }) => theme.bgOSwap1 };
   z-index: 999;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
   padding-top: 4px;
-  border: 1px solid #edeef2;
-  border-top: none;
 `
 
 const MenuRow = styled(Row)`
@@ -161,52 +158,33 @@ function AccountPage({ account }) {
   }, [account, isBookmarked, addAccount, removeAccount])
 
   return (
-    <PageWrapper>
-      <ContentWrapper>
-        <RowBetween>
-          <TYPE.body>
-            <BasicLink to="/accounts">{'Accounts '}</BasicLink>→{' '}
+    <TWPageWrapper>
+      <TWContentWrapper>
+        <div className="flex w-full items-center justify-between mb-6">
+          <TWIconTextTitle>
+            <i class="las la-wallet text-3xl"></i>
             <Link lineHeight={'145.23%'} href={'https://etherscan.io/address/' + account} target="_blank">
-              {' '}
-              {account?.slice(0, 42)}{' '}
-            </Link>
-          </TYPE.body>
-          {!below600 && <Search small={true} />}
-        </RowBetween>
-        <Header>
-          <RowBetween>
-            <span>
               <TYPE.header fontSize={24}>{account?.slice(0, 6) + '...' + account?.slice(38, 42)}</TYPE.header>
-              <Link lineHeight={'145.23%'} href={'https://etherscan.io/address/' + account} target="_blank">
-                <TYPE.main fontSize={14}>View on Etherscan</TYPE.main>
-              </Link>
-            </span>
-            <AccountWrapper>
-              <StyledIcon>
-                <Bookmark
-                  onClick={handleBookmarkClick}
-                  style={{ opacity: isBookmarked ? 0.8 : 0.4, cursor: 'pointer' }}
-                />
-              </StyledIcon>
-            </AccountWrapper>
-          </RowBetween>
-        </Header>
+            </Link>            
+          </TWIconTextTitle>
+          {!below600 && <Search small={true} />}
+        </div>
         <DashboardWrapper>
           {showWarning && <Warning>Fees cannot currently be calculated for pairs that include AMPL.</Warning>}
           {!hideLPContent && (
-            <DropdownWrapper>
+            <TWDropdownWrapper>
               <ButtonDropdown width="100%" onClick={() => setShowDropdown(!showDropdown)} open={showDropdown}>
                 {!activePosition && (
                   <RowFixed>
                     <StyledIcon>
-                      <Activity size={16} />
+                      <i class="las la-layer-group text-2xl"></i>
                     </StyledIcon>
                     <TYPE.body ml={'10px'}>All Positions</TYPE.body>
                   </RowFixed>
                 )}
                 {activePosition && (
                   <RowFixed>
-                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} size={16} />
+                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} />
                     <TYPE.body ml={'16px'}>
                       {activePosition.pair.token0.symbol}-{activePosition.pair.token1.symbol} Position
                     </TYPE.body>
@@ -258,10 +236,10 @@ function AccountPage({ account }) {
                   </AutoColumn>
                 </Flyout>
               )}
-            </DropdownWrapper>
+            </TWDropdownWrapper>
           )}
           {!hideLPContent && (
-            <Panel style={{ height: '100%', marginBottom: '1rem' }}>
+            <TWoSwapPanel className="px-6" style={{ height: '100%', marginBottom: '1rem' }}>
               <AutoRow gap="20px">
                 <AutoColumn gap="10px">
                   <RowBetween>
@@ -290,65 +268,54 @@ function AccountPage({ account }) {
                   </RowFixed>
                 </AutoColumn>
               </AutoRow>
-            </Panel>
+            </TWoSwapPanel>
           )}
           {!hideLPContent && (
+            // <TestChart />
             <PanelWrapper>
-              <Panel style={{ gridColumn: '1' }}>
+              <TWoSwapPanel className="pl-6 pr-4" style={{ gridColumn: '1' }}>
                 {activePosition ? (
                   <PairReturnsChart account={account} position={activePosition} />
                 ) : (
-                  <UserChart account={account} position={activePosition} />
+                   <UserChart account={account} position={activePosition} />
                 )}
-              </Panel>
+              </TWoSwapPanel>
             </PanelWrapper>
           )}
-          <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '3rem' }}>
-            Positions
-          </TYPE.main>{' '}
-          <Panel
-            style={{
-              marginTop: '1.5rem',
-            }}
-          >
+          <TWIconTextTitle className="mt-6">
+            <i class="las la-list-alt text-2xl"></i>
+            <p class="text-base">Positions</p>
+          </TWIconTextTitle>
+          <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <PositionList positions={positions} />
-          </Panel>
-          <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '3rem' }}>
-            Liquidity Mining Pools
-          </TYPE.main>
-          <Panel
-            style={{
-              marginTop: '1.5rem',
-            }}
-          >
+          </TWoSwapPanel>
+          <TWIconTextTitle className="mt-6" >
+            <i class="las la-tint text-2xl"></i>
+            <p class="text-base">Liquidity Mining Pools</p>
+          </TWIconTextTitle>
+          <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             {miningPositions && <MiningPositionList miningPositions={miningPositions} />}
             {!miningPositions && (
               <AutoColumn gap="8px" justify="flex-start">
                 <TYPE.main>No Staked Liquidity.</TYPE.main>
                 <AutoRow gap="8px" justify="flex-start">
-                  <ButtonLight style={{ padding: '4px 6px', borderRadius: '4px' }}>Learn More</ButtonLight>{' '}
+                  <TWButtonLight className="h-8" >Learn More</TWButtonLight>
                 </AutoRow>{' '}
               </AutoColumn>
             )}
-          </Panel>
-          <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '3rem' }}>
-            Transactions
-          </TYPE.main>{' '}
-          <Panel
-            style={{
-              marginTop: '1.5rem',
-            }}
-          >
+          </TWoSwapPanel>
+          <TWIconTextTitle className="mt-6" >
+            <i class="las la-sync text-2xl"></i>
+            <p class="text-base">Transactions</p>
+          </TWIconTextTitle>
+          <TWoSwapPanel className="px-6" style={{marginTop: '1.5rem' }}>
             <TxnList transactions={transactions} />
-          </Panel>
-          <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '3rem' }}>
-            Wallet Stats
-          </TYPE.main>{' '}
-          <Panel
-            style={{
-              marginTop: '1.5rem',
-            }}
-          >
+          </TWoSwapPanel>
+          <TWIconTextTitle className="mt-6" >
+            <i class="las la-wallet text-2xl"></i>
+            <p class="text-base">Wallet Stats</p>
+          </TWIconTextTitle>
+          <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <AutoRow gap="20px">
               <AutoColumn gap="8px">
                 <TYPE.header fontSize={24}>{totalSwappedUSD ? formattedNum(totalSwappedUSD, true) : '-'}</TYPE.header>
@@ -365,10 +332,10 @@ function AccountPage({ account }) {
                 <TYPE.main>Total Transactions</TYPE.main>
               </AutoColumn>
             </AutoRow>
-          </Panel>
+          </TWoSwapPanel>
         </DashboardWrapper>
-      </ContentWrapper>
-    </PageWrapper>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 

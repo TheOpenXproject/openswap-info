@@ -10,7 +10,7 @@ import { useDarkModeManager } from '../../contexts/LocalStorage'
 const IconWrapper = styled.div`
   position: absolute;
   right: 10px;
-  color: ${({ theme }) => theme.text1}
+  color: ${({ theme }) => theme.oSText1}
   border-radius: 3px;
   height: 16px;
   width: 16px;
@@ -61,7 +61,7 @@ const CandleStickChart = ({
   const dataPrev = usePrevious(data)
 
   const [darkMode] = useDarkModeManager()
-  const textColor = darkMode ? 'white' : 'black'
+  const textColor = darkMode ? '#18d5bb' : '#4B5563'
   const previousTheme = usePrevious(darkMode)
 
   // reset the chart if theme switches

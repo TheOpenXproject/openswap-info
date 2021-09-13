@@ -1,24 +1,22 @@
 import React, { useState } from 'react'
-import 'feather-icons'
 import { withRouter } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import Link from '../components/Link'
-import Panel from '../components/Panel'
 import TokenLogo from '../components/TokenLogo'
 import PairList from '../components/PairList'
-import Loader from '../components/LocalLoader'
+import DataLoader from '../components/DataLoader'
 import { AutoRow, RowBetween, RowFixed } from '../components/Row'
 import Column, { AutoColumn } from '../components/Column'
-import { ButtonLight, ButtonDark } from '../components/ButtonStyled'
+import { TWButtonLight } from '../components/ButtonStyled'
 import TxnList from '../components/TxnList'
 import TokenChart from '../components/TokenChart'
 import { BasicLink } from '../components/Link'
 import Search from '../components/Search'
 import { formattedNum, formattedPercent, getPoolLink, getSwapLink, localNumber } from '../utils'
 import { useTokenData, useTokenTransactions, useTokenPairs } from '../contexts/TokenData'
-import { TYPE, ThemedBackground } from '../Theme'
-import { transparentize } from 'polished'
+import { TYPE } from '../Theme'
 import { useColor } from '../hooks'
 import CopyHelper from '../components/Copy'
 import { useMedia } from 'react-use'
@@ -26,15 +24,17 @@ import { useDataForList } from '../contexts/PairData'
 import { useEffect } from 'react'
 import Warning from '../components/Warning'
 import { usePathDismissed, useSavedTokens } from '../contexts/LocalStorage'
-import { Hover, PageWrapper, ContentWrapper, StyledIcon, BlockedWrapper, BlockedMessageWrapper } from '../components'
-import { PlusCircle, Bookmark, AlertCircle } from 'react-feather'
+import { BlockedWrapper, BlockedMessageWrapper } from '../components'
+import { AlertCircle } from 'react-feather'
 import FormattedName from '../components/FormattedName'
 import { useListedTokens } from '../contexts/Application'
 import HoverText from '../components/HoverText'
 import { UNTRACKED_COPY, TOKEN_BLACKLIST, BLOCKED_WARNINGS } from '../constants'
 import QuestionHelper from '../components/QuestionHelper'
-import Checkbox from '../components/Checkbox'
 import { shortenAddress } from '../utils'
+import { TWPageWrapper, TWContentWrapper } from '../components'
+import TWoSwapPanel from '../components/oSwapPanel'
+import TWCheckbox from '../components/TWCheckbox'
 
 const DashboardWrapper = styled.div`
   width: 100%;
@@ -100,6 +100,29 @@ const WarningGrouping = styled.div`
   pointer-events: ${({ disabled }) => disabled && 'none'};
 `
 
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+`
+
+const ListOptions = styled(AutoRow)`
+  height: 40px;
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  @media screen and (max-width: 640px) {
+    font-size: 1rem;
+  }
+`
+
 function TokenPage({ address, history }) {
   const {
     id,
@@ -159,7 +182,6 @@ function TokenPage({ address, history }) {
   const formattedSymbol = symbol?.length > LENGTH ? symbol.slice(0, LENGTH) + '...' : symbol
 
   const [dismissed, markAsDismissed] = usePathDismissed(history.location.pathname)
-  const [savedTokens, addToken] = useSavedTokens()
   const listedTokens = useListedTokens()
 
   useEffect(() => {
@@ -189,249 +211,203 @@ function TokenPage({ address, history }) {
   }
 
   return (
-    <PageWrapper>
-      <ThemedBackground backgroundColor={transparentize(0.6, backgroundColor)} />
+    <TWPageWrapper>
       <Warning
         type={'token'}
         show={!dismissed && listedTokens && !listedTokens.includes(address)}
         setShow={markAsDismissed}
         address={address}
       />
-      <ContentWrapper>
-        <RowBetween style={{ flexWrap: 'wrap', alingItems: 'start' }}>
-          <AutoRow align="flex-end" style={{ width: 'fit-content' }}>
-            <TYPE.body>
-              <BasicLink to="/tokens">{'Tokens '}</BasicLink>→ {symbol}
-            </TYPE.body>
+      <TWContentWrapper>
+        <div className="flex justify-between w-full">
+          <AutoRow align="flex-end" className="space-x-3 items-center" style={{ width: 'fit-content' }}>
+            <BasicLink to="/tokens">
+              <TWIconTextTitle>
+                <TokenLogo address={address} size="32px" />
+                <p>{symbol}</p>
+              </TWIconTextTitle>
+            </BasicLink>
             <Link
               style={{ width: 'fit-content' }}
-              color={backgroundColor}
               external
               href={'https://etherscan.io/address/' + address}
             >
               <Text style={{ marginLeft: '.15rem' }} fontSize={'14px'} fontWeight={400}>
-                ({address.slice(0, 8) + '...' + address.slice(36, 42)})
+                {address.slice(0, 8) + '...' + address.slice(36, 42)}
               </Text>
             </Link>
           </AutoRow>
           {!below600 && <Search small={true} />}
-        </RowBetween>
-        <WarningGrouping disabled={!dismissed && listedTokens && !listedTokens.includes(address)}>
-          <DashboardWrapper style={{ marginTop: below1080 ? '0' : '1rem' }}>
-            <RowBetween
-              style={{
-                flexWrap: 'wrap',
-                marginBottom: '2rem',
-                alignItems: 'flex-start',
-              }}
-            >
-              <RowFixed style={{ flexWrap: 'wrap' }}>
-                <RowFixed style={{ alignItems: 'baseline' }}>
-                  <TokenLogo address={address} size="32px" style={{ alignSelf: 'center' }} />
-                  <TYPE.main fontSize={below1080 ? '1.5rem' : '2rem'} fontWeight={500} style={{ margin: '0 1rem' }}>
-                    <RowFixed gap="6px">
-                      <FormattedName text={name ? name + ' ' : ''} maxCharacters={16} style={{ marginRight: '6px' }} />{' '}
-                      {formattedSymbol ? `(${formattedSymbol})` : ''}
-                    </RowFixed>
-                  </TYPE.main>{' '}
-                  {!below1080 && (
-                    <>
-                      <TYPE.main fontSize={'1.5rem'} fontWeight={500} style={{ marginRight: '1rem' }}>
+        </div>
+        <DashboardWrapper style={{ marginTop: '1rem' }}>
+          <>
+            {!below1080 && (
+              <RowFixed>
+                <TWIconTextTitle>
+                  <i class="las la-chart-area text-2xl pl-2"></i>
+                  <p class="text-base">Token Stats</p>
+                </TWIconTextTitle>
+                {usingUtVolume && (
+                  <HoverText text={UNTRACKED_COPY}>
+                    <WarningIcon />
+                  </HoverText>
+                )}
+              </RowFixed>
+            )}
+            <PanelWrapper style={{ marginTop: below1080 ? '0' : '1rem' }}>
+              {below1080 && price && (
+                <TWoSwapPanel>
+                  <AutoColumn gap="20px">
+                    <RowBetween>
+                      <TYPE.main>Price</TYPE.main>
+                    </RowBetween>
+                    <RowBetween align="flex-end">
+                      {' '}
+                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
                         {price}
                       </TYPE.main>
-                      {priceChange}
-                    </>
-                  )}
-                </RowFixed>
-              </RowFixed>
-              <span>
-                <RowFixed ml={below500 ? '0' : '2.5rem'} mt={below500 ? '1rem' : '0'}>
-                  {!!!savedTokens[address] && !below800 ? (
-                    <Hover onClick={() => addToken(address, symbol)}>
-                      <StyledIcon>
-                        <PlusCircle style={{ marginRight: '0.5rem' }} />
-                      </StyledIcon>
-                    </Hover>
-                  ) : !below1080 ? (
-                    <StyledIcon>
-                      <Bookmark style={{ marginRight: '0.5rem', opacity: 0.4 }} />
-                    </StyledIcon>
-                  ) : (
-                    <></>
-                  )}
-                  <Link href={getPoolLink(address)} target="_blank">
-                    <ButtonLight color={backgroundColor}>+ Add Liquidity</ButtonLight>
-                  </Link>
-                  <Link href={getSwapLink(address)} target="_blank">
-                    <ButtonDark ml={'.5rem'} mr={below1080 && '.5rem'} color={backgroundColor}>
-                      Trade
-                    </ButtonDark>
-                  </Link>
-                </RowFixed>
-              </span>
-            </RowBetween>
-
-            <>
-              {!below1080 && (
-                <RowFixed>
-                  <TYPE.main fontSize={'1.125rem'} mr="6px">
-                    Token Stats
-                  </TYPE.main>
-                  {usingUtVolume && (
-                    <HoverText text={UNTRACKED_COPY}>
-                      <WarningIcon />
-                    </HoverText>
-                  )}
-                </RowFixed>
+                      <TYPE.main>{priceChange}</TYPE.main>
+                    </RowBetween>
+                  </AutoColumn>
+                </TWoSwapPanel>
               )}
-              <PanelWrapper style={{ marginTop: below1080 ? '0' : '1rem' }}>
-                {below1080 && price && (
-                  <Panel>
-                    <AutoColumn gap="20px">
-                      <RowBetween>
-                        <TYPE.main>Price</TYPE.main>
-                        <div />
-                      </RowBetween>
-                      <RowBetween align="flex-end">
-                        {' '}
-                        <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                          {price}
-                        </TYPE.main>
-                        <TYPE.main>{priceChange}</TYPE.main>
-                      </RowBetween>
-                    </AutoColumn>
-                  </Panel>
-                )}
-                <Panel>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Total Liquidity</TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {liquidity}
-                      </TYPE.main>
-                      <TYPE.main>{liquidityChange}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
-                <Panel>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Volume (24hrs)</TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {volume}
-                      </TYPE.main>
-                      <TYPE.main>{volumeChange}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
+              <TWoSwapPanel className="h-1/3 px-6">
+                <div className="flex flex-col justify-between h-full">
+                  <RowBetween>
+                    <TYPE.main>Total Liquidity</TYPE.main>
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {liquidity}
+                    </TYPE.main>
+                    <TYPE.main>{liquidityChange}</TYPE.main>
+                  </RowBetween>
+                </div>
+              </TWoSwapPanel>
 
-                <Panel>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Transactions (24hrs)</TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {oneDayTxns ? localNumber(oneDayTxns) : 0}
-                      </TYPE.main>
-                      <TYPE.main>{txnChangeFormatted}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
-                <Panel
-                  style={{
-                    gridColumn: below1080 ? '1' : '2/4',
-                    gridRow: below1080 ? '' : '1/4',
-                  }}
-                >
-                  <TokenChart address={address} color={backgroundColor} base={priceUSD} />
-                </Panel>
-              </PanelWrapper>
-            </>
+              <TWoSwapPanel className="h-1/3 px-6">
+                <div className="flex flex-col justify-between h-full">
+                  <RowBetween>
+                    <TYPE.main>Volume (24hrs)</TYPE.main>
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {volume}
+                    </TYPE.main>
+                    <TYPE.main>{volumeChange}</TYPE.main>
+                  </RowBetween>
+                </div>
+              </TWoSwapPanel>
 
-            <RowBetween style={{ marginTop: '3rem' }}>
-              <TYPE.main fontSize={'1.125rem'}>Top Pairs</TYPE.main>
+              <TWoSwapPanel className="h-1/3 px-6">
+                <div className="flex flex-col justify-between h-full">
+                  <RowBetween>
+                    <TYPE.main>Transactions (24hrs)</TYPE.main>
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {oneDayTxns ? localNumber(oneDayTxns) : 0}
+                    </TYPE.main>
+                    <TYPE.main>{txnChangeFormatted}</TYPE.main>
+                  </RowBetween>
+                </div>
+              </TWoSwapPanel>
+              
+              <TWoSwapPanel
+                style={{
+                  gridColumn: below1080 ? '1' : '2/4',
+                  gridRow: below1080 ? '' : '1/4',
+                }}
+              >
+                <TokenChart address={address} base={priceUSD} color={'#1bf2ba'} />
+              </TWoSwapPanel>
+            </PanelWrapper>
+          </>
+          <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
+            <RowBetween>
+              <TWIconTextTitle>
+                <i class="las la-medal text-2xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Top Pairs
+                </TYPE.main>
+              </TWIconTextTitle>
               <AutoRow gap="4px" style={{ width: 'fit-content' }}>
-                <Checkbox
+                <TWCheckbox 
+                  label="Hide untracked pairs"
+                  value="value"
                   checked={useTracked}
                   setChecked={() => setUseTracked(!useTracked)}
-                  text={'Hide untracked pairs'}
                 />
-                <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
+                <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
               </AutoRow>
             </RowBetween>
-            <Panel
-              rounded
-              style={{
-                marginTop: '1.5rem',
-                padding: '1.125rem 0 ',
-              }}
-            >
-              {address && fetchedPairsList ? (
-                <PairList color={backgroundColor} address={address} pairs={fetchedPairsList} useTracked={useTracked} />
-              ) : (
-                <Loader />
-              )}
-            </Panel>
-            <RowBetween mt={40} mb={'1rem'}>
-              <TYPE.main fontSize={'1.125rem'}>Transactions</TYPE.main> <div />
-            </RowBetween>
-            <Panel rounded>
-              {transactions ? <TxnList color={backgroundColor} transactions={transactions} /> : <Loader />}
-            </Panel>
-            <>
-              <RowBetween style={{ marginTop: '3rem' }}>
-                <TYPE.main fontSize={'1.125rem'}>Token Information</TYPE.main>{' '}
-              </RowBetween>
-              <Panel
-                rounded
-                style={{
-                  marginTop: '1.5rem',
-                }}
-                p={20}
-              >
-                <TokenDetailsLayout>
-                  <Column>
-                    <TYPE.main>Symbol</TYPE.main>
-                    <Text style={{ marginTop: '.5rem' }} fontSize={24} fontWeight="500">
-                      <FormattedName text={symbol} maxCharacters={12} />
-                    </Text>
-                  </Column>
-                  <Column>
-                    <TYPE.main>Name</TYPE.main>
+          </ListOptions>
+          <TWoSwapPanel className="px-6" >
+            {address && fetchedPairsList ? (
+              <PairList address={address} pairs={fetchedPairsList} useTracked={useTracked} />
+            ) : (
+              <DataLoader />
+            )}
+          </TWoSwapPanel>
+
+          <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
+            <TWIconTextTitle>
+              <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
+              <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                Transactions
+              </TYPE.main>
+            </TWIconTextTitle>
+          </ListOptions>
+          <TWoSwapPanel className="px-6">
+            {transactions ? <TxnList transactions={transactions} /> : <DataLoader />}
+          </TWoSwapPanel>
+
+          <>
+            <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
+              <TWIconTextTitle>
+                <i class="las la-question-circle text-3xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Token Information
+                </TYPE.main>
+              </TWIconTextTitle>
+            </ListOptions>
+            <TWoSwapPanel className="px-6">
+              <TokenDetailsLayout>
+                <Column>
+                  <TYPE.main>Symbol</TYPE.main>
+                  <Text style={{ marginTop: '.5rem' }} fontSize={24} fontWeight="500">
+                    <FormattedName text={symbol} maxCharacters={12} />
+                  </Text>
+                </Column>
+                <Column>
+                  <TYPE.main>Name</TYPE.main>
+                  <TYPE.main style={{ marginTop: '.5rem' }} fontSize={24} fontWeight="500">
+                    <FormattedName text={name} maxCharacters={16} />
+                  </TYPE.main>
+                </Column>
+                <Column>
+                  <TYPE.main>Address</TYPE.main>
+                  <AutoRow align="flex-end">
                     <TYPE.main style={{ marginTop: '.5rem' }} fontSize={24} fontWeight="500">
-                      <FormattedName text={name} maxCharacters={16} />
+                      {address.slice(0, 8) + '...' + address.slice(36, 42)}
                     </TYPE.main>
-                  </Column>
-                  <Column>
-                    <TYPE.main>Address</TYPE.main>
-                    <AutoRow align="flex-end">
-                      <TYPE.main style={{ marginTop: '.5rem' }} fontSize={24} fontWeight="500">
-                        {address.slice(0, 8) + '...' + address.slice(36, 42)}
-                      </TYPE.main>
-                      <CopyHelper toCopy={address} />
-                    </AutoRow>
-                  </Column>
-                  <ButtonLight color={backgroundColor}>
-                    <Link color={backgroundColor} external href={'https://etherscan.io/address/' + address}>
-                      View on Etherscan ↗
-                    </Link>
-                  </ButtonLight>
-                </TokenDetailsLayout>
-              </Panel>
-            </>
-          </DashboardWrapper>
-        </WarningGrouping>
-      </ContentWrapper>
-    </PageWrapper>
+                    <CopyHelper toCopy={address} />
+                  </AutoRow>
+                </Column>
+                <Link external href={'https://explorer.harmony.one/address/' + address}>
+                  <TWButtonLight className="h-12">
+                    View on Explorer
+                  </TWButtonLight>
+                </Link>
+              </TokenDetailsLayout>
+            </TWoSwapPanel>
+          </>
+        </DashboardWrapper>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 
 export default withRouter(TokenPage)
+
+{/* <WarningGrouping disabled={!dismissed && listedTokens && !listedTokens.includes(address)}> */}

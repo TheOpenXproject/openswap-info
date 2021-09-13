@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Line Awesome Icons
+$la-font-path: "~line-awesome/dist/line-awesome/fonts" !default;
+@import '~line-awesome/dist/line-awesome/scss/line-awesome.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(24, 213, 187, 1);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #cccccc;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #18d5bb #cccccc;
+}

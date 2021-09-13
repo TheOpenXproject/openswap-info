@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { ApolloProvider } from 'react-apollo'
 import { client } from './apollo/client'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
@@ -20,24 +21,15 @@ import { useLatestBlocks } from './contexts/Application'
 import GoogleAnalyticsReporter from './components/analytics/GoogleAnalyticsReporter'
 import { PAIR_BLACKLIST, TOKEN_BLACKLIST } from './constants'
 
-const AppWrapper = styled.div`
+const TWAppWrapper = tw.div`
   position: relative;
   width: 100%;
+  flex relative
+  w-full
 `
-const ContentWrapper = styled.div`
-  display: grid;
-  grid-template-columns: ${({ open }) => (open ? '220px 1fr 200px' : '220px 1fr 64px')};
 
-  @media screen and (max-width: 1400px) {
-    grid-template-columns: 220px 1fr;
-  }
-
-  @media screen and (max-width: 1080px) {
-    grid-template-columns: 1fr;
-    max-width: 100vw;
-    overflow: hidden;
-    grid-gap: 0;
-  }
+const TWContentWrapper = tw.div`
+  flex flex-col w-full lg:flex-row lg:max-w-screen-xl mx-auto
 `
 
 const Right = styled.div`
@@ -55,10 +47,12 @@ const Right = styled.div`
 `
 
 const Center = styled.div`
-  height: 100%;
-  z-index: 9999;
   transition: width 0.25s ease;
-  background-color: ${({ theme }) => theme.onlyLight};
+`
+
+const TWCenter = tw(Center)`
+  h-full w-full
+  z-30 px-3
 `
 
 const WarningWrapper = styled.div`
@@ -82,13 +76,10 @@ const WarningBanner = styled.div`
 const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
   return (
     <>
-      <ContentWrapper open={savedOpen}>
+      <TWContentWrapper open={savedOpen}>
         <SideNav />
-        <Center id="center">{children}</Center>
-        <Right open={savedOpen}>
-          <PinnedData open={savedOpen} setSavedOpen={setSavedOpen} />
-        </Right>
-      </ContentWrapper>
+        <TWCenter id="center">{children}</TWCenter>
+      </TWContentWrapper>
     </>
   )
 }
@@ -105,9 +96,114 @@ function App() {
   // show warning
   const showWarning = headBlock && latestBlock ? headBlock - latestBlock > BLOCK_DIFFERENCE_THRESHOLD : false
 
+  // return (
+  //   <ApolloProvider client={client}>
+  //     <AppWrapper>
+  //       {showWarning && (
+  //         <WarningWrapper>
+  //           <WarningBanner>
+  //             {`Warning: The data on this site has only synced to Ethereum block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
+  //           </WarningBanner>
+  //         </WarningWrapper>
+  //       )}
+  //       {globalData &&
+  //       Object.keys(globalData).length > 0 &&
+  //       globalChartData &&
+  //       Object.keys(globalChartData).length > 0 ? (
+  //         <BrowserRouter>
+  //           <Route component={GoogleAnalyticsReporter} />
+  //           <Switch>
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/token/:tokenAddress"
+  //               render={({ match }) => {
+  //                 if (
+  //                   isAddress(match.params.tokenAddress.toLowerCase()) &&
+  //                   !Object.keys(TOKEN_BLACKLIST).includes(match.params.tokenAddress.toLowerCase())
+  //                 ) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <TokenPage address={match.params.tokenAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/pair/:pairAddress"
+  //               render={({ match }) => {
+  //                 if (
+  //                   isAddress(match.params.pairAddress.toLowerCase()) &&
+  //                   !Object.keys(PAIR_BLACKLIST).includes(match.params.pairAddress.toLowerCase())
+  //                 ) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <PairPage pairAddress={match.params.pairAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+  //             <Route
+  //               exacts
+  //               strict
+  //               path="/account/:accountAddress"
+  //               render={({ match }) => {
+  //                 if (isAddress(match.params.accountAddress.toLowerCase())) {
+  //                   return (
+  //                     <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                       <AccountPage account={match.params.accountAddress.toLowerCase()} />
+  //                     </LayoutWrapper>
+  //                   )
+  //                 } else {
+  //                   return <Redirect to="/home" />
+  //                 }
+  //               }}
+  //             />
+
+  //             <Route path="/home">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <GlobalPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/tokens">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AllTokensPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/pairs">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AllPairsPage />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Route path="/accounts">
+  //               <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+  //                 <AccountLookup />
+  //               </LayoutWrapper>
+  //             </Route>
+
+  //             <Redirect to="/home" />
+  //           </Switch>
+  //         </BrowserRouter>
+  //       ) : (
+  //         <LocalLoader fill="true" /> 
+  //       )}
+  //     </AppWrapper>
+  //   </ApolloProvider>
+  // )
   return (
     <ApolloProvider client={client}>
-      <AppWrapper>
+      <TWAppWrapper>
         {showWarning && (
           <WarningWrapper>
             <WarningBanner>
@@ -115,10 +211,13 @@ function App() {
             </WarningBanner>
           </WarningWrapper>
         )}
-        {globalData &&
+        
+        {/* globalData &&
         Object.keys(globalData).length > 0 &&
         globalChartData &&
-        Object.keys(globalChartData).length > 0 ? (
+        Object.keys(globalChartData).length > 0 */}
+
+        {true ? (
           <BrowserRouter>
             <Route component={GoogleAnalyticsReporter} />
             <Switch>
@@ -205,9 +304,9 @@ function App() {
             </Switch>
           </BrowserRouter>
         ) : (
-          <LocalLoader fill="true" />
+          <LocalLoader /> 
         )}
-      </AppWrapper>
+      </TWAppWrapper>
     </ApolloProvider>
   )
 }

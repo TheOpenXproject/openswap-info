@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
@@ -8,7 +9,7 @@ import { useMedia } from 'react-use'
 import { useCurrentCurrency } from '../../contexts/Application'
 import { RowFixed, RowBetween } from '../Row'
 
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { Box, Flex, Text } from 'rebass'
 import Link from '../Link'
 import { Divider, EmptyCard } from '..'
@@ -19,18 +20,15 @@ import { updateNameData } from '../../utils/data'
 
 dayjs.extend(utc)
 
-const PageButtons = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
+const TWPageButtons = tw.div`
+  flex items-center justify-center w-full pt-4 space-x-4
 `
 
 const Arrow = styled.div`
-  color: #2f80ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${(props) => (props.faded ? 0.3 : 1)};
-  padding: 0 20px;
   user-select: none;
   :hover {
     cursor: pointer;
@@ -86,7 +84,7 @@ const DashGrid = styled.div`
 `
 
 const ClickableText = styled(Text)`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText1};
   user-select: none;
   text-align: end;
 
@@ -103,7 +101,7 @@ const ClickableText = styled(Text)`
 const DataText = styled(Flex)`
   align-items: center;
   text-align: right;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText1};
 
   & > * {
     font-size: 1em;
@@ -304,7 +302,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
         )}
         {!below1080 && (
           <DataText area="account">
-            <Link color={color} external href={'https://etherscan.io/address/' + item.account}>
+            <Link color={color} external href={'https://explorer.harmony.one/address/' + item.account}>
               {item.account && item.account.slice(0, 6) + '...' + item.account.slice(38, 42)}
             </Link>
           </DataText>
@@ -367,7 +365,10 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
               setSortDirection(sortedColumn !== SORT_FIELD.VALUE ? true : !sortDirection)
             }}
           >
-            Total Value {sortedColumn === SORT_FIELD.VALUE ? (!sortDirection ? '↑' : '↓') : ''}
+            Total Value { 
+              sortedColumn === SORT_FIELD.VALUE ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         {!below780 && (
@@ -380,8 +381,10 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.AMOUNT0 ? true : !sortDirection)
               }}
             >
-              {symbol0Override ? symbol0Override + ' Amount' : 'Token Amount'}{' '}
-              {sortedColumn === SORT_FIELD.AMOUNT0 ? (sortDirection ? '↑' : '↓') : ''}
+              {symbol0Override ? symbol0Override + ' Amount' : 'Token Amount'}{' '}               
+              {sortedColumn === SORT_FIELD.AMOUNT0 ? 
+                (sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -396,8 +399,10 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                   setSortDirection(sortedColumn !== SORT_FIELD.AMOUNT1 ? true : !sortDirection)
                 }}
               >
-                {symbol1Override ? symbol1Override + ' Amount' : 'Token Amount'}{' '}
-                {sortedColumn === SORT_FIELD.AMOUNT1 ? (sortDirection ? '↑' : '↓') : ''}
+                {symbol1Override ? symbol1Override + ' Amount' : 'Token Amount'}{' '}               
+                {sortedColumn === SORT_FIELD.AMOUNT1 ? 
+                  (sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+                }
               </ClickableText>
             </Flex>
           )}
@@ -415,7 +420,9 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.TIMESTAMP ? true : !sortDirection)
               }}
             >
-              Time {sortedColumn === SORT_FIELD.TIMESTAMP ? (!sortDirection ? '↑' : '↓') : ''}
+              Time {sortedColumn === SORT_FIELD.TIMESTAMP ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         </>
@@ -423,7 +430,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
       <Divider />
       <List p={0}>
         {!filteredList ? (
-          <LocalLoader />
+          <DataLoader />
         ) : filteredList.length === 0 ? (
           <EmptyCard>No recent transactions found.</EmptyCard>
         ) : (
@@ -437,23 +444,27 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
           })
         )}
       </List>
-      <PageButtons>
+      <TWPageButtons>
         <div
           onClick={(e) => {
             setPage(page === 1 ? page : page - 1)
           }}
         >
-          <Arrow faded={page === 1 ? true : false}>←</Arrow>
+          <Arrow faded={page === 1 ? true : false}>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-        <TYPE.body>{'Page ' + page + ' of ' + maxPage}</TYPE.body>
+        <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
         <div
           onClick={(e) => {
             setPage(page === maxPage ? page : page + 1)
           }}
         >
-          <Arrow faded={page === maxPage ? true : false}>→</Arrow>
+          <Arrow faded={page === maxPage ? true : false}>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-      </PageButtons>
+      </TWPageButtons>
     </>
   )
 }

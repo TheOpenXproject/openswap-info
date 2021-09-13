@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import 'feather-icons'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import { ButtonLight, ButtonFaded } from '../ButtonStyled'
-import { AutoRow, RowBetween } from '../Row'
+import tw from 'tailwind-styled-components'
+import { TWButtonLight, ButtonFaded } from '../ButtonStyled'
+import { RowBetween } from '../Row'
 import { isAddress } from '../../utils'
 import { useSavedAccounts } from '../../contexts/LocalStorage'
 import { AutoColumn } from '../Column'
 import { TYPE } from '../../Theme'
 import { Hover, StyledIcon } from '..'
-import Panel from '../Panel'
 import { Divider } from '..'
 import { Flex } from 'rebass'
+import TWoSwapPanel from '../oSwapPanel'
 
 import { X } from 'react-feather'
 
@@ -21,42 +22,33 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  border-radius: 12px;
+`
+
+const TWWrapper = tw(Wrapper)`
+
 `
 
 const Input = styled.input`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  white-space: nowrap;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 12px 16px;
-  border-radius: 12px;
-  color: ${({ theme }) => theme.text1};
-  background-color: ${({ theme }) => theme.bg1};
-  font-size: 16px;
-  margin-right: 1rem;
-  border: 1px solid ${({ theme }) => theme.bg3};
+  color: ${({ theme }) => theme.oSText2};
+  background-color: ${({ theme }) => theme.bgOSwap1};
 
   ::placeholder {
     color: ${({ theme }) => theme.text3};
     font-size: 14px;
   }
+`
 
-  @media screen and (max-width: 640px) {
-    ::placeholder {
-      font-size: 1rem;
-    }
-  }
+const TWInput = tw(Input)`
+  relative flex items-center w-full flex-nowrap rounded-full p-3
+  text-base py-2 pl-4 h-12
+  border border-transparent focus:outline-none focus:ring-1 focus:ring-oswapGreen focus:border-transparent
+  transition duration-500
 `
 
 const AccountLink = styled.span`
   display: flex;
   cursor: pointer;
-  color: ${({ theme }) => theme.link};
+  color: ${({ theme }) => theme.oswapBlue.light};
   font-size: 14px;
   font-weight: 500;
 `
@@ -87,26 +79,22 @@ function AccountSearch({ history, small }) {
   }
 
   return (
-    <AutoColumn gap={'1rem'}>
-      {!small && (
-        <>
-          <AutoRow>
-            <Wrapper>
-              <Input
-                placeholder="0x..."
-                onChange={(e) => {
-                  setAccountValue(e.target.value)
-                }}
-              />
-            </Wrapper>
-            <ButtonLight onClick={handleAccountSearch}>Load Account Details</ButtonLight>
-          </AutoRow>
-        </>
-      )}
+    <div className="flex flex-col w-full space-y-6">
+      <div className="flex w-full items-center space-x-3">
+        <TWWrapper>
+          <TWInput
+            placeholder="0x..."
+            onChange={(e) => {
+              setAccountValue(e.target.value)
+            }}
+          />
+        </TWWrapper>
+        <TWButtonLight className="h-12" onClick={handleAccountSearch}>Load Account Details</TWButtonLight>
+      </div>
 
       <AutoColumn gap={'12px'}>
         {!small && (
-          <Panel>
+          <TWoSwapPanel className="px-6">
             <DashGrid center={true} style={{ height: 'fit-content', padding: '0 0 1rem 0' }}>
               <TYPE.main area="account">Saved Accounts</TYPE.main>
             </DashGrid>
@@ -128,7 +116,7 @@ function AccountSearch({ history, small }) {
                         }}
                       >
                         <StyledIcon>
-                          <X size={16} />
+                          <i class="las la-times text-oswapGreen"></i>
                         </StyledIcon>
                       </Hover>
                     </Flex>
@@ -138,7 +126,7 @@ function AccountSearch({ history, small }) {
             ) : (
               <TYPE.light style={{ marginTop: '1rem' }}>No saved accounts</TYPE.light>
             )}
-          </Panel>
+          </TWoSwapPanel>
         )}
 
         {small && (
@@ -169,7 +157,7 @@ function AccountSearch({ history, small }) {
           </>
         )}
       </AutoColumn>
-    </AutoColumn>
+    </div>
   )
 }
 

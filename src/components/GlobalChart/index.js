@@ -6,7 +6,8 @@ import { useMedia } from 'react-use'
 import DropdownSelect from '../DropdownSelect'
 import TradingViewChart, { CHART_TYPES } from '../TradingviewChart'
 import { RowFixed } from '../Row'
-import { OptionButton } from '../ButtonStyled'
+// import { OptionButton } from '../ButtonStyled'
+import { TWButtonLight } from '../ButtonStyled'
 import { getTimeframe } from '../../utils'
 import { TYPE } from '../../Theme'
 
@@ -79,11 +80,11 @@ const GlobalChart = ({ display }) => {
   return chartDataFiltered ? (
     <>
       {below800 && (
-        <DropdownSelect options={CHART_VIEW} active={chartView} setActive={setChartView} color={'#ff007a'} />
+        <DropdownSelect options={CHART_VIEW} active={chartView} setActive={setChartView} color={'#18d5bb'} />
       )}
 
       {chartDataFiltered && chartView === CHART_VIEW.LIQUIDITY && (
-        <ResponsiveContainer aspect={60 / 28} ref={ref}>
+        <ResponsiveContainer width="100%" height={300} ref={ref}>
           <TradingViewChart
             data={dailyData}
             base={totalLiquidityUSD}
@@ -96,7 +97,7 @@ const GlobalChart = ({ display }) => {
         </ResponsiveContainer>
       )}
       {chartDataFiltered && chartView === CHART_VIEW.VOLUME && (
-        <ResponsiveContainer aspect={60 / 28}>
+        <ResponsiveContainer width="100%" height={300}>
           <TradingViewChart
             data={chartDataFiltered}
             base={volumeWindow === VOLUME_WINDOW.WEEKLY ? oneWeekVolume : oneDayVolumeUSD}
@@ -118,19 +119,19 @@ const GlobalChart = ({ display }) => {
             zIndex: 10,
           }}
         >
-          <OptionButton
+          <TWButtonLight className="h-8"
             active={volumeWindow === VOLUME_WINDOW.DAYS}
             onClick={() => setVolumeWindow(VOLUME_WINDOW.DAYS)}
           >
-            <TYPE.body>D</TYPE.body>
-          </OptionButton>
-          <OptionButton
+            D
+          </TWButtonLight>
+          <TWButtonLight className="h-8"
             style={{ marginLeft: '4px' }}
             active={volumeWindow === VOLUME_WINDOW.WEEKLY}
             onClick={() => setVolumeWindow(VOLUME_WINDOW.WEEKLY)}
           >
-            <TYPE.body>W</TYPE.body>
-          </OptionButton>
+            W
+          </TWButtonLight>
         </RowFixed>
       )}
     </>

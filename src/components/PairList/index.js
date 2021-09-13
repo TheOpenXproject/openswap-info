@@ -5,6 +5,7 @@ import LocalLoader from '../LocalLoader'
 import utc from 'dayjs/plugin/utc'
 import { Box, Flex, Text } from 'rebass'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 import { CustomLink } from '../Link'
 import { Divider } from '../../components'
@@ -19,18 +20,15 @@ import { AutoColumn } from '../Column'
 
 dayjs.extend(utc)
 
-const PageButtons = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
+const TWPageButtons = tw.div`
+  flex items-center justify-center w-full pt-4 space-x-4
 `
 
 const Arrow = styled.div`
-  color: ${({ theme }) => theme.primary1};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${(props) => (props.faded ? 0.3 : 1)};
-  padding: 0 20px;
   user-select: none;
   :hover {
     cursor: pointer;
@@ -201,12 +199,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
         <DashGrid style={{ height: '48px' }} disbaleLinks={disbaleLinks} focus={true}>
           <DataText area="name" fontWeight="500">
             {!below600 && <div style={{ marginRight: '20px', width: '10px' }}>{index}</div>}
-            <DoubleTokenLogo
-              size={below600 ? 16 : 20}
-              a0={pairData.token0.id}
-              a1={pairData.token1.id}
-              margin={!below740}
-            />
+            <DoubleTokenLogo a0={pairData.token0.id} a1={pairData.token1.id} size="30px" />
             <CustomLink style={{ marginLeft: '20px', whiteSpace: 'nowrap' }} to={'/pair/' + pairAddress} color={color}>
               <FormattedName
                 text={pairData.token0.symbol + '-' + pairData.token1.symbol}
@@ -281,7 +274,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
               setSortDirection(sortedColumn !== SORT_FIELD.LIQ ? true : !sortDirection)
             }}
           >
-            Liquidity {sortedColumn === SORT_FIELD.LIQ ? (!sortDirection ? '↑' : '↓') : ''}
+            Liquidity { 
+              sortedColumn === SORT_FIELD.LIQ ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         <Flex alignItems="center">
@@ -292,8 +288,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
               setSortDirection(sortedColumn !== SORT_FIELD.VOL ? true : !sortDirection)
             }}
           >
-            Volume (24hrs)
-            {sortedColumn === SORT_FIELD.VOL ? (!sortDirection ? '↑' : '↓') : ''}
+            Volume (24hrs) { 
+              sortedColumn === SORT_FIELD.VOL ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         {!below1080 && (
@@ -305,7 +303,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.VOL_7DAYS ? true : !sortDirection)
               }}
             >
-              Volume (7d) {sortedColumn === SORT_FIELD.VOL_7DAYS ? (!sortDirection ? '↑' : '↓') : ''}
+            Volume (7d) { 
+              sortedColumn === SORT_FIELD.VOL_7DAYS ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
           </Flex>
         )}
@@ -318,7 +319,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.FEES ? true : !sortDirection)
               }}
             >
-              Fees (24hr) {sortedColumn === SORT_FIELD.FEES ? (!sortDirection ? '↑' : '↓') : ''}
+            Fees (24hr) { 
+              sortedColumn === SORT_FIELD.FEES ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
           </Flex>
         )}
@@ -331,31 +335,38 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.APY ? true : !sortDirection)
               }}
             >
-              1y Fees / Liquidity {sortedColumn === SORT_FIELD.APY ? (!sortDirection ? '↑' : '↓') : ''}
+            1y Fees / Liquidity { 
+              sortedColumn === SORT_FIELD.APY ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
-            <QuestionHelper text={'Based on 24hr volume annualized'} />
+            <QuestionHelper size="text-xl" text={'Based on 24hr volume annualized'} />
           </Flex>
         )}
       </DashGrid>
       <Divider />
       <List p={0}>{!pairList ? <LocalLoader /> : pairList}</List>
-      <PageButtons>
+      <TWPageButtons>
         <div
           onClick={(e) => {
             setPage(page === 1 ? page : page - 1)
           }}
         >
-          <Arrow faded={page === 1 ? true : false}>←</Arrow>
+          <Arrow faded={page === 1 ? true : false}>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-        <TYPE.body>{'Page ' + page + ' of ' + maxPage}</TYPE.body>
+        <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
         <div
           onClick={(e) => {
             setPage(page === maxPage ? page : page + 1)
           }}
         >
-          <Arrow faded={page === maxPage ? true : false}>→</Arrow>
+          <Arrow faded={page === maxPage ? true : false}>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-      </PageButtons>
+      </TWPageButtons>
     </ListWrapper>
   )
 }
