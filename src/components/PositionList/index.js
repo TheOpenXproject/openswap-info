@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useMedia } from 'react-use'
 import dayjs from 'dayjs'
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import utc from 'dayjs/plugin/utc'
 import { Box, Flex, Text } from 'rebass'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import Link, { CustomLink } from '../Link'
 import { Divider } from '../../components'
 import DoubleTokenLogo from '../DoubleLogo'
@@ -13,24 +14,21 @@ import { formattedNum, getPoolLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { useEthPrice } from '../../contexts/GlobalData'
 import { RowFixed } from '../Row'
-import { ButtonLight } from '../ButtonStyled'
+import { TWButtonLight } from '../ButtonStyled'
 import { TYPE } from '../../Theme'
 import FormattedName from '../FormattedName'
 
 dayjs.extend(utc)
 
-const PageButtons = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
+const TWPageButtons = tw.div`
+  flex items-center justify-center w-full pt-4 space-x-4
 `
 
 const Arrow = styled.div`
-  color: ${({ theme }) => theme.primary1};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${(props) => (props.faded ? 0.3 : 1)};
-  padding: 0 20px;
   user-select: none;
   :hover {
     cursor: pointer;
@@ -164,11 +162,11 @@ function PositionList({ positions }) {
                 href={getPoolLink(position.pair.token0.id, position.pair.token1.id)}
                 style={{ marginRight: '.5rem' }}
               >
-                <ButtonLight style={{ padding: '4px 6px', borderRadius: '4px' }}>Add</ButtonLight>
+                <TWButtonLight>Add</TWButtonLight>
               </Link>
               {poolOwnership > 0 && (
                 <Link external href={getPoolLink(position.pair.token0.id, position.pair.token1.id, true)}>
-                  <ButtonLight style={{ padding: '4px 6px', borderRadius: '4px' }}>Remove</ButtonLight>
+                  <TWButtonLight>Remove</TWButtonLight>
                 </Link>
               )}
             </RowFixed>
@@ -255,7 +253,6 @@ function PositionList({ positions }) {
   const positionsSorted =
     positions &&
     positions
-
       .sort((p0, p1) => {
         if (sortedColumn === SORT_FIELD.PRINCIPAL) {
           return p0?.principal?.usd > p1?.principal?.usd ? (sortDirection ? -1 : 1) : sortDirection ? 1 : -1
@@ -296,13 +293,16 @@ function PositionList({ positions }) {
         </Flex>
         <Flex alignItems="center" justifyContent="flexEnd">
           <ClickableText
-            area="uniswap"
+            area="openswap"
             onClick={(e) => {
               setSortedColumn(SORT_FIELD.VALUE)
               setSortDirection(sortedColumn !== SORT_FIELD.VALUE ? true : !sortDirection)
             }}
           >
-            {below740 ? 'Value' : 'Liquidity'} {sortedColumn === SORT_FIELD.VALUE ? (!sortDirection ? '↑' : '↓') : ''}
+            {below740 ? 'Value' : 'Liquidity'}{' '} { 
+              sortedColumn === SORT_FIELD.VALUE ? 
+              (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         {!below500 && (
@@ -314,23 +314,37 @@ function PositionList({ positions }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.UNISWAP_RETURN ? true : !sortDirection)
               }}
             >
-              {below740 ? 'Fees' : 'Total Fees Earned'}{' '}
-              {sortedColumn === SORT_FIELD.UNISWAP_RETURN ? (!sortDirection ? '↑' : '↓') : ''}
+              {below740 ? 'Fees' : 'Total Fees Earned'}{' '} { 
+                sortedColumn === SORT_FIELD.UNISWAP_RETURN ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
       </DashGrid>
       <Divider />
-      <List p={0}>{!positionsSorted ? <LocalLoader /> : positionsSorted}</List>
-      <PageButtons>
-        <div onClick={() => setPage(page === 1 ? page : page - 1)}>
-          <Arrow faded={page === 1 ? true : false}>←</Arrow>
+      <List p={0}>{!positionsSorted ? <DataLoader /> : positionsSorted}</List>
+      <TWPageButtons>
+        <div
+          onClick={(e) => {
+            setPage(page === 1 ? page : page - 1)
+          }}
+        >
+          <Arrow faded={page === 1 ? true : false}>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-        <TYPE.body>{'Page ' + page + ' of ' + maxPage}</TYPE.body>
-        <div onClick={() => setPage(page === maxPage ? page : page + 1)}>
-          <Arrow faded={page === maxPage ? true : false}>→</Arrow>
+        <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
+        <div
+          onClick={(e) => {
+            setPage(page === maxPage ? page : page + 1)
+          }}
+        >
+          <Arrow faded={page === maxPage ? true : false}>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-      </PageButtons>
+      </TWPageButtons>
     </ListWrapper>
   )
 }

@@ -78,6 +78,9 @@ const theme = (darkMode, color) => ({
 
   bgOSwap1: darkMode ? '#313547' : '#edeff2',
 
+  // OpenSwap Buttons
+  btnOSwap1: darkMode ? '#313547' : '#edeff2',
+
   // gradient backgound
   bgGradient: darkMode ? 
     'linear-gradient(to right, #262334, #313547)' : 

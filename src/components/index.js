@@ -153,9 +153,8 @@ export const ContentWrapper = styled.div`
 `
 
 export const TWContentWrapper = tw.div`
-  flex w-full flex-col 
+  flex w-full flex-col
   justify-start items-start
-  box-border
 `
 
 export const ContentWrapperLarge = styled.div`

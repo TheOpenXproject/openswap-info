@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import 'feather-icons'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import Panel from '../components/Panel'
 import {
   PageWrapper,
@@ -12,18 +13,18 @@ import {
 } from '../components/index'
 import { AutoRow, RowBetween, RowFixed } from '../components/Row'
 import Column, { AutoColumn } from '../components/Column'
-import { ButtonLight, ButtonDark } from '../components/ButtonStyled'
+import { TWButtonLight } from '../components/ButtonStyled'
 import PairChart from '../components/PairChart'
 import Link from '../components/Link'
 import TxnList from '../components/TxnList'
-import Loader from '../components/LocalLoader'
+import DataLoader from '../components/DataLoader'
 import { BasicLink } from '../components/Link'
 import Search from '../components/Search'
 import { formattedNum, formattedPercent, getPoolLink, getSwapLink, shortenAddress } from '../utils'
 import { useColor } from '../hooks'
 import { usePairData, usePairTransactions } from '../contexts/PairData'
-import { TYPE, ThemedBackground } from '../Theme'
-import { transparentize } from 'polished'
+import { TYPE } from '../Theme'
+import { Text } from 'rebass'
 import CopyHelper from '../components/Copy'
 import { useMedia } from 'react-use'
 import DoubleTokenLogo from '../components/DoubleLogo'
@@ -38,6 +39,9 @@ import FormattedName from '../components/FormattedName'
 import { useListedTokens } from '../contexts/Application'
 import HoverText from '../components/HoverText'
 import { UNTRACKED_COPY, PAIR_BLACKLIST, BLOCKED_WARNINGS } from '../constants'
+
+import { TWPageWrapper, TWContentWrapper } from '../components'
+import TWoSwapPanel from '../components/oSwapPanel'
 
 const DashboardWrapper = styled.div`
   width: 100%;
@@ -119,6 +123,29 @@ const WarningIcon = styled(AlertCircle)`
 const WarningGrouping = styled.div`
   opacity: ${({ disabled }) => disabled && '0.4'};
   pointer-events: ${({ disabled }) => disabled && 'none'};
+`
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+`
+
+const ListOptions = styled(AutoRow)`
+  height: 40px;
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  @media screen and (max-width: 640px) {
+    font-size: 1rem;
+  }
 `
 
 function PairPage({ pairAddress, history }) {
@@ -213,8 +240,7 @@ function PairPage({ pairAddress, history }) {
   }
 
   return (
-    <PageWrapper>
-      <ThemedBackground backgroundColor={transparentize(0.6, backgroundColor)} />
+    <TWPageWrapper>
       <span />
       <Warning
         type={'pair'}
@@ -222,296 +248,216 @@ function PairPage({ pairAddress, history }) {
         setShow={markAsDismissed}
         address={pairAddress}
       />
-      <ContentWrapperLarge>
-        <RowBetween>
-          <TYPE.body>
-            <BasicLink to="/pairs">{'Pairs '}</BasicLink>→ {token0?.symbol}-{token1?.symbol}
-          </TYPE.body>
-          {!below600 && <Search small={true} />}
-        </RowBetween>
-        <WarningGrouping
-          disabled={
-            !dismissed && listedTokens && !(listedTokens.includes(token0?.id) && listedTokens.includes(token1?.id))
-          }
-        >
-          <DashboardWrapper>
-            <AutoColumn gap="40px" style={{ marginBottom: '1.5rem' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  width: '100%',
-                }}
-              >
-                <RowFixed style={{ flexWrap: 'wrap', minWidth: '100px' }}>
-                  <RowFixed>
-                    {token0 && token1 && (
-                      <DoubleTokenLogo a0={token0?.id || ''} a1={token1?.id || ''} size={32} margin={true} />
-                    )}{' '}
-                    <TYPE.main fontSize={below1080 ? '1.5rem' : '2rem'} style={{ margin: '0 1rem' }}>
-                      {token0 && token1 ? (
-                        <>
-                          <HoverSpan onClick={() => history.push(`/token/${token0?.id}`)}>{token0.symbol}</HoverSpan>
-                          <span>-</span>
-                          <HoverSpan onClick={() => history.push(`/token/${token1?.id}`)}>
-                            {token1.symbol}
-                          </HoverSpan>{' '}
-                          Pair
-                        </>
-                      ) : (
-                        ''
-                      )}
-                    </TYPE.main>
-                  </RowFixed>
-                </RowFixed>
-                <RowFixed
-                  ml={below900 ? '0' : '2.5rem'}
-                  mt={below1080 && '1rem'}
-                  style={{
-                    flexDirection: below1080 ? 'row-reverse' : 'initial',
-                  }}
-                >
-                  {!!!savedPairs[pairAddress] && !below1080 ? (
-                    <Hover onClick={() => addPair(pairAddress, token0.id, token1.id, token0.symbol, token1.symbol)}>
-                      <StyledIcon>
-                        <PlusCircle style={{ marginRight: '0.5rem' }} />
-                      </StyledIcon>
-                    </Hover>
-                  ) : !below1080 ? (
-                    <StyledIcon>
-                      <Bookmark style={{ marginRight: '0.5rem', opacity: 0.4 }} />
-                    </StyledIcon>
-                  ) : (
-                    <></>
-                  )}
-
-                  <Link external href={getPoolLink(token0?.id, token1?.id)}>
-                    <ButtonLight color={backgroundColor}>+ Add Liquidity</ButtonLight>
-                  </Link>
-                  <Link external href={getSwapLink(token0?.id, token1?.id)}>
-                    <ButtonDark ml={!below1080 && '.5rem'} mr={below1080 && '.5rem'} color={backgroundColor}>
-                      Trade
-                    </ButtonDark>
-                  </Link>
-                </RowFixed>
-              </div>
-            </AutoColumn>
-            <AutoRow
-              gap="6px"
-              style={{
-                width: 'fit-content',
-                marginTop: below900 ? '1rem' : '0',
-                marginBottom: below900 ? '0' : '2rem',
-                flexWrap: 'wrap',
-              }}
+      <TWContentWrapper>
+        <div className="flex justify-between w-full">
+          <AutoRow align="flex-end" className="space-x-3 items-center" style={{ width: 'fit-content' }}>
+            <BasicLink to="/pairs">
+              <TWIconTextTitle>
+                <DoubleTokenLogo a0={token0?.id || ''} a1={token1?.id || ''} size="32px" />
+                <p>{token0?.symbol} / {token1?.symbol}</p>
+              </TWIconTextTitle>
+            </BasicLink>
+            <Link
+              style={{ width: 'fit-content' }}
+              external
+              href={'https://explorer.harmony.one/address/' + pairAddress}
             >
-              <FixedPanel onClick={() => history.push(`/token/${token0?.id}`)}>
-                <RowFixed>
-                  <TokenLogo address={token0?.id} size={'16px'} />
-                  <TYPE.main fontSize={'16px'} lineHeight={1} fontWeight={500} ml={'4px'}>
-                    {token0 && token1
-                      ? `1 ${formattedSymbol0} = ${token0Rate} ${formattedSymbol1} ${
-                          parseFloat(token0?.derivedETH) ? '(' + token0USD + ')' : ''
-                        }`
-                      : '-'}
-                  </TYPE.main>
-                </RowFixed>
-              </FixedPanel>
-              <FixedPanel onClick={() => history.push(`/token/${token1?.id}`)}>
-                <RowFixed>
-                  <TokenLogo address={token1?.id} size={'16px'} />
-                  <TYPE.main fontSize={'16px'} lineHeight={1} fontWeight={500} ml={'4px'}>
-                    {token0 && token1
-                      ? `1 ${formattedSymbol1} = ${token1Rate} ${formattedSymbol0}  ${
-                          parseFloat(token1?.derivedETH) ? '(' + token1USD + ')' : ''
-                        }`
-                      : '-'}
-                  </TYPE.main>
-                </RowFixed>
-              </FixedPanel>
-            </AutoRow>
-            <>
-              {!below1080 && (
-                <RowFixed>
-                  <TYPE.main fontSize={'1.125rem'} mr="6px">
-                    Pair Stats
-                  </TYPE.main>
-                  {showUSDWaning ? (
-                    <HoverText text={UNTRACKED_COPY}>
-                      <WarningIcon />
-                    </HoverText>
-                  ) : null}
-                </RowFixed>
-              )}
-              <PanelWrapper style={{ marginTop: '1.5rem' }}>
-                <Panel style={{ height: '100%' }}>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Total Liquidity </TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {formattedLiquidity}
+              <Text style={{ marginLeft: '.15rem' }} fontSize={'14px'} fontWeight={400}>
+                {pairAddress.slice(0, 8) + '...' + pairAddress.slice(36, 42)}
+              </Text>
+            </Link>
+          </AutoRow>
+          {!below600 && <Search small={true} />}
+        </div>
+        <DashboardWrapper style={{ marginTop: '1rem' }}>
+          <>
+            {!below1080 && (
+              <RowFixed>
+                <TWIconTextTitle>
+                  <i class="las la-chart-area text-2xl pl-2"></i>
+                  <p class="text-base">Pair Stats</p>
+                </TWIconTextTitle>
+                {showUSDWaning ? (
+                  <HoverText text={UNTRACKED_COPY}>
+                    <WarningIcon />
+                  </HoverText>
+                ) : null}
+              </RowFixed>
+            )}
+            <PanelWrapper style={{ marginTop: '1.5rem' }}>
+              <TWoSwapPanel className="h-1/3 px-6">
+                <AutoColumn gap="20px">
+                  <RowBetween>
+                    <TYPE.main>Total Liquidity </TYPE.main>
+                    <div />
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {formattedLiquidity}
+                    </TYPE.main>
+                    <TYPE.main>{liquidityChange}</TYPE.main>
+                  </RowBetween>
+                </AutoColumn>
+              </TWoSwapPanel>
+              <TWoSwapPanel className="h-1/4 px-6">
+                <AutoColumn gap="20px">
+                  <RowBetween>
+                    <TYPE.main>Volume (24hrs) </TYPE.main>
+                    <div />
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {volume}
+                    </TYPE.main>
+                    <TYPE.main>{volumeChange}</TYPE.main>
+                  </RowBetween>
+                </AutoColumn>
+              </TWoSwapPanel>
+              <TWoSwapPanel className="h-1/4 px-6">
+                <AutoColumn gap="20px">
+                  <RowBetween>
+                    <TYPE.main>Fees (24hrs)</TYPE.main>
+                    <div />
+                  </RowBetween>
+                  <RowBetween align="flex-end">
+                    <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
+                      {fees}
+                    </TYPE.main>
+                    <TYPE.main>{volumeChange}</TYPE.main>
+                  </RowBetween>
+                </AutoColumn>
+              </TWoSwapPanel>
+              <TWoSwapPanel className="h-1/4 px-6">
+                <AutoColumn gap="20px">
+                  <RowBetween>
+                    <TYPE.main>Pooled Tokens</TYPE.main>
+                    <div />
+                  </RowBetween>
+                  <Hover onClick={() => history.push(`/token/${token0?.id}`)} fade={true}>
+                    <AutoRow gap="4px">
+                      <TokenLogo address={token0?.id} size="32px" />
+                      <TYPE.main fontSize={20} lineHeight={1} fontWeight={500}>
+                        <RowFixed>
+                          {reserve0 ? formattedNum(reserve0) : ''}{' '}
+                          <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} margin={true} />
+                        </RowFixed>
                       </TYPE.main>
-                      <TYPE.main>{liquidityChange}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
-                <Panel style={{ height: '100%' }}>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Volume (24hrs) </TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {volume}
+                    </AutoRow>
+                  </Hover>
+                  <Hover onClick={() => history.push(`/token/${token1?.id}`)} fade={true}>
+                    <AutoRow gap="4px">
+                      <TokenLogo address={token1?.id} size="32px" />
+                      <TYPE.main fontSize={20} lineHeight={1} fontWeight={500}>
+                        <RowFixed>
+                          {reserve1 ? formattedNum(reserve1) : ''}{' '}
+                          <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} margin={true} />
+                        </RowFixed>
                       </TYPE.main>
-                      <TYPE.main>{volumeChange}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
-                <Panel style={{ height: '100%' }}>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Fees (24hrs)</TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <RowBetween align="flex-end">
-                      <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={500}>
-                        {fees}
-                      </TYPE.main>
-                      <TYPE.main>{volumeChange}</TYPE.main>
-                    </RowBetween>
-                  </AutoColumn>
-                </Panel>
-                <Panel style={{ height: '100%' }}>
-                  <AutoColumn gap="20px">
-                    <RowBetween>
-                      <TYPE.main>Pooled Tokens</TYPE.main>
-                      <div />
-                    </RowBetween>
-                    <Hover onClick={() => history.push(`/token/${token0?.id}`)} fade={true}>
-                      <AutoRow gap="4px">
-                        <TokenLogo address={token0?.id} />
-                        <TYPE.main fontSize={20} lineHeight={1} fontWeight={500}>
-                          <RowFixed>
-                            {reserve0 ? formattedNum(reserve0) : ''}{' '}
-                            <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} margin={true} />
-                          </RowFixed>
-                        </TYPE.main>
-                      </AutoRow>
-                    </Hover>
-                    <Hover onClick={() => history.push(`/token/${token1?.id}`)} fade={true}>
-                      <AutoRow gap="4px">
-                        <TokenLogo address={token1?.id} />
-                        <TYPE.main fontSize={20} lineHeight={1} fontWeight={500}>
-                          <RowFixed>
-                            {reserve1 ? formattedNum(reserve1) : ''}{' '}
-                            <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} margin={true} />
-                          </RowFixed>
-                        </TYPE.main>
-                      </AutoRow>
-                    </Hover>
-                  </AutoColumn>
-                </Panel>
-                <Panel
-                  style={{
-                    gridColumn: below1080 ? '1' : '2/4',
-                    gridRow: below1080 ? '' : '1/5',
-                  }}
-                >
-                  <PairChart
-                    address={pairAddress}
-                    color={backgroundColor}
-                    base0={reserve1 / reserve0}
-                    base1={reserve0 / reserve1}
-                  />
-                </Panel>
-              </PanelWrapper>
-              <TYPE.main fontSize={'1.125rem'} style={{ marginTop: '3rem' }}>
-                Transactions
-              </TYPE.main>{' '}
-              <Panel
+                    </AutoRow>
+                  </Hover>
+                </AutoColumn>
+              </TWoSwapPanel>
+              <TWoSwapPanel
                 style={{
-                  marginTop: '1.5rem',
+                  gridColumn: below1080 ? '1' : '2/4',
+                  gridRow: below1080 ? '' : '1/5',
                 }}
               >
-                {transactions ? <TxnList transactions={transactions} /> : <Loader />}
-              </Panel>
-              <RowBetween style={{ marginTop: '3rem' }}>
-                <TYPE.main fontSize={'1.125rem'}>Pair Information</TYPE.main>{' '}
-              </RowBetween>
-              <Panel
-                rounded
-                style={{
-                  marginTop: '1.5rem',
-                }}
-                p={20}
-              >
-                <TokenDetailsLayout>
-                  <Column>
-                    <TYPE.main>Pair Name</TYPE.main>
+                <PairChart
+                  address={pairAddress}
+                  color={'#1bf2ba'}
+                  base0={reserve1 / reserve0}
+                  base1={reserve0 / reserve1}
+                />
+              </TWoSwapPanel>
+            </PanelWrapper>
+            <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
+              <TWIconTextTitle>
+                <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Transactions
+                </TYPE.main>
+              </TWIconTextTitle>
+            </ListOptions>
+            <TWoSwapPanel className="px-6">
+              {transactions ? <TxnList transactions={transactions} /> : <DataLoader />}
+            </TWoSwapPanel>
+            <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
+              <TWIconTextTitle>
+                <i class="las la-question-circle text-3xl pl-2"></i>
+                <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
+                  Pair Information
+                </TYPE.main>
+              </TWIconTextTitle>
+            </ListOptions>
+            <TWoSwapPanel className="px-6">
+              <TokenDetailsLayout>
+                <Column>
+                  <TYPE.main>Pair Name</TYPE.main>
+                  <TYPE.main style={{ marginTop: '.5rem' }}>
+                    <RowFixed>
+                      <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} />
+                      -
+                      <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} />
+                    </RowFixed>
+                  </TYPE.main>
+                </Column>
+                <Column>
+                  <TYPE.main>Pair Address</TYPE.main>
+                  <AutoRow align="flex-end">
                     <TYPE.main style={{ marginTop: '.5rem' }}>
-                      <RowFixed>
-                        <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} />
-                        -
-                        <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} />
-                      </RowFixed>
+                      {pairAddress.slice(0, 6) + '...' + pairAddress.slice(38, 42)}
                     </TYPE.main>
-                  </Column>
-                  <Column>
-                    <TYPE.main>Pair Address</TYPE.main>
-                    <AutoRow align="flex-end">
-                      <TYPE.main style={{ marginTop: '.5rem' }}>
-                        {pairAddress.slice(0, 6) + '...' + pairAddress.slice(38, 42)}
-                      </TYPE.main>
-                      <CopyHelper toCopy={pairAddress} />
-                    </AutoRow>
-                  </Column>
-                  <Column>
-                    <TYPE.main>
-                      <RowFixed>
-                        <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} />{' '}
-                        <span style={{ marginLeft: '4px' }}>Address</span>
-                      </RowFixed>
+                    <CopyHelper toCopy={pairAddress} />
+                  </AutoRow>
+                </Column>
+                <Column>
+                  <TYPE.main>
+                    <RowFixed>
+                      <FormattedName text={token0?.symbol ?? ''} maxCharacters={8} />{' '}
+                      <span style={{ marginLeft: '4px' }}>Address</span>
+                    </RowFixed>
+                  </TYPE.main>
+                  <AutoRow align="flex-end">
+                    <TYPE.main style={{ marginTop: '.5rem' }}>
+                      {token0 && token0.id.slice(0, 6) + '...' + token0.id.slice(38, 42)}
                     </TYPE.main>
-                    <AutoRow align="flex-end">
-                      <TYPE.main style={{ marginTop: '.5rem' }}>
-                        {token0 && token0.id.slice(0, 6) + '...' + token0.id.slice(38, 42)}
-                      </TYPE.main>
-                      <CopyHelper toCopy={token0?.id} />
-                    </AutoRow>
-                  </Column>
-                  <Column>
-                    <TYPE.main>
-                      <RowFixed>
-                        <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} />{' '}
-                        <span style={{ marginLeft: '4px' }}>Address</span>
-                      </RowFixed>
+                    <CopyHelper toCopy={token0?.id} />
+                  </AutoRow>
+                </Column>
+                <Column>
+                  <TYPE.main>
+                    <RowFixed>
+                      <FormattedName text={token1?.symbol ?? ''} maxCharacters={8} />{' '}
+                      <span style={{ marginLeft: '4px' }}>Address</span>
+                    </RowFixed>
+                  </TYPE.main>
+                  <AutoRow align="flex-end">
+                    <TYPE.main style={{ marginTop: '.5rem' }} fontSize={16}>
+                      {token1 && token1.id.slice(0, 6) + '...' + token1.id.slice(38, 42)}
                     </TYPE.main>
-                    <AutoRow align="flex-end">
-                      <TYPE.main style={{ marginTop: '.5rem' }} fontSize={16}>
-                        {token1 && token1.id.slice(0, 6) + '...' + token1.id.slice(38, 42)}
-                      </TYPE.main>
-                      <CopyHelper toCopy={token1?.id} />
-                    </AutoRow>
-                  </Column>
-                  <ButtonLight color={backgroundColor}>
-                    <Link color={backgroundColor} external href={'https://etherscan.io/address/' + pairAddress}>
-                      View on Etherscan ↗
-                    </Link>
-                  </ButtonLight>
-                </TokenDetailsLayout>
-              </Panel>
-            </>
-          </DashboardWrapper>
-        </WarningGrouping>
-      </ContentWrapperLarge>
-    </PageWrapper>
+                    <CopyHelper toCopy={token1?.id} />
+                  </AutoRow>
+                </Column>
+                <Link external href={'https://explorer.harmony.one/address/' + pairAddress}>
+                  <TWButtonLight className="h-12">
+                    View on Explorer
+                  </TWButtonLight>
+                </Link>
+              </TokenDetailsLayout>
+            </TWoSwapPanel>
+          </>
+        </DashboardWrapper>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 
 export default withRouter(PairPage)
+
+
+{/* <WarningGrouping
+disabled={
+  !dismissed && listedTokens && !(listedTokens.includes(token0?.id) && listedTokens.includes(token1?.id))
+}
+> */}

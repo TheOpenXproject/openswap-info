@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react'
-import 'feather-icons'
 
 import TopTokenList from '../components/TokenList'
-import { TYPE } from '../Theme'
-import Panel from '../components/Panel'
+import TWoSwapPanel from '../components/oSwapPanel'
 import { useAllTokenData } from '../contexts/TokenData'
-import { PageWrapper, FullWrapper } from '../components'
-import { RowBetween } from '../components/Row'
+import { TWPageWrapper, TWContentWrapper } from '../components'
 import Search from '../components/Search'
 import { useMedia } from 'react-use'
-// import CheckBox from '../components/Checkbox'
-// import QuestionHelper from '../components/QuestionHelper'
+
+import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+`
 
 function AllTokensPage() {
   const allTokens = useAllTokenData()
@@ -19,26 +29,23 @@ function AllTokensPage() {
     window.scrollTo(0, 0)
   }, [])
 
-  const below600 = useMedia('(max-width: 800px)')
-
-  // const [useTracked, setUseTracked] = useState(true)
+  const below800 = useMedia('(max-width: 800px)')
 
   return (
-    <PageWrapper>
-      <FullWrapper>
-        <RowBetween>
-          <TYPE.largeHeader>Top Tokens</TYPE.largeHeader>
-          {!below600 && <Search small={true} />}
-        </RowBetween>
-        {/* <AutoRow gap="4px">
-          <CheckBox checked={useTracked} setChecked={() => setUseTracked(!useTracked)} text={'Hide untracked tokens'} />
-          <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
-        </AutoRow> */}
-        <Panel style={{ marginTop: '6px', padding: below600 && '1rem 0 0 0 ' }}>
+    <TWPageWrapper>
+      <TWContentWrapper>
+        <div className="flex w-full items-center justify-between mb-6">
+          <TWIconTextTitle>
+            <i class="las la-medal text-3xl"></i>
+            <p class="text-3xl">Top Tokens</p>
+          </TWIconTextTitle>
+          {!below800 && <Search small={true} />}
+        </div>
+        <TWoSwapPanel>
           <TopTokenList tokens={allTokens} itemMax={50} />
-        </Panel>
-      </FullWrapper>
-    </PageWrapper>
+        </TWoSwapPanel>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 

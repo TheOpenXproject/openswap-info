@@ -1,25 +1,31 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart } from 'recharts'
+import tw from 'tailwind-styled-components'
+
+import { Area, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Tooltip, AreaChart } from 'recharts'
+
 import { AutoRow, RowBetween } from '../Row'
 import { toK, toNiceDate, toNiceDateYear, formattedNum, getTimeframe } from '../../utils'
-import { OptionButton } from '../ButtonStyled'
+import { TWButtonLight } from '../ButtonStyled'
 import { darken } from 'polished'
 import { useMedia } from 'react-use'
 import { timeframeOptions } from '../../constants'
 import DropdownSelect from '../DropdownSelect'
 import { useUserLiquidityChart } from '../../contexts/User'
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 import { TYPE } from '../../Theme'
 
 const ChartWrapper = styled.div`
-  height: 100%;
   max-height: 390px;
 
   @media screen and (max-width: 600px) {
     min-height: 200px;
   }
+`
+
+const TWChartWrapper = tw(ChartWrapper)`
+  relative w-full items-center justify-center
 `
 
 const UserChart = ({ account }) => {
@@ -29,21 +35,18 @@ const UserChart = ({ account }) => {
   let utcStartTime = getTimeframe(timeWindow)
 
   const below600 = useMedia('(max-width: 600px)')
-  const above1600 = useMedia('(min-width: 1600px)')
 
   const domain = [(dataMin) => (dataMin > utcStartTime ? dataMin : utcStartTime), 'dataMax']
 
-  const aspect = above1600 ? 60 / 12 : below600 ? 60 / 42 : 60 / 16
-
   const [darkMode] = useDarkModeManager()
-  const textColor = darkMode ? 'white' : 'black'
+  const textColor = darkMode ? '#18d5bb' : '#4B5563'
 
   return (
-    <ChartWrapper>
+    <TWChartWrapper>
       {below600 ? (
         <RowBetween mb={40}>
           <div />
-          <DropdownSelect options={timeframeOptions} active={timeWindow} setActive={setTimeWindow} color={'#ff007a'} />
+          <DropdownSelect options={timeframeOptions} active={timeWindow} setActive={setTimeWindow} color={'#13b4ba'} />
         </RowBetween>
       ) : (
         <RowBetween mb={40}>
@@ -51,34 +54,34 @@ const UserChart = ({ account }) => {
             <TYPE.main>Liquidity Value</TYPE.main>
           </AutoRow>
           <AutoRow justify="flex-end" gap="4px">
-            <OptionButton
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.MONTH}
               onClick={() => setTimeWindow(timeframeOptions.MONTH)}
             >
               1M
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.WEEK}
               onClick={() => setTimeWindow(timeframeOptions.WEEK)}
             >
               1W
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.ALL_TIME}
               onClick={() => setTimeWindow(timeframeOptions.ALL_TIME)}
             >
               All
-            </OptionButton>
+            </TWButtonLight>
           </AutoRow>
         </RowBetween>
       )}
       {chartData ? (
-        <ResponsiveContainer aspect={aspect} style={{ height: 'inherit' }}>
-          <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+        <ResponsiveContainer width="99%" height={300}>
+          <AreaChart barCategoryGap={1} data={chartData}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={'#ff007a'} stopOpacity={0.35} />
-                <stop offset="95%" stopColor={'#ff007a'} stopOpacity={0} />
+                <stop offset="5%" stopColor={'#13b4ba'} stopOpacity={0.35} />
+                <stop offset="95%" stopColor={'#13b4ba'} stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis
@@ -110,12 +113,12 @@ const UserChart = ({ account }) => {
               labelFormatter={(label) => toNiceDateYear(label)}
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{
-                padding: '10px 14px',
+                padding: '10px 10px',
                 borderRadius: 10,
-                borderColor: '#ff007a',
+                borderColor: '#13b4ba',
                 color: 'black',
               }}
-              wrapperStyle={{ top: -70, left: -10 }}
+              wrapperStyle={{ top: -70, left: -4 }}
             />
             <Area
               key={'other'}
@@ -126,15 +129,17 @@ const UserChart = ({ account }) => {
               type="monotone"
               name={'Liquidity'}
               yAxisId={0}
-              stroke={darken(0.12, '#ff007a')}
+              stroke={darken(0.12, '#13b4ba')}
               fill="url(#colorUv)"
             />
           </AreaChart>
         </ResponsiveContainer>
       ) : (
-        <LocalLoader />
+        <div className="flex w-full h-24 top-0 absolute">
+          <DataLoader />
+        </div>
       )}
-    </ChartWrapper>
+    </TWChartWrapper>
   )
 }
 

@@ -24,7 +24,6 @@ import { TYPE } from '../Theme'
 import { CustomLink } from '../components/Link'
 
 import { TWPageWrapper, TWContentWrapper } from '../components'
-import CheckBox from '../components/Checkbox'
 import TWCheckbox from '../components/TWCheckbox'
 import QuestionHelper from '../components/QuestionHelper'
 
@@ -95,13 +94,12 @@ function GlobalPage() {
           </AutoColumn>
           {below800 && ( // mobile card
             <Box mb={20}>
-              <Panel>
+              <TWoSwapPanel className="px-6">
                 <Box>
                   <AutoColumn gap="36px">
                     <AutoColumn gap="20px">
                       <RowBetween>
                         <TYPE.main>Volume (24hrs)</TYPE.main>
-                        <div />
                       </RowBetween>
                       <RowBetween align="flex-end">
                         <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={600}>
@@ -113,7 +111,6 @@ function GlobalPage() {
                     <AutoColumn gap="20px">
                       <RowBetween>
                         <TYPE.main>Total Liquidity</TYPE.main>
-                        <div />
                       </RowBetween>
                       <RowBetween align="flex-end">
                         <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={600}>
@@ -126,7 +123,7 @@ function GlobalPage() {
                     </AutoColumn>
                   </AutoColumn>
                 </Box>
-              </Panel>
+              </TWoSwapPanel>
             </Box>
           )}
           {!below800 && (
@@ -175,7 +172,7 @@ function GlobalPage() {
                   checked={useTracked}
                   setChecked={() => setUseTracked(!useTracked)}
                 />
-                <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
+                <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
                 <CustomLink to={'/pairs'}>See All</CustomLink>
               </AutoRow>
             </RowBetween>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
@@ -18,18 +19,15 @@ import { TYPE } from '../../Theme'
 
 dayjs.extend(utc)
 
-const PageButtons = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 2em;
-  margin-bottom: 2em;
+const TWPageButtons = tw.div`
+  flex items-center justify-center w-full pt-4 space-x-4
 `
 
 const Arrow = styled.div`
-  color: ${({ theme }) => theme.primary1};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${(props) => (props.faded ? 0.3 : 1)};
-  padding: 0 20px;
   user-select: none;
   :hover {
     cursor: pointer;
@@ -182,7 +180,7 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
         <DataText area="name" fontWeight="500">
           <Row>
             {!below680 && <div style={{ marginRight: '1rem', width: '10px' }}>{index}</div>}
-            <TokenLogo address={item.id} />
+            <TokenLogo address={item.id} size="30px" />
             <CustomLink style={{ marginLeft: '16px', whiteSpace: 'nowrap' }} to={'/token/' + item.id}>
               <FormattedName
                 text={below680 ? item.symbol : item.name}
@@ -223,7 +221,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               setSortDirection(sortedColumn !== SORT_FIELD.NAME ? true : !sortDirection)
             }}
           >
-            {below680 ? 'Symbol' : 'Name'} {sortedColumn === SORT_FIELD.NAME ? (!sortDirection ? '↑' : '↓') : ''}
+            {below680 ? 'Symbol' : 'Name'} { 
+              sortedColumn === SORT_FIELD.NAME ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         {!below680 && (
@@ -235,7 +236,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.SYMBOL ? true : !sortDirection)
               }}
             >
-              Symbol {sortedColumn === SORT_FIELD.SYMBOL ? (!sortDirection ? '↑' : '↓') : ''}
+            Symbol { 
+              sortedColumn === SORT_FIELD.SYMBOL ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
           </Flex>
         )}
@@ -248,7 +252,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               setSortDirection(sortedColumn !== SORT_FIELD.LIQ ? true : !sortDirection)
             }}
           >
-            Liquidity {sortedColumn === SORT_FIELD.LIQ ? (!sortDirection ? '↑' : '↓') : ''}
+            Liquidity { 
+              sortedColumn === SORT_FIELD.LIQ ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         <Flex alignItems="center">
@@ -261,8 +268,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               )
             }}
           >
-            Volume (24hrs)
-            {sortedColumn === (useTracked ? SORT_FIELD.VOL_UT : SORT_FIELD.VOL) ? (!sortDirection ? '↑' : '↓') : ''}
+            Volume (24hrs) {
+            sortedColumn === (useTracked ? SORT_FIELD.VOL_UT : SORT_FIELD.VOL) ? 
+              (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
           </ClickableText>
         </Flex>
         {!below1080 && (
@@ -274,7 +283,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.PRICE ? true : !sortDirection)
               }}
             >
-              Price {sortedColumn === SORT_FIELD.PRICE ? (!sortDirection ? '↑' : '↓') : ''}
+            Price { 
+              sortedColumn === SORT_FIELD.PRICE ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
           </Flex>
         )}
@@ -287,8 +299,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.CHANGE ? true : !sortDirection)
               }}
             >
-              Price Change (24hrs)
-              {sortedColumn === SORT_FIELD.CHANGE ? (!sortDirection ? '↑' : '↓') : ''}
+            Price Change (24hrs) { 
+              sortedColumn === SORT_FIELD.CHANGE ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            }
             </ClickableText>
           </Flex>
         )}
@@ -305,15 +319,27 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
             )
           })}
       </List>
-      <PageButtons>
-        <div onClick={() => setPage(page === 1 ? page : page - 1)}>
-          <Arrow faded={page === 1 ? true : false}>←</Arrow>
+      <TWPageButtons>
+        <div
+          onClick={(e) => {
+            setPage(page === 1 ? page : page - 1)
+          }}
+        >
+          <Arrow faded={page === 1 ? true : false}>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-        <TYPE.body>{'Page ' + page + ' of ' + maxPage}</TYPE.body>
-        <div onClick={() => setPage(page === maxPage ? page : page + 1)}>
-          <Arrow faded={page === maxPage ? true : false}>→</Arrow>
+        <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
+        <div
+          onClick={(e) => {
+            setPage(page === maxPage ? page : page + 1)
+          }}
+        >
+          <Arrow faded={page === maxPage ? true : false}>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+          </Arrow>
         </div>
-      </PageButtons>
+      </TWPageButtons>
     </ListWrapper>
   )
 }

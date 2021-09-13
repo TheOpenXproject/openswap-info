@@ -9,7 +9,7 @@ const WrappedLink = ({ external, children, ...rest }) => (
   <RebassLink
     target={external ? '_blank' : null}
     rel={external ? 'noopener noreferrer' : null}
-    color="#2f80ed"
+    color="#109dbb"
     {...rest}
   >
     {children}
@@ -21,7 +21,7 @@ WrappedLink.propTypes = {
 }
 
 const Link = styled(WrappedLink)`
-  color: ${({ color, theme }) => (color ? color : theme.oswapBlue.light)};
+  color: ${({ theme }) => theme.oswapBlue.light};
 `
 
 export default Link
@@ -46,7 +46,7 @@ export const CustomLink = styled(RouterLink)`
 
 export const BasicLink = styled(RouterLink)`
   text-decoration: none;
-  color: inherit;
+  color: ${({ theme }) => theme.oswapBlue.light }
   &:hover {
     cursor: pointer;
     text-decoration: none;

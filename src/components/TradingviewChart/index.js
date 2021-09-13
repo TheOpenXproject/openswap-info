@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { createChart } from 'lightweight-charts'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import { darken } from 'polished'
 import { formattedNum } from '../../utils'
 import styled from 'styled-components'
 import { usePrevious } from 'react-use'
@@ -129,7 +130,7 @@ const TradingViewChart = ({
       var series =
         type === CHART_TYPES.BAR
           ? chart.addHistogramSeries({
-              color: '#13b4ba',
+              color: darken(0.12, '#1bf2ba'),
               priceFormat: {
                 type: 'volume',
               },
@@ -137,13 +138,13 @@ const TradingViewChart = ({
                 top: 0.32,
                 bottom: 0,
               },
-              lineColor: '#13b4ba',
+              lineColor: darken(0.12, '#1bf2ba'),
               lineWidth: 3,
             })
           : chart.addAreaSeries({
-              topColor: '#13b4ba',
-              bottomColor: '#13b4ba00',
-              lineColor: '#13b4ba',
+              topColor: darken(0.12, '#1bf2ba'),
+              bottomColor: darken(0.12, '#1bf2ba00'),
+              lineColor: darken(0.12, '#1bf2ba'),
               lineWidth: 3,
             })
 

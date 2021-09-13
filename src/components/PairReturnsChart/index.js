@@ -10,7 +10,7 @@ import { timeframeOptions } from '../../constants'
 import DropdownSelect from '../DropdownSelect'
 import { useUserPositionChart } from '../../contexts/User'
 import { useTimeframe } from '../../contexts/Application'
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { useColor } from '../../hooks'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 
@@ -148,7 +148,7 @@ const PairReturnsChart = ({ account, position }) => {
             />
           </LineChart>
         ) : (
-          <LocalLoader />
+          <DataLoader />
         )}
       </ResponsiveContainer>
     </ChartWrapper>

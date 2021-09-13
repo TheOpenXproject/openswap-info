@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, BarChart, Bar } from 'recharts'
 import { RowBetween, AutoRow } from '../Row'
 
 import { toK, toNiceDate, toNiceDateYear, formattedNum, getTimeframe } from '../../utils'
-import { OptionButton } from '../ButtonStyled'
+import { TWButtonLight } from '../ButtonStyled'
 import { darken } from 'polished'
 import { usePairChartData, useHourlyRateData, usePairData } from '../../contexts/PairData'
 import { timeframeOptions } from '../../constants'
@@ -12,16 +13,15 @@ import { useMedia } from 'react-use'
 import { EmptyCard } from '..'
 import DropdownSelect from '../DropdownSelect'
 import CandleStickChart from '../CandleChart'
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 
 const ChartWrapper = styled.div`
   height: 100%;
-  max-height: 340px;
+`
 
-  @media screen and (max-width: 600px) {
-    min-height: 200px;
-  }
+const TWChartWrapper = tw(ChartWrapper)`
+  relative w-full items-center justify-center px-2
 `
 
 const OptionsRow = styled.div`
@@ -44,7 +44,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.MONTH)
 
   const [darkMode] = useDarkModeManager()
-  const textColor = darkMode ? 'white' : 'black'
+  const textColor = darkMode ? '#18d5bb' : '#4B5563'
 
   // update the width on a window resize
   const ref = useRef()
@@ -114,7 +114,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
   const aspect = below1080 ? 60 / 20 : below1600 ? 60 / 28 : 60 / 22
 
   return (
-    <ChartWrapper>
+    <TWChartWrapper>
       {below600 ? (
         <RowBetween mb={40}>
           <DropdownSelect options={CHART_VIEW} active={chartFilter} setActive={setChartFilter} color={color} />
@@ -123,7 +123,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
       ) : (
         <OptionsRow>
           <AutoRow gap="6px" style={{ flexWrap: 'nowrap' }}>
-            <OptionButton
+            <TWButtonLight className="h-8"
               active={chartFilter === CHART_VIEW.LIQUIDITY}
               onClick={() => {
                 setTimeWindow(timeframeOptions.ALL_TIME)
@@ -131,8 +131,8 @@ const PairChart = ({ address, color, base0, base1 }) => {
               }}
             >
               Liquidity
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={chartFilter === CHART_VIEW.VOLUME}
               onClick={() => {
                 setTimeWindow(timeframeOptions.ALL_TIME)
@@ -140,8 +140,8 @@ const PairChart = ({ address, color, base0, base1 }) => {
               }}
             >
               Volume
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={chartFilter === CHART_VIEW.RATE0}
               onClick={() => {
                 setTimeWindow(timeframeOptions.WEEK)
@@ -149,8 +149,8 @@ const PairChart = ({ address, color, base0, base1 }) => {
               }}
             >
               {pairData.token0 ? formattedSymbol1 + '/' + formattedSymbol0 : '-'}
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={chartFilter === CHART_VIEW.RATE1}
               onClick={() => {
                 setTimeWindow(timeframeOptions.WEEK)
@@ -158,33 +158,33 @@ const PairChart = ({ address, color, base0, base1 }) => {
               }}
             >
               {pairData.token0 ? formattedSymbol0 + '/' + formattedSymbol1 : '-'}
-            </OptionButton>
+            </TWButtonLight>
           </AutoRow>
           <AutoRow justify="flex-end" gap="6px">
-            <OptionButton
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.WEEK}
               onClick={() => setTimeWindow(timeframeOptions.WEEK)}
             >
               1W
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.MONTH}
               onClick={() => setTimeWindow(timeframeOptions.MONTH)}
             >
               1M
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.ALL_TIME}
               onClick={() => setTimeWindow(timeframeOptions.ALL_TIME)}
             >
               All
-            </OptionButton>
+            </TWButtonLight>
           </AutoRow>
         </OptionsRow>
       )}
       {chartFilter === CHART_VIEW.LIQUIDITY && (
-        <ResponsiveContainer aspect={aspect}>
-          <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+        <ResponsiveContainer width="99%" height={370}>
+          <AreaChart barCategoryGap={1} data={chartData}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={color} stopOpacity={0.35} />
@@ -244,7 +244,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
 
       {chartFilter === CHART_VIEW.RATE1 &&
         (hourlyRate1 ? (
-          <ResponsiveContainer aspect={aspect} ref={ref}>
+          <ResponsiveContainer width="99%" height={370} ref={ref}>
             <CandleStickChart
               data={hourlyRate1}
               base={base0}
@@ -254,12 +254,12 @@ const PairChart = ({ address, color, base0, base1 }) => {
             />
           </ResponsiveContainer>
         ) : (
-          <LocalLoader />
+          <DataLoader />
         ))}
 
       {chartFilter === CHART_VIEW.RATE0 &&
         (hourlyRate0 ? (
-          <ResponsiveContainer aspect={aspect} ref={ref}>
+          <ResponsiveContainer width="99%" height={370} ref={ref}>
             <CandleStickChart
               data={hourlyRate0}
               base={base1}
@@ -269,11 +269,11 @@ const PairChart = ({ address, color, base0, base1 }) => {
             />
           </ResponsiveContainer>
         ) : (
-          <LocalLoader />
+          <DataLoader />
         ))}
 
       {chartFilter === CHART_VIEW.VOLUME && (
-        <ResponsiveContainer aspect={aspect}>
+        <ResponsiveContainer width="99%" height={370}>
           <BarChart
             margin={{ top: 0, right: 0, bottom: 6, left: below1080 ? 0 : 10 }}
             barCategoryGap={1}
@@ -328,7 +328,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
           </BarChart>
         </ResponsiveContainer>
       )}
-    </ChartWrapper>
+    </TWChartWrapper>
   )
 }
 

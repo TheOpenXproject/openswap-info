@@ -1,32 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, BarChart, Bar } from 'recharts'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
 
 import { toK, toNiceDate, toNiceDateYear, formattedNum, getTimeframe } from '../../utils'
-import { OptionButton } from '../ButtonStyled'
+import { TWButtonLight } from '../ButtonStyled'
 import { darken } from 'polished'
 import { useMedia, usePrevious } from 'react-use'
 import { timeframeOptions } from '../../constants'
 import { useTokenChartData, useTokenPriceData } from '../../contexts/TokenData'
 import DropdownSelect from '../DropdownSelect'
 import CandleStickChart from '../CandleChart'
-import LocalLoader from '../LocalLoader'
+import DataLoader from '../DataLoader'
 import { AutoColumn } from '../Column'
 import { Activity } from 'react-feather'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 
 const ChartWrapper = styled.div`
-  height: 100%;
-  min-height: 300px;
-
-  @media screen and (max-width: 600px) {
-    min-height: 200px;
-  }
+  max-height: 390px;
 `
 
-const PriceOption = styled(OptionButton)`
-  border-radius: 2px;
+const TWChartWrapper = tw(ChartWrapper)`
+  relative w-full items-center justify-center px-2
 `
 
 const CHART_VIEW = {
@@ -48,7 +44,7 @@ const TokenChart = ({ address, color, base }) => {
   const [frequency, setFrequency] = useState(DATA_FREQUENCY.HOUR)
 
   const [darkMode] = useDarkModeManager()
-  const textColor = darkMode ? 'white' : 'black'
+  const textColor = darkMode ? '#18d5bb' : '#4B5563'
 
   // reset view on new address
   const addressPrev = usePrevious(address)
@@ -129,51 +125,42 @@ const TokenChart = ({ address, color, base }) => {
   }, [isClient, width]) // Empty array ensures that effect is only run on mount and unmount
 
   return (
-    <ChartWrapper>
+    <TWChartWrapper>
       {below600 ? (
         <RowBetween mb={40}>
           <DropdownSelect options={CHART_VIEW} active={chartFilter} setActive={setChartFilter} color={color} />
           <DropdownSelect options={timeframeOptions} active={timeWindow} setActive={setTimeWindow} color={color} />
         </RowBetween>
       ) : (
-        <RowBetween
-          mb={
-            chartFilter === CHART_VIEW.LIQUIDITY ||
-            chartFilter === CHART_VIEW.VOLUME ||
-            (chartFilter === CHART_VIEW.PRICE && frequency === DATA_FREQUENCY.LINE)
-              ? 40
-              : 0
-          }
-          align="flex-start"
-        >
-          <AutoColumn gap="8px">
+        <RowBetween align="flex-start">
+          <AutoColumn gap="8px" className="relative pb-4">
             <RowFixed>
-              <OptionButton
+              <TWButtonLight className="h-8"
                 active={chartFilter === CHART_VIEW.LIQUIDITY}
                 onClick={() => setChartFilter(CHART_VIEW.LIQUIDITY)}
                 style={{ marginRight: '6px' }}
               >
                 Liquidity
-              </OptionButton>
-              <OptionButton
+              </TWButtonLight>
+              <TWButtonLight className="h-8"
                 active={chartFilter === CHART_VIEW.VOLUME}
                 onClick={() => setChartFilter(CHART_VIEW.VOLUME)}
                 style={{ marginRight: '6px' }}
               >
                 Volume
-              </OptionButton>
-              <OptionButton
+              </TWButtonLight>
+              <TWButtonLight className="h-8"
                 active={chartFilter === CHART_VIEW.PRICE}
                 onClick={() => {
                   setChartFilter(CHART_VIEW.PRICE)
                 }}
               >
                 Price
-              </OptionButton>
+              </TWButtonLight>
             </RowFixed>
             {chartFilter === CHART_VIEW.PRICE && (
-              <AutoRow gap="4px">
-                <PriceOption
+              <AutoRow gap="4px" className="absolute top-10 left-0" style={{ zIndex: '9999'}}>
+                <TWButtonLight className="h-8"
                   active={frequency === DATA_FREQUENCY.DAY}
                   onClick={() => {
                     setTimeWindow(timeframeOptions.MONTH)
@@ -181,47 +168,47 @@ const TokenChart = ({ address, color, base }) => {
                   }}
                 >
                   D
-                </PriceOption>
-                <PriceOption
+                </TWButtonLight>
+                <TWButtonLight className="h-8"
                   active={frequency === DATA_FREQUENCY.HOUR}
                   onClick={() => setFrequency(DATA_FREQUENCY.HOUR)}
                 >
                   H
-                </PriceOption>
-                <PriceOption
+                </TWButtonLight>
+                <TWButtonLight className="h-8"
                   active={frequency === DATA_FREQUENCY.LINE}
                   onClick={() => setFrequency(DATA_FREQUENCY.LINE)}
                 >
                   <Activity size={14} />
-                </PriceOption>
+                </TWButtonLight>
               </AutoRow>
             )}
           </AutoColumn>
           <AutoRow justify="flex-end" gap="6px" align="flex-start">
-            <OptionButton
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.WEEK}
               onClick={() => setTimeWindow(timeframeOptions.WEEK)}
             >
               1W
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.MONTH}
               onClick={() => setTimeWindow(timeframeOptions.MONTH)}
             >
               1M
-            </OptionButton>
-            <OptionButton
+            </TWButtonLight>
+            <TWButtonLight className="h-8"
               active={timeWindow === timeframeOptions.ALL_TIME}
               onClick={() => setTimeWindow(timeframeOptions.ALL_TIME)}
             >
               All
-            </OptionButton>
+            </TWButtonLight>
           </AutoRow>
         </RowBetween>
       )}
       {chartFilter === CHART_VIEW.LIQUIDITY && chartData && (
-        <ResponsiveContainer aspect={aspect}>
-          <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+        <ResponsiveContainer width="99%" height={300}>
+          <AreaChart barCategoryGap={1} data={chartData}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={color} stopOpacity={0.35} />
@@ -281,8 +268,8 @@ const TokenChart = ({ address, color, base }) => {
       )}
       {chartFilter === CHART_VIEW.PRICE &&
         (frequency === DATA_FREQUENCY.LINE ? (
-          <ResponsiveContainer aspect={below1080 ? 60 / 32 : 60 / 16}>
-            <AreaChart margin={{ top: 0, right: 10, bottom: 6, left: 0 }} barCategoryGap={1} data={chartData}>
+          <ResponsiveContainer width="99%" height={300}>
+            <AreaChart barCategoryGap={1} data={chartData}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={color} stopOpacity={0.35} />
@@ -340,16 +327,16 @@ const TokenChart = ({ address, color, base }) => {
             </AreaChart>
           </ResponsiveContainer>
         ) : priceData ? (
-          <ResponsiveContainer aspect={aspect} ref={ref}>
-            <CandleStickChart data={priceData} width={width} base={base} />
+          <ResponsiveContainer width="99%" height={300} ref={ref}>
+            <CandleStickChart data={priceData} width={100} base={base} />
           </ResponsiveContainer>
         ) : (
-          <LocalLoader />
+          <DataLoader />
         ))}
 
       {chartFilter === CHART_VIEW.VOLUME && (
-        <ResponsiveContainer aspect={aspect}>
-          <BarChart margin={{ top: 0, right: 10, bottom: 6, left: 10 }} barCategoryGap={1} data={chartData}>
+        <ResponsiveContainer width="99%" height={300}>
+          <BarChart barCategoryGap={1} data={chartData}>
             <XAxis
               tickLine={false}
               axisLine={false}
@@ -399,7 +386,7 @@ const TokenChart = ({ address, color, base }) => {
           </BarChart>
         </ResponsiveContainer>
       )}
-    </ChartWrapper>
+    </TWChartWrapper>
   )
 }
 

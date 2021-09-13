@@ -1,36 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { isAddress } from '../../utils/index.js'
-import EthereumLogo from '../../assets/eth.png'
+import OswapLogo from '../../assets/oswap_asset.png'
+import NotFound from '../../assets/coin.png'
 
 const BAD_IMAGES = {}
-
-const Inline = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: center;
-`
 
 const Image = styled.img`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
+  background-color: ${({ theme }) => theme.bgOSwap1 }
+  border-radius: 9999px;
 `
 
-const StyledEthereumLogo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  > img {
-    width: ${({ size }) => size};
-    height: ${({ size }) => size};
-  }
-`
-
-export default function TokenLogo({ address, header = false, size = '24px', ...rest }) {
+export default function TokenLogo({ address, size = '' }) {
   const [error, setError] = useState(false)
 
   useEffect(() => {
@@ -39,11 +22,7 @@ export default function TokenLogo({ address, header = false, size = '24px', ...r
 
   if (error || BAD_IMAGES[address]) {
     return (
-      <Inline>
-        <span {...rest} alt={''} style={{ fontSize: size }} role="img" aria-label="face">
-          🤔
-        </span>
-      </Inline>
+      <Image src={NotFound} size={size} />
     )
   }
 
@@ -56,18 +35,9 @@ export default function TokenLogo({ address, header = false, size = '24px', ...r
     address = '0xc011a72400e58ecd99ee497cf89e3775d4bd732f'
   }
 
-  if (address?.toLowerCase() === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2') {
+  if (address?.toLowerCase() === '0xc0431Ddcc0D213Bf27EcEcA8C2362c0d0208c6DC') {
     return (
-      <StyledEthereumLogo size={size} {...rest}>
-        <img
-          src={EthereumLogo}
-          style={{
-            boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.075)',
-            borderRadius: '24px',
-          }}
-          alt=""
-        />
-      </StyledEthereumLogo>
+      <Image src={OswapLogo} size={size} />
     )
   }
 
@@ -76,18 +46,14 @@ export default function TokenLogo({ address, header = false, size = '24px', ...r
   )}/logo.png`
 
   return (
-    <Inline>
-      <Image
-        {...rest}
-        alt={''}
-        src={path}
-        size={size}
-        onError={(event) => {
-          BAD_IMAGES[address] = true
-          setError(true)
-          event.preventDefault()
-        }}
-      />
-    </Inline>
+    <Image
+      src={path}
+      size={size}
+      onError={(event) => {
+        BAD_IMAGES[address] = true
+        setError(true)
+        event.preventDefault()
+      }}
+    />
   )
 }

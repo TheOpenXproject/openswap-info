@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import 'feather-icons'
 
-import { TYPE } from '../Theme'
-import Panel from '../components/Panel'
 import { useAllPairData } from '../contexts/PairData'
 import PairList from '../components/PairList'
-import { PageWrapper, FullWrapper } from '../components'
-import { RowBetween, AutoRow } from '../components/Row'
+import { AutoRow } from '../components/Row'
+import { TWPageWrapper, TWContentWrapper } from '../components'
+import TWoSwapPanel from '../components/oSwapPanel'
 import Search from '../components/Search'
 import { useMedia } from 'react-use'
 import QuestionHelper from '../components/QuestionHelper'
-import CheckBox from '../components/Checkbox'
+import TWCheckbox from '../components/TWCheckbox'
+
+import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
+
+const IconTextTitle = styled.div`
+  color: ${({ theme }) => theme.oSText1};
+
+  i {
+    color: ${({ theme }) => theme.oSIcon2}
+  }
+`
+
+const TWIconTextTitle = tw(IconTextTitle)`
+  flex items-center space-x-3
+`
 
 function AllPairsPage() {
   const allPairs = useAllPairData()
@@ -24,21 +37,31 @@ function AllPairsPage() {
   const [useTracked, setUseTracked] = useState(true)
 
   return (
-    <PageWrapper>
-      <FullWrapper>
-        <RowBetween>
-          <TYPE.largeHeader>Top Pairs</TYPE.largeHeader>
+    <TWPageWrapper>
+      <TWContentWrapper>
+        <div className="flex w-full items-center justify-between mb-6">
+          <TWIconTextTitle>
+            <i class="las la-trophy text-3xl"></i>
+            <p class="text-3xl">Top Pairs</p>
+          </TWIconTextTitle>
           {!below800 && <Search small={true} />}
-        </RowBetween>
-        <AutoRow gap="4px">
-          <CheckBox checked={useTracked} setChecked={() => setUseTracked(!useTracked)} text={'Hide untracked pairs'} />
-          <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
-        </AutoRow>
-        <Panel style={{ padding: below800 && '1rem 0 0 0 ' }}>
+        </div>
+        <div className="flex w-full flex-col pb-6">
+          <AutoRow gap="4px">
+            <TWCheckbox 
+              label="Hide untracked pairs"
+              value="value"
+              checked={useTracked}
+              setChecked={() => setUseTracked(!useTracked)}
+            />
+            <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
+          </AutoRow>
+        </div>
+        <TWoSwapPanel>
           <PairList pairs={allPairs} disbaleLinks={true} maxItems={50} useTracked={useTracked} />
-        </Panel>
-      </FullWrapper>
-    </PageWrapper>
+        </TWoSwapPanel>
+      </TWContentWrapper>
+    </TWPageWrapper>
   )
 }
 

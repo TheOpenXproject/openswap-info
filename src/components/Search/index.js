@@ -117,15 +117,14 @@ const Menu = styled.div`
 `
 
 const MenuItem = styled(Row)`
-  padding: 1rem;
-  font-size: 0.85rem;
-  & > * {
-    margin-right: 6px;
-  }
   :hover {
     cursor: pointer;
     background-color: ${({ theme }) => theme.oSHover1};
   }
+`
+
+const TWMenuItem = tw(MenuItem)`
+  flex space-x-3 items-center p-3
 `
 
 const Heading = styled(Row)`
@@ -433,7 +432,7 @@ export const Search = ({ small = false }) => {
           ref={wrapperRef}
           placeholder={
             small
-              ? ''
+              ? 'Search...'
               : below410
               ? 'Search...'
               : below470
@@ -457,15 +456,15 @@ export const Search = ({ small = false }) => {
       <Menu hide={!showMenu} ref={menuRef}>
         <Heading>
           <TWIconTextTitle>
-            <i class="las la-spinner text-sm"></i>
+            <i class="las la-spinner text-2xl"></i>
             <p>Pairs</p>
           </TWIconTextTitle>
         </Heading>
         <div>
           {filteredPairList && Object.keys(filteredPairList).length === 0 && (
-            <MenuItem>
+            <TWMenuItem>
               <TYPE.body>No results</TYPE.body>
-            </MenuItem>
+            </TWMenuItem>
           )}
           {filteredPairList &&
             filteredPairList.slice(0, pairsShown).map((pair) => {
@@ -473,12 +472,12 @@ export const Search = ({ small = false }) => {
               updateNameData(pair)
               return (
                 <BasicLink to={'/pair/' + pair.id} key={pair.id} onClick={onDismiss}>
-                  <MenuItem>
-                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} margin={true} />
-                    <TYPE.body style={{ marginLeft: '10px' }}>
+                  <TWMenuItem>
+                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} size="40px" />
+                    <TYPE.body>
                       {pair.token0.symbol + '-' + pair.token1.symbol} Pair
                     </TYPE.body>
-                  </MenuItem>
+                  </TWMenuItem>
                 </BasicLink>
               )
             })}
@@ -496,28 +495,25 @@ export const Search = ({ small = false }) => {
         </div>
         <Heading>
           <TWIconTextTitle>
-            <i class="las la-coins text-sm"></i>
+            <i class="las la-coins text-2xl"></i>
             <p>Tokens</p>
           </TWIconTextTitle>
         </Heading>
         <div>
           {Object.keys(filteredTokenList).length === 0 && (
-            <MenuItem>
+            <TWMenuItem>
               <TYPE.body>No results</TYPE.body>
-            </MenuItem>
+            </TWMenuItem>
           )}
           {filteredTokenList.slice(0, tokensShown).map((token) => {
             // update displayed names
             updateNameData({ token0: token })
             return (
               <BasicLink to={'/token/' + token.id} key={token.id} onClick={onDismiss}>
-                <MenuItem>
-                  <RowFixed>
-                    <TokenLogo address={token.id} style={{ marginRight: '10px' }} />
-                    <FormattedName text={token.name} maxCharacters={20} style={{ marginRight: '6px' }} />
-                    (<FormattedName text={token.symbol} maxCharacters={6} />)
-                  </RowFixed>
-                </MenuItem>
+                <TWMenuItem>
+                    <TokenLogo address={token.id} size="40px" />
+                    <FormattedName text={token.name} maxCharacters={20} />
+                </TWMenuItem>
               </BasicLink>
             )
           })}
