@@ -11,6 +11,7 @@ const Image = styled.img`
   height: ${({ size }) => size};
   background-color: ${({ theme }) => theme.bgOSwap1 }
   border-radius: 9999px;
+  padding: 3px;
 `
 
 export default function TokenLogo({ address, size = '30px' }) {
@@ -42,7 +43,6 @@ export default function TokenLogo({ address, size = '30px' }) {
   }
 
   let path = 'https://openfi.dev/tokens/byAddress/' + address.toLowerCase() + '.png'
-
 
   return (
     <Image

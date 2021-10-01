@@ -62,7 +62,7 @@ const MenuRow = styled(Row)`
 
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.bg2};
+    background-color: ${({ theme }) => theme.oSHover1};
   }
 `
 
@@ -184,7 +184,7 @@ function AccountPage({ account }) {
                 )}
                 {activePosition && (
                   <RowFixed>
-                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} />
+                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} size="32px" />
                     <TYPE.body ml={'16px'}>
                       {activePosition.pair.token0.symbol}-{activePosition.pair.token1.symbol} Position
                     </TYPE.body>
@@ -210,7 +210,7 @@ function AccountPage({ account }) {
                             }}
                             key={i}
                           >
-                            <DoubleTokenLogo a0={p.pair.token0.id} a1={p.pair.token1.id} size={16} />
+                            <DoubleTokenLogo a0={p.pair.token0.id} a1={p.pair.token1.id} size="32px" />
                             <TYPE.body ml={'16px'}>
                               {p.pair.token0.symbol}-{p.pair.token1.symbol} Position
                             </TYPE.body>
@@ -262,7 +262,7 @@ function AccountPage({ account }) {
                     <div />
                   </RowBetween>
                   <RowFixed align="flex-end">
-                    <TYPE.header fontSize={'24px'} lineHeight={1} color={aggregateFees && 'green'}>
+                    <TYPE.header fontSize={'24px'} lineHeight={1} color={aggregateFees && '#18d5bb'}>
                       {aggregateFees ? formattedNum(aggregateFees, true, true) : '-'}
                     </TYPE.header>
                   </RowFixed>

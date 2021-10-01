@@ -119,7 +119,7 @@ const theme = (darkMode, color) => ({
 
   // other
   red1: '#FF6871',
-  green1: '#27AE60',
+  green1: '#18d5bb',
   yellow1: '#FFE270',
   yellow2: '#F3841E',
   link: '#2172E5',
@@ -174,7 +174,7 @@ export const Link = styled.a.attrs({
 })`
   text-decoration: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.primary1};
+  color: ${({ theme }) => theme.oSText1};
   font-weight: 500;
   :hover {
     text-decoration: underline;

@@ -342,7 +342,7 @@ function TokenPage({ address, history }) {
               </AutoRow>
             </RowBetween>
           </ListOptions>
-          <TWoSwapPanel className="px-6" >
+          <TWoSwapPanel>
             {address && fetchedPairsList ? (
               <PairList address={address} pairs={fetchedPairsList} useTracked={useTracked} />
             ) : (

@@ -122,8 +122,10 @@ function LPList({ lps, disbaleLinks, maxItems = 10 }) {
         <DataText>
           <CustomLink area="pair" to={'/pair/' + lp.pairAddress}>
             <RowFixed>
-              {!below600 && <DoubleTokenLogo a0={lp.token0} a1={lp.token1} size={16} margin={true} />}
-              {lp.pairName}
+              {!below600 && <DoubleTokenLogo a0={lp.token0} a1={lp.token1} size="32px" />}
+              <p className="pl-3">
+                {lp.pairName}
+              </p>
             </RowFixed>
           </CustomLink>
         </DataText>
