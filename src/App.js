@@ -84,7 +84,7 @@ const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
   )
 }
 
-const BLOCK_DIFFERENCE_THRESHOLD = 30
+const BLOCK_DIFFERENCE_THRESHOLD = 600
 
 function App() {
   const [savedOpen, setSavedOpen] = useState(false)
@@ -212,10 +212,10 @@ function App() {
           </WarningWrapper>
         )}
         
-        {/* globalData &&
+        { globalData &&
         Object.keys(globalData).length > 0 &&
         globalChartData &&
-        Object.keys(globalChartData).length > 0 */}
+        Object.keys(globalChartData).length > 0 }
 
         {true ? (
           <BrowserRouter>

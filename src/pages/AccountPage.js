@@ -195,11 +195,11 @@ function AccountPage({ account }) {
                 <Flyout>
                   <AutoColumn gap="0px">
                     {positions?.map((p, i) => {
-                      if (p.pair.token1.symbol === 'WETH') {
-                        p.pair.token1.symbol = 'ETH'
+                      if (p.pair.token1.symbol === 'WONE') {
+                        p.pair.token1.symbol = 'ONE'
                       }
-                      if (p.pair.token0.symbol === 'WETH') {
-                        p.pair.token0.symbol = 'ETH'
+                      if (p.pair.token0.symbol === 'WONE') {
+                        p.pair.token0.symbol = 'ONE'
                       }
                       return (
                         p.pair.id !== activePosition?.pair.id && (

@@ -13,7 +13,7 @@ const Image = styled.img`
   border-radius: 9999px;
 `
 
-export default function TokenLogo({ address, size = '' }) {
+export default function TokenLogo({ address, size = '30px' }) {
   const [error, setError] = useState(false)
 
   useEffect(() => {
@@ -35,15 +35,14 @@ export default function TokenLogo({ address, size = '' }) {
     address = '0xc011a72400e58ecd99ee497cf89e3775d4bd732f'
   }
 
-  if (address?.toLowerCase() === '0xc0431Ddcc0D213Bf27EcEcA8C2362c0d0208c6DC') {
+  if (address?.toLowerCase() === '0xc0431ddcc0d213bf27ececa8c2362c0d0208c6dc') {
     return (
       <Image src={OswapLogo} size={size} />
     )
   }
 
-  const path = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${isAddress(
-    address
-  )}/logo.png`
+  let path = 'https://openfi.dev/tokens/byAddress/' + address.toLowerCase() + '.png'
+
 
   return (
     <Image
