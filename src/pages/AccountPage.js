@@ -62,7 +62,7 @@ const MenuRow = styled(Row)`
 
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.oSHover1};
+    background-color: ${({ theme }) => theme.bg2};
   }
 `
 
@@ -184,7 +184,7 @@ function AccountPage({ account }) {
                 )}
                 {activePosition && (
                   <RowFixed>
-                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} size="32px" />
+                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} />
                     <TYPE.body ml={'16px'}>
                       {activePosition.pair.token0.symbol}-{activePosition.pair.token1.symbol} Position
                     </TYPE.body>
@@ -195,11 +195,11 @@ function AccountPage({ account }) {
                 <Flyout>
                   <AutoColumn gap="0px">
                     {positions?.map((p, i) => {
-                      if (p.pair.token1.symbol === 'WONE') {
-                        p.pair.token1.symbol = 'ONE'
+                      if (p.pair.token1.symbol === 'WETH') {
+                        p.pair.token1.symbol = 'ETH'
                       }
-                      if (p.pair.token0.symbol === 'WONE') {
-                        p.pair.token0.symbol = 'ONE'
+                      if (p.pair.token0.symbol === 'WETH') {
+                        p.pair.token0.symbol = 'ETH'
                       }
                       return (
                         p.pair.id !== activePosition?.pair.id && (
@@ -210,7 +210,7 @@ function AccountPage({ account }) {
                             }}
                             key={i}
                           >
-                            <DoubleTokenLogo a0={p.pair.token0.id} a1={p.pair.token1.id} size="32px" />
+                            <DoubleTokenLogo a0={p.pair.token0.id} a1={p.pair.token1.id} size={16} />
                             <TYPE.body ml={'16px'}>
                               {p.pair.token0.symbol}-{p.pair.token1.symbol} Position
                             </TYPE.body>
@@ -262,7 +262,7 @@ function AccountPage({ account }) {
                     <div />
                   </RowBetween>
                   <RowFixed align="flex-end">
-                    <TYPE.header fontSize={'24px'} lineHeight={1} color={aggregateFees && '#18d5bb'}>
+                    <TYPE.header fontSize={'24px'} lineHeight={1} color={aggregateFees && 'green'}>
                       {aggregateFees ? formattedNum(aggregateFees, true, true) : '-'}
                     </TYPE.header>
                   </RowFixed>

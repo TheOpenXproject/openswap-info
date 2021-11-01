@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
+import 'feather-icons'
 import { withRouter } from 'react-router-dom'
+import { TYPE } from '../Theme'
+import Panel from '../components/Panel'
 import LPList from '../components/LPList'
 import styled from 'styled-components'
 import tw from 'tailwind-styled-components'
 import AccountSearch from '../components/AccountSearch'
 import { useTopLps } from '../contexts/GlobalData'
 import DataLoader from '../components/DataLoader'
+import { RowBetween } from '../components/Row'
 import { useMedia } from 'react-use'
 import Search from '../components/Search'
 import { TWPageWrapper, TWContentWrapper } from '../components'
@@ -56,7 +60,7 @@ function AccountLookup() {
             <p class="text-xl">Top Liquidity Positions</p>
           </TWIconTextTitle>
         </div>
-        <TWoSwapPanel className="px-6">{topLps && topLps.length > 0 ? <LPList lps={topLps} maxItems={200} /> : <DataLoader />}</TWoSwapPanel>
+        <TWoSwapPanel>{topLps && topLps.length > 0 ? <LPList lps={topLps} maxItems={200} /> : <DataLoader />}</TWoSwapPanel>
       </TWContentWrapper>
     </TWPageWrapper>
   )
