@@ -144,7 +144,7 @@ function PositionList({ positions }) {
         {!below740 && <DataText area="number">{index}</DataText>}
         <DataText area="name" justifyContent="flex-start" alignItems="flex-start">
           <AutoColumn gap="8px" justify="flex-start" align="flex-start">
-            <DoubleTokenLogo size={16} a0={position.pair.token0.id} a1={position.pair.token1.id} margin={!below740} />
+            <DoubleTokenLogo size="40px" a0={position.pair.token0.id} a1={position.pair.token1.id} />
           </AutoColumn>
           <AutoColumn gap="8px" justify="flex-start" style={{ marginLeft: '20px' }}>
             <CustomLink to={'/pair/' + position.pair.id}>
@@ -162,11 +162,11 @@ function PositionList({ positions }) {
                 href={getPoolLink(position.pair.token0.id, position.pair.token1.id)}
                 style={{ marginRight: '.5rem' }}
               >
-                <TWButtonLight>Add</TWButtonLight>
+                <TWButtonLight className="h-8">Add</TWButtonLight>
               </Link>
               {poolOwnership > 0 && (
                 <Link external href={getPoolLink(position.pair.token0.id, position.pair.token1.id, true)}>
-                  <TWButtonLight>Remove</TWButtonLight>
+                  <TWButtonLight className="h-8">Remove</TWButtonLight>
                 </Link>
               )}
             </RowFixed>
@@ -174,7 +174,7 @@ function PositionList({ positions }) {
         </DataText>
         <DataText area="uniswap">
           <AutoColumn gap="12px" justify="flex-end">
-            <TYPE.main>{formattedNum(valueUSD, true, true)}</TYPE.main>
+            <TYPE.main className="text-oswapBlue-light" >{formattedNum(valueUSD, true, true)}</TYPE.main>
             <AutoColumn gap="4px" justify="flex-end">
               <RowFixed>
                 <TYPE.small fontWeight={400}>
@@ -204,7 +204,7 @@ function PositionList({ positions }) {
         {!below500 && (
           <DataText area="return">
             <AutoColumn gap="12px" justify="flex-end">
-              <TYPE.main color={'green'}>
+              <TYPE.main className="text-oswapBlue-light">
                 <RowFixed>{formattedNum(position?.fees.sum, true, true)}</RowFixed>
               </TYPE.main>
               <AutoColumn gap="4px" justify="flex-end">

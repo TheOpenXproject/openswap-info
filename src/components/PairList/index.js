@@ -91,7 +91,7 @@ const ClickableText = styled(Text)`
 const DataText = styled(Flex)`
   align-items: center;
   text-align: center;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.oSText1};
 
   & > * {
     font-size: 14px;
@@ -129,7 +129,7 @@ const formatDataText = (value, trackedValue, supressWarning = false) => {
   const showUntracked = value !== '$0' && !trackedValue & !supressWarning
   return (
     <AutoColumn gap="2px" style={{ opacity: showUntracked ? '0.7' : '1' }}>
-      <div style={{ textAlign: 'right' }}>{value}</div>
+      <div style={{ textAlign: 'right' }} >{value}</div>
       <TYPE.light fontSize={'9px'} style={{ textAlign: 'right' }}>
         {showUntracked ? 'untracked' : '  '}
       </TYPE.light>
@@ -169,6 +169,9 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
   const ListItem = ({ pairAddress, index }) => {
     const pairData = pairs[pairAddress]
 
+    const pairToken0 = pairData.token0.id
+    const pairToken1 = pairData.token1.id
+
     if (pairData && pairData.token0 && pairData.token1) {
       const liquidity = formattedNum(
         !!pairData.trackedReserveUSD ? pairData.trackedReserveUSD : pairData.reserveUSD,
@@ -199,8 +202,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
         <DashGrid style={{ height: '48px' }} disbaleLinks={disbaleLinks} focus={true}>
           <DataText area="name" fontWeight="500">
             {!below600 && <div style={{ marginRight: '20px', width: '10px' }}>{index}</div>}
-            <DoubleTokenLogo a0={pairData.token0.id} a1={pairData.token1.id} size="30px" />
-            <CustomLink style={{ marginLeft: '20px', whiteSpace: 'nowrap' }} to={'/pair/' + pairAddress} color={color}>
+            
+            <DoubleTokenLogo a0={pairToken0} a1={pairToken1} size="32px" />
+            
+            <CustomLink style={{ marginLeft: '20px', whiteSpace: 'nowrap' }} to={'/pair/' + pairAddress}>
               <FormattedName
                 text={pairData.token0.symbol + '-' + pairData.token1.symbol}
                 maxCharacters={below600 ? 8 : 16}

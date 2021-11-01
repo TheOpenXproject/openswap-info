@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import tw from 'tailwind-styled-components'
 import TokenLogo from '../TokenLogo'
 
-export default function DoubleTokenLogo({ a0, a1, size = '' }) {
+export default function DoubleTokenLogo({ a0, a1, size = '50px' }) {
   const Token1 = styled(TokenLogo)`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
@@ -23,7 +23,7 @@ export default function DoubleTokenLogo({ a0, a1, size = '' }) {
   `
   
   const TWTokenWrapper = tw.div`
-    flex flex-row-reverse -space-x-4 space-x-reverse items-center
+    flex flex-none flex-row-reverse -space-x-4 space-x-reverse items-center
   `
 
   return (
