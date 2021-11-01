@@ -99,21 +99,21 @@ const CandleStickChart = ({
         },
         grid: {
           vertLines: {
-            color: 'rgba(197, 203, 206, 0.1)',
+            color: 'rgba(197, 203, 206, 0.5)',
           },
           horzLines: {
-            color: 'rgba(197, 203, 206, 0.1)',
+            color: 'rgba(197, 203, 206, 0.5)',
           },
         },
         crosshair: {
           mode: CrosshairMode.Normal,
         },
         rightPriceScale: {
-          borderColor: 'rgba(197, 203, 206, 0.1)',
+          borderColor: 'rgba(197, 203, 206, 0.8)',
           visible: true,
         },
         timeScale: {
-          borderColor: 'rgba(197, 203, 206, 0.1)',
+          borderColor: 'rgba(197, 203, 206, 0.8)',
         },
         localization: {
           priceFormatter: (val) => formattedNum(val),
@@ -121,24 +121,29 @@ const CandleStickChart = ({
       })
 
       var candleSeries = chart.addCandlestickSeries({
-        upColor: '#34D399',
-        downColor: '#F87171',
-        borderDownColor: '#F87171',
-        borderUpColor: '#34D399',
-        wickDownColor: '#F87171',
-        wickUpColor: '#34D399',
+        upColor: 'green',
+        downColor: 'red',
+        borderDownColor: 'red',
+        borderUpColor: 'green',
+        wickDownColor: 'red',
+        wickUpColor: 'green',
       })
 
       candleSeries.setData(formattedData)
 
       var toolTip = document.createElement('div')
       toolTip.setAttribute('id', 'tooltip-id')
+      toolTip.className = 'three-line-legend'
       ref.current.appendChild(toolTip)
+      toolTip.style.display = 'block'
+      toolTip.style.left = (margin ? 116 : 10) + 'px'
+      toolTip.style.top = 50 + 'px'
+      toolTip.style.backgroundColor = 'transparent'
 
       // get the title of the chart
       function setLastBarText() {
         toolTip.innerHTML = base
-          ? `<div class="flex absolute py-2 px-3 rounded-full top-20" style="font-size: 16px; color: ${textColor}">` + valueFormatter(base) + '</div>'
+          ? `<div style="font-size: 22px; margin: 4px 0px; color: ${textColor}">` + valueFormatter(base) + '</div>'
           : ''
       }
       setLastBarText()
@@ -158,7 +163,7 @@ const CandleStickChart = ({
           var price = param.seriesPrices.get(candleSeries).close
           const time = dayjs.unix(param.time).format('MM/DD h:mm A')
           toolTip.innerHTML =
-          `<div class="flex absolute py-2 px-3 rounded-full top-20" style="font-size: 16px; color: ${textColor}">` +
+            `<div style="font-size: 22px; margin: 4px 0px; color: ${textColor}">` +
             valueFormatter(price) +
             `<span style="font-size: 12px; margin: 4px 6px; color: ${textColor}">` +
             time +
