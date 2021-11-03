@@ -4,7 +4,7 @@ import { HttpLink } from 'apollo-link-http'
 
 export const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://graph-node.openswap.one/subgraphs/name/openswap/uniswap',
+    uri: 'https://api.openswap.one/subgraphs/name/openswap/openswapv2',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,
@@ -12,7 +12,7 @@ export const client = new ApolloClient({
 
 export const healthClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://graph-node.openswap.one/subgraphs/name/openswap/uniswap',
+    uri: 'https://api.openswap.one/subgraphs/name/openswap/openswapv2',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,
@@ -36,7 +36,7 @@ export const stakingClient = new ApolloClient({
 
 export const blockClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.mochiswap.io/subgraphs/name/mochiswap/blocks',
+    uri: 'https://graph2.viper.exchange/subgraphs/name/harmony/blocks',
   }),
   cache: new InMemoryCache(),
 })

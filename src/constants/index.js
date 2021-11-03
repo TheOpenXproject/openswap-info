@@ -1,19 +1,19 @@
-export const FACTORY_ADDRESS = '0xBdEBd3af1723BBB33A8aDB68e3e77d65D7266F59'
+export const FACTORY_ADDRESS = '0x5d2F9817303b940C9bB4F47C8C566c5C034d9848'
 
 export const BUNDLE_ID = '1'
 
 export const timeframeOptions = {
   WEEK: '1 week',
   MONTH: '1 month',
-  // THREE_MONTHS: '3 months',
-  // YEAR: '1 year',
+  THREE_MONTHS: '3 months',
+  YEAR: '1 year',
   HALF_YEAR: '6 months',
   ALL_TIME: 'All time',
 }
 
 // token list urls to fetch tokens from - use for warnings on tokens and pairs
 export const SUPPORTED_LIST_URLS__NO_ENS = [
-]
+] 
 
 // hide from overview list
 export const TOKEN_BLACKLIST = [
@@ -40,5 +40,5 @@ export const UNTRACKED_COPY = 'Derived USD values may be inaccurate without liqu
 
 // tokens that should be tracked but arent due to lag in subgraph
 export const TRACKED_OVERRIDES = [
-
+  
 ]
