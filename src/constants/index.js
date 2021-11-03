@@ -1,4 +1,4 @@
-export const FACTORY_ADDRESS = '0xBdEBd3af1723BBB33A8aDB68e3e77d65D7266F59'
+export const FACTORY_ADDRESS = '0x5d2f9817303b940c9bb4f47c8c566c5c034d9848'
 
 export const BUNDLE_ID = '1'
 
@@ -36,7 +36,7 @@ export const BLOCKED_WARNINGS = {
  */
 export const FEE_WARNING_TOKENS = []
 
-export const UNTRACKED_COPY = 'Derived USD values may be inaccurate without liquid stablecoin or ETH pairings.'
+export const UNTRACKED_COPY = 'Derived USD values may be inaccurate without liquid stablecoin or ONE pairings.'
 
 // tokens that should be tracked but arent due to lag in subgraph
 export const TRACKED_OVERRIDES = [

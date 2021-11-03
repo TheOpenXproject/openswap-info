@@ -338,7 +338,7 @@ function TokenPage({ address, history }) {
                   checked={useTracked}
                   setChecked={() => setUseTracked(!useTracked)}
                 />
-                <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." />
+                <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ONE or stablecoins." />
               </AutoRow>
             </RowBetween>
           </ListOptions>

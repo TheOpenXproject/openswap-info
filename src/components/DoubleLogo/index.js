@@ -1,35 +1,33 @@
+
 import React from 'react'
 import styled from 'styled-components'
-import tw from 'tailwind-styled-components'
 import TokenLogo from '../TokenLogo'
 
-export default function DoubleTokenLogo({ a0, a1, size = '' }) {
-  const Token1 = styled(TokenLogo)`
-    width: ${({ size }) => size};
-    height: ${({ size }) => size};
+export default function DoubleTokenLogo({ a0, a1, size = 24, margin = false }) {
+  const TokenWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-right: ${({ sizeraw, margin }) => margin && (sizeraw).toString() + 'px'};
   `
 
-  const Token2 = styled(TokenLogo)`
-    width: ${({ size }) => size};
-    height: ${({ size }) => size};
+  const HigherLogo = styled(TokenLogo)`
+    z-index: 2;
+    background-color: white;
+    border-radius: 50%;
   `
-  
-  const TWToken1 = tw(Token1)`,
-    z-30
-  `
-  
-  const TWToken2 = tw(Token2)`
-    z-20
-  `
-  
-  const TWTokenWrapper = tw.div`
-    flex flex-row-reverse -space-x-4 space-x-reverse items-center
+
+  const CoveredLogo = styled(TokenLogo)`
+    position: absolute;
+    left: ${({ sizeraw }) => (sizeraw / 2).toString() + 'px'};
+    background-color: white;
+    border-radius: 50%;
   `
 
   return (
-    <TWTokenWrapper>
-      <TWToken1 address={a0} size={size} />
-      <TWToken2 address={a1} size={size} />
-    </TWTokenWrapper>
+    <TokenWrapper sizeraw={size} margin={margin}>
+      <HigherLogo address={a0} size={size.toString() + 'px'} sizeraw={size} />
+      <CoveredLogo address={a1} size={size.toString() + 'px'} sizeraw={size} />
+    </TokenWrapper>
   )
 }

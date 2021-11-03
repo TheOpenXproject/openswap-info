@@ -198,8 +198,8 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
       return (
         <DashGrid style={{ height: '48px' }} disbaleLinks={disbaleLinks} focus={true}>
           <DataText area="name" fontWeight="500">
-            {!below600 && <div style={{ marginRight: '20px', width: '10px' }}>{index}</div>}
-            <DoubleTokenLogo a0={pairData.token0.id} a1={pairData.token1.id} size="30px" />
+            {!below600 && <div style={{ marginRight: '0px', width: '50px' }}>{index}</div>}
+            <DoubleTokenLogo a0={pairData.token0.id} a1={pairData.token1.id} size={30} />
             <CustomLink style={{ marginLeft: '20px', whiteSpace: 'nowrap' }} to={'/pair/' + pairAddress} color={color}>
               <FormattedName
                 text={pairData.token0.symbol + '-' + pairData.token1.symbol}

@@ -45,7 +45,7 @@ const TWDropdownWrapper = tw.div`
 `
 
 const Flyout = styled.div`
-  position: absolute;
+  position: fixed;
   top: 48px;
   width: 100%;
   background-color: ${({ theme }) => theme.bgOSwap1 };
@@ -184,7 +184,7 @@ function AccountPage({ account }) {
                 )}
                 {activePosition && (
                   <RowFixed>
-                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} />
+                    <DoubleTokenLogo a0={activePosition.pair.token0.id} a1={activePosition.pair.token1.id} size={30} />
                     <TYPE.body ml={'16px'}>
                       {activePosition.pair.token0.symbol}-{activePosition.pair.token1.symbol} Position
                     </TYPE.body>
@@ -195,11 +195,11 @@ function AccountPage({ account }) {
                 <Flyout>
                   <AutoColumn gap="0px">
                     {positions?.map((p, i) => {
-                      if (p.pair.token1.symbol === 'WETH') {
-                        p.pair.token1.symbol = 'ETH'
+                      if (p.pair.token1.symbol === 'WONE') {
+                        p.pair.token1.symbol = 'ONE'
                       }
-                      if (p.pair.token0.symbol === 'WETH') {
-                        p.pair.token0.symbol = 'ETH'
+                      if (p.pair.token0.symbol === 'WONE') {
+                        p.pair.token0.symbol = 'ONE'
                       }
                       return (
                         p.pair.id !== activePosition?.pair.id && (
