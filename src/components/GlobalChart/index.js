@@ -20,6 +20,9 @@ const VOLUME_WINDOW = {
   WEEKLY: 'WEEKLY',
   DAYS: 'DAYS',
 }
+const calculateDiff = (final, initial) => {
+  return ((final - initial) / initial) * 100
+}
 const GlobalChart = ({ display }) => {
   // chart options
   const [chartView, setChartView] = useState(display === 'volume' ? CHART_VIEW.VOLUME : CHART_VIEW.LIQUIDITY)
@@ -30,14 +33,25 @@ const GlobalChart = ({ display }) => {
 
   // global historical data
   const [dailyData, weeklyData] = useGlobalChartData()
-  const {
-    totalLiquidityUSD,
-    oneDayVolumeUSD,
-    volumeChangeUSD,
-    liquidityChangeUSD,
-    oneWeekVolume,
-    weeklyVolumeChange,
-  } = useGlobalData()
+  let { totalLiquidityUSD, oneDayVolumeUSD, volumeChangeUSD, liquidityChangeUSD, oneWeekVolume, weeklyVolumeChange } =
+    useGlobalData()
+
+  //Rewrite vars once you have values inside the charts data
+  if (dailyData?.length && weeklyData?.length) {
+    const lastDayData = dailyData[dailyData?.length - 1]
+    const beforeLastDayData = dailyData[dailyData?.length - 2]
+    const lastWeekData = weeklyData[weeklyData?.length - 1]
+    const beforeLastWeekData = weeklyData[weeklyData?.length - 2]
+    //Last Day Data is displayed first
+    oneDayVolumeUSD = lastDayData?.dailyVolumeUSD
+    totalLiquidityUSD = lastDayData?.totalLiquidityUSD
+    //Last Week Data is displayed first
+    oneWeekVolume = lastWeekData?.weeklyVolumeUSD
+    //Calculate changes based on the diff between last 2 elements
+    weeklyVolumeChange = calculateDiff(lastWeekData?.weeklyVolumeUSD, beforeLastWeekData.weeklyVolumeUSD)
+    volumeChangeUSD = calculateDiff(lastDayData?.dailyVolumeUSD, beforeLastDayData.dailyVolumeUSD)
+    liquidityChangeUSD = calculateDiff(lastDayData?.totalLiquidityUSD, beforeLastDayData.totalLiquidityUSD)
+  }
 
   // based on window, get starttim
   let utcStartTime = getTimeframe(timeWindow)
