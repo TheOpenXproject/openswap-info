@@ -473,7 +473,7 @@ export const Search = ({ small = false }) => {
               return (
                 <BasicLink to={'/pair/' + pair.id} key={pair.id} onClick={onDismiss}>
                   <TWMenuItem>
-                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} size="40px" />
+                    <DoubleTokenLogo a0={pair?.token0?.id} a1={pair?.token1?.id} size={32} />
                     <TYPE.body>
                       {pair.token0.symbol + '-' + pair.token1.symbol} Pair
                     </TYPE.body>
