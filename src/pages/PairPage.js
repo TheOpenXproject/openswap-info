@@ -253,7 +253,7 @@ function PairPage({ pairAddress, history }) {
           <AutoRow align="flex-end" className="space-x-3 items-center" style={{ width: 'fit-content' }}>
             <BasicLink to="/pairs">
               <TWIconTextTitle>
-                <DoubleTokenLogo a0={token0?.id || ''} a1={token1?.id || ''} size="32px" />
+                <DoubleTokenLogo a0={token0?.id || ''} a1={token1?.id || ''} size={32} />
                 <p>{token0?.symbol} / {token1?.symbol}</p>
               </TWIconTextTitle>
             </BasicLink>
