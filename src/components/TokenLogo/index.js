@@ -35,7 +35,7 @@ export default function TokenLogo({ address, size = '' }) {
     address = '0xc011a72400e58ecd99ee497cf89e3775d4bd732f'
   }
 
-  if (address?.toLowerCase() === '0xc0431ddcc0d213bf27ececa8c2362c0d0208c6dc') {
+  if (address?.toLowerCase() === '0x01a4b054110d57069c1658afbc46730529a3e326') {
     return (
       <Image src={OswapLogo} size={size} />
     )
