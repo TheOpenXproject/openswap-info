@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "info.uniswap.org site",
+  "Description": "analytics.openswap.one site",
   "Outputs": {
     "DeploymentAccessKeyId": {
       "Description": "Access key ID for deploying to the S3 bucket",
@@ -75,12 +75,12 @@
       "Type": "AWS::CertificateManager::Certificate",
       "Description": "The certificate used to secure the CloudFront distribution",
       "Properties": {
-        "DomainName": "info.uniswap.org",
+        "DomainName": "analytics.openswap.one",
         "ValidationMethod": "DNS",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "info.uniswap.org"
+            "Value": "analytics.openswap.one"
           },
           {
             "Key": "Stack",
@@ -219,9 +219,9 @@
               "ResponsePagePath": "/"
             }
           ],
-          "Comment": "info.uniswap.org",
+          "Comment": "analytics.openswap.one",
           "Enabled": true,
-          "Aliases": ["info.uniswap.org"],
+          "Aliases": ["analytics.openswap.one"],
           "DefaultRootObject": "index.html",
           "HttpVersion": "http2",
           "Origins": [

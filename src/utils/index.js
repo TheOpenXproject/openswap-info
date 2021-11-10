@@ -39,43 +39,26 @@ export function getTimeframe(timeWindow) {
 
 export function getPoolLink(token0Address, token1Address = null, remove = false) {
   if (!token1Address) {
-    return (
-      `https://app.uniswap.org/#/` +
-      (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address}/${'ETH'}`
-    )
+    return `https://app.openswap.one/farm`
   } else {
-    return (
-      `https://app.uniswap.org/#/` +
-      (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address}/${
-        token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token1Address
-      }`
-    )
+    return `https://app.openswap.one/farm`
   }
 }
 
 export function getSwapLink(token0Address, token1Address = null) {
   if (!token1Address) {
-    return `https://app.uniswap.org/#/swap?inputCurrency=${token0Address}`
+    return `https://app.openswap.one/`
   } else {
-    return `https://app.uniswap.org/#/swap?inputCurrency=${
-      token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address
-    }&outputCurrency=${token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token1Address}`
+    return `https://app.openswap.one/`
   }
 }
 
 export function getMiningPoolLink(token0Address) {
-  return `https://app.uniswap.org/#/uni/ETH/${token0Address}`
+  return `https://app.openswap.one/`
 }
 
 export function getUniswapAppLink(linkVariable) {
-  let baseUniswapUrl = 'https://app.uniswap.org/#/uni'
-  if (!linkVariable) {
-    return baseUniswapUrl
-  }
-
-  return `${baseUniswapUrl}/ETH/${linkVariable}`
+  return `https://app.openswap.one/`
 }
 
 export function localNumber(val) {
@@ -304,9 +287,9 @@ export const Big = (number) => new BigNumber(number)
 
 export const urls = {
   showTransaction: (tx) => `https://explorer.harmony.one/tx/${tx}/`,
-  showAddress: (address) => `https://www.etherscan.io/address/${address}/`,
-  showToken: (address) => `https://www.etherscan.io/token/${address}/`,
-  showBlock: (block) => `https://etherscan.io/block/${block}/`,
+  showAddress: (address) => `https://explorer.harmony.one/address/${address}/`,
+  showToken: (address) => `https://explorer.harmony.one/token/${address}/`,
+  showBlock: (block) => `https://explorer.harmony.one/block/${block}/`,
 }
 
 export const formatTime = (unix) => {

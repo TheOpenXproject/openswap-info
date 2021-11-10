@@ -104,7 +104,7 @@ const IconTextTitle = styled.div`
   color: ${({ theme }) => theme.oSText1};
 
   i {
-    color: ${({ theme }) => theme.oSIcon2}
+    color: ${({ theme }) => theme.oSIcon2};
   }
 `
 
@@ -201,9 +201,10 @@ function TokenPage({ address, history }) {
             <TYPE.light style={{ textAlign: 'center' }}>
               {BLOCKED_WARNINGS[address] ?? `This token is not supported.`}
             </TYPE.light>
-            <Link external={true} href={'https://etherscan.io/address/' + address}>{`More about ${shortenAddress(
-              address
-            )}`}</Link>
+            <Link
+              external={true}
+              href={'https://explorer.harmony.one/address/' + address}
+            >{`More about ${shortenAddress(address)}`}</Link>
           </AutoColumn>
         </BlockedMessageWrapper>
       </BlockedWrapper>
@@ -227,11 +228,7 @@ function TokenPage({ address, history }) {
                 <p>{symbol}</p>
               </TWIconTextTitle>
             </BasicLink>
-            <Link
-              style={{ width: 'fit-content' }}
-              external
-              href={'https://etherscan.io/address/' + address}
-            >
+            <Link style={{ width: 'fit-content' }} external href={'https://explorer.harmony.one/address/' + address}>
               <Text style={{ marginLeft: '.15rem' }} fontSize={'14px'} fontWeight={400}>
                 {address.slice(0, 8) + '...' + address.slice(36, 42)}
               </Text>
@@ -312,7 +309,7 @@ function TokenPage({ address, history }) {
                   </RowBetween>
                 </div>
               </TWoSwapPanel>
-              
+
               <TWoSwapPanel
                 style={{
                   gridColumn: below1080 ? '1' : '2/4',
@@ -332,17 +329,20 @@ function TokenPage({ address, history }) {
                 </TYPE.main>
               </TWIconTextTitle>
               <AutoRow gap="4px" style={{ width: 'fit-content' }}>
-                <TWCheckbox 
+                <TWCheckbox
                   label="Hide untracked pairs"
                   value="value"
                   checked={useTracked}
                   setChecked={() => setUseTracked(!useTracked)}
                 />
-                <QuestionHelper size="text-2xl" text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ONE or stablecoins." />
+                <QuestionHelper
+                  size="text-2xl"
+                  text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ONE or stablecoins."
+                />
               </AutoRow>
             </RowBetween>
           </ListOptions>
-          <TWoSwapPanel className="px-6" >
+          <TWoSwapPanel className="px-6">
             {address && fetchedPairsList ? (
               <PairList address={address} pairs={fetchedPairsList} useTracked={useTracked} />
             ) : (
@@ -395,9 +395,7 @@ function TokenPage({ address, history }) {
                   </AutoRow>
                 </Column>
                 <Link external href={'https://explorer.harmony.one/address/' + address}>
-                  <TWButtonLight className="h-12">
-                    View on Explorer
-                  </TWButtonLight>
+                  <TWButtonLight className="h-12">View on Explorer</TWButtonLight>
                 </Link>
               </TokenDetailsLayout>
             </TWoSwapPanel>
@@ -410,4 +408,6 @@ function TokenPage({ address, history }) {
 
 export default withRouter(TokenPage)
 
-{/* <WarningGrouping disabled={!dismissed && listedTokens && !listedTokens.includes(address)}> */}
+{
+  /* <WarningGrouping disabled={!dismissed && listedTokens && !listedTokens.includes(address)}> */
+}
