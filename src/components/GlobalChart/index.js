@@ -33,25 +33,18 @@ const GlobalChart = ({ display }) => {
 
   // global historical data
   const [dailyData, weeklyData] = useGlobalChartData()
-  let { totalLiquidityUSD, oneDayVolumeUSD, volumeChangeUSD, liquidityChangeUSD, oneWeekVolume, weeklyVolumeChange } =
-    useGlobalData()
+
+  let data = useGlobalData()
+  let [totalLiquidityUSD, oneDayVolumeUSD, volumeChangeUSD, liquidityChangeUSD, oneWeekVolume, weeklyVolumeChange] = [
+    data.totalLiquidityUSD || 0,
+    data.oneDayVolumeUSD || 0,
+    data.volumeChangeUSD || 0,
+    data.liquidityChangeUSD || 0,
+    data.oneWeekVolume || 0,
+    data.weeklyVolumeChange || 0,
+  ]
 
   //Rewrite vars once you have values inside the charts data
-  if (dailyData?.length && weeklyData?.length) {
-    const lastDayData = dailyData[dailyData?.length - 1]
-    const beforeLastDayData = dailyData[dailyData?.length - 2]
-    const lastWeekData = weeklyData[weeklyData?.length - 1]
-    const beforeLastWeekData = weeklyData[weeklyData?.length - 2]
-    //Last Day Data is displayed first
-    oneDayVolumeUSD = lastDayData?.dailyVolumeUSD
-    totalLiquidityUSD = lastDayData?.totalLiquidityUSD
-    //Last Week Data is displayed first
-    oneWeekVolume = lastWeekData?.weeklyVolumeUSD
-    //Calculate changes based on the diff between last 2 elements
-    weeklyVolumeChange = calculateDiff(lastWeekData?.weeklyVolumeUSD, beforeLastWeekData.weeklyVolumeUSD)
-    volumeChangeUSD = calculateDiff(lastDayData?.dailyVolumeUSD, beforeLastDayData.dailyVolumeUSD)
-    liquidityChangeUSD = calculateDiff(lastDayData?.totalLiquidityUSD, beforeLastDayData.totalLiquidityUSD)
-  }
 
   // based on window, get starttim
   let utcStartTime = getTimeframe(timeWindow)
@@ -73,7 +66,18 @@ const GlobalChart = ({ display }) => {
           return !!item
         })
     )
-  }, [dailyData, utcStartTime, volumeWindow, weeklyData])
+  }, [
+    dailyData,
+    utcStartTime,
+    volumeWindow,
+    weeklyData,
+    liquidityChangeUSD,
+    totalLiquidityUSD,
+    oneDayVolumeUSD,
+    volumeChangeUSD,
+    oneWeekVolume,
+    weeklyVolumeChange,
+  ])
   const below800 = useMedia('(max-width: 800px)')
 
   // update the width on a window resize
@@ -133,13 +137,15 @@ const GlobalChart = ({ display }) => {
             zIndex: 10,
           }}
         >
-          <TWButtonLight className="h-8"
+          <TWButtonLight
+            className="h-8"
             active={volumeWindow === VOLUME_WINDOW.DAYS}
             onClick={() => setVolumeWindow(VOLUME_WINDOW.DAYS)}
           >
             D
           </TWButtonLight>
-          <TWButtonLight className="h-8"
+          <TWButtonLight
+            className="h-8"
             style={{ marginLeft: '4px' }}
             active={volumeWindow === VOLUME_WINDOW.WEEKLY}
             onClick={() => setVolumeWindow(VOLUME_WINDOW.WEEKLY)}
