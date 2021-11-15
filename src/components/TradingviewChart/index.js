@@ -38,19 +38,20 @@ const TradingViewChart = ({
   const ref = useRef()
 
   // pointer to the chart object
-  const [chartCreated, setChartCreated] = useState(false)
+  let [chartCreated, setChartCreated] = useState(false)
   const dataPrev = usePrevious(data)
+  const basePrev = usePrevious(base)
+  const baseChangePrev = usePrevious(baseChange)
 
   useEffect(() => {
-    if (data !== dataPrev && chartCreated && type === CHART_TYPES.BAR) {
-      // remove the tooltip element
+    if (chartCreated && (basePrev !== base || baseChange !== baseChangePrev || data !== dataPrev)) {
+      chartCreated.remove()
       let tooltip = document.getElementById('tooltip-id' + type)
       let node = document.getElementById('test-id' + type)
       node.removeChild(tooltip)
-      chartCreated.resize(0, 0)
       setChartCreated()
     }
-  }, [chartCreated, data, dataPrev, type])
+  }, [chartCreated, basePrev, baseChangePrev, base, baseChange, data, dataPrev])
 
   // parese the data and format for tardingview consumption
   const formattedData = data?.map((entry) => {
@@ -232,7 +233,7 @@ const TradingViewChart = ({
 
   // responsiveness
   useEffect(() => {
-    if (width) {
+    if (width && chartCreated) {
       chartCreated && chartCreated.resize(width, HEIGHT)
       chartCreated && chartCreated.timeScale().scrollToPosition(0)
     }

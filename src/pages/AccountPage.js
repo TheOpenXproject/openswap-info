@@ -28,7 +28,7 @@ const IconTextTitle = styled.div`
   color: ${({ theme }) => theme.oSText1};
 
   i {
-    color: ${({ theme }) => theme.oSIcon2}
+    color: ${({ theme }) => theme.oSIcon2};
   }
 `
 
@@ -48,7 +48,7 @@ const Flyout = styled.div`
   position: fixed;
   top: 48px;
   width: 100%;
-  background-color: ${({ theme }) => theme.bgOSwap1 };
+  background-color: ${({ theme }) => theme.bgOSwap1};
   z-index: 999;
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
@@ -163,9 +163,9 @@ function AccountPage({ account }) {
         <div className="flex w-full items-center justify-between mb-6">
           <TWIconTextTitle>
             <i class="las la-wallet text-3xl"></i>
-            <Link lineHeight={'145.23%'} href={'https://etherscan.io/address/' + account} target="_blank">
+            <Link lineHeight={'145.23%'} href={'https://explorer.harmony.one/address/' + account} target="_blank">
               <TYPE.header fontSize={24}>{account?.slice(0, 6) + '...' + account?.slice(38, 42)}</TYPE.header>
-            </Link>            
+            </Link>
           </TWIconTextTitle>
           {!below600 && <Search small={true} />}
         </div>
@@ -277,7 +277,7 @@ function AccountPage({ account }) {
                 {activePosition ? (
                   <PairReturnsChart account={account} position={activePosition} />
                 ) : (
-                   <UserChart account={account} position={activePosition} />
+                  <UserChart account={account} position={activePosition} />
                 )}
               </TWoSwapPanel>
             </PanelWrapper>
@@ -289,7 +289,7 @@ function AccountPage({ account }) {
           <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <PositionList positions={positions} />
           </TWoSwapPanel>
-          <TWIconTextTitle className="mt-6" >
+          <TWIconTextTitle className="mt-6">
             <i class="las la-tint text-2xl"></i>
             <p class="text-base">Liquidity Mining Pools</p>
           </TWIconTextTitle>
@@ -299,19 +299,21 @@ function AccountPage({ account }) {
               <AutoColumn gap="8px" justify="flex-start">
                 <TYPE.main>No Staked Liquidity.</TYPE.main>
                 <AutoRow gap="8px" justify="flex-start">
-                  <TWButtonLight className="h-8" >Learn More</TWButtonLight>
+                  <Link external href="https://docs.openswap.one/guide/liquidity">
+                    <TWButtonLight className="h-8">Learn More</TWButtonLight>
+                  </Link>
                 </AutoRow>{' '}
               </AutoColumn>
             )}
           </TWoSwapPanel>
-          <TWIconTextTitle className="mt-6" >
+          <TWIconTextTitle className="mt-6">
             <i class="las la-sync text-2xl"></i>
             <p class="text-base">Transactions</p>
           </TWIconTextTitle>
-          <TWoSwapPanel className="px-6" style={{marginTop: '1.5rem' }}>
+          <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <TxnList transactions={transactions} />
           </TWoSwapPanel>
-          <TWIconTextTitle className="mt-6" >
+          <TWIconTextTitle className="mt-6">
             <i class="las la-wallet text-2xl"></i>
             <p class="text-base">Wallet Stats</p>
           </TWIconTextTitle>

@@ -129,7 +129,7 @@ const IconTextTitle = styled.div`
   color: ${({ theme }) => theme.oSText1};
 
   i {
-    color: ${({ theme }) => theme.oSIcon2}
+    color: ${({ theme }) => theme.oSIcon2};
   }
 `
 
@@ -230,9 +230,10 @@ function PairPage({ pairAddress, history }) {
             <TYPE.light style={{ textAlign: 'center' }}>
               {BLOCKED_WARNINGS[pairAddress] ?? `This pair is not supported.`}
             </TYPE.light>
-            <Link external={true} href={'https://etherscan.io/address/' + pairAddress}>{`More about ${shortenAddress(
-              pairAddress
-            )}`}</Link>
+            <Link
+              external={true}
+              href={'https://explorer.harmony.one/address/' + pairAddress}
+            >{`More about ${shortenAddress(pairAddress)}`}</Link>
           </AutoColumn>
         </BlockedMessageWrapper>
       </BlockedWrapper>
@@ -254,7 +255,9 @@ function PairPage({ pairAddress, history }) {
             <BasicLink to="/pairs">
               <TWIconTextTitle>
                 <DoubleTokenLogo a0={token0?.id || ''} a1={token1?.id || ''} size={32} />
-                <p>{token0?.symbol} / {token1?.symbol}</p>
+                <p>
+                  {token0?.symbol} / {token1?.symbol}
+                </p>
               </TWIconTextTitle>
             </BasicLink>
             <Link
@@ -440,9 +443,7 @@ function PairPage({ pairAddress, history }) {
                   </AutoRow>
                 </Column>
                 <Link external href={'https://explorer.harmony.one/address/' + pairAddress}>
-                  <TWButtonLight className="h-12">
-                    View on Explorer
-                  </TWButtonLight>
+                  <TWButtonLight className="h-12">View on Explorer</TWButtonLight>
                 </Link>
               </TokenDetailsLayout>
             </TWoSwapPanel>
@@ -455,9 +456,10 @@ function PairPage({ pairAddress, history }) {
 
 export default withRouter(PairPage)
 
-
-{/* <WarningGrouping
+{
+  /* <WarningGrouping
 disabled={
   !dismissed && listedTokens && !(listedTokens.includes(token0?.id) && listedTokens.includes(token1?.id))
 }
-> */}
+> */
+}

@@ -196,7 +196,7 @@ function App() {
   //           </Switch>
   //         </BrowserRouter>
   //       ) : (
-  //         <LocalLoader fill="true" /> 
+  //         <LocalLoader fill="true" />
   //       )}
   //     </AppWrapper>
   //   </ApolloProvider>
@@ -207,15 +207,12 @@ function App() {
         {showWarning && (
           <WarningWrapper>
             <WarningBanner>
-              {`Warning: The data on this site has only synced to Ethereum block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
+              {`Warning: The data on this site has only synced to Harmony block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
             </WarningBanner>
           </WarningWrapper>
         )}
-        
-        { globalData &&
-        Object.keys(globalData).length > 0 &&
-        globalChartData &&
-        Object.keys(globalChartData).length > 0 }
+
+        {globalData && Object.keys(globalData).length > 0 && globalChartData && Object.keys(globalChartData).length > 0}
 
         {true ? (
           <BrowserRouter>
@@ -304,7 +301,7 @@ function App() {
             </Switch>
           </BrowserRouter>
         ) : (
-          <LocalLoader /> 
+          <LocalLoader />
         )}
       </TWAppWrapper>
     </ApolloProvider>
