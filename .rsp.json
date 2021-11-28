@@ -1,0 +1,12 @@
+{
+    "routes": [
+        "/",
+        "/home",
+        "/token/:tokenAddress",
+        "/pair/:pairAddress",
+        "/account/:accountAddress",
+        "/tokens",
+        "/pairs",
+        "/accounts"
+    ]
+}
