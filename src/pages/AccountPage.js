@@ -98,8 +98,8 @@ function AccountPage({ account }) {
   let totalSwappedUSD = useMemo(() => {
     return transactions?.swaps
       ? transactions?.swaps.reduce((total, swap) => {
-          return total + parseFloat(swap.amountUSD)
-        }, 0)
+        return total + parseFloat(swap.amountUSD)
+      }, 0)
       : 0
   }, [transactions])
 
@@ -132,12 +132,12 @@ function AccountPage({ account }) {
   const positionValue = useMemo(() => {
     return dynamicPositions
       ? dynamicPositions.reduce((total, position) => {
-          return (
-            total +
-            (parseFloat(position?.liquidityTokenBalance) / parseFloat(position?.pair?.totalSupply)) *
-              position?.pair?.reserveUSD
-          )
-        }, 0)
+        return (
+          total +
+          (parseFloat(position?.liquidityTokenBalance) / parseFloat(position?.pair?.totalSupply)) *
+          position?.pair?.reserveUSD
+        )
+      }, 0)
       : null
   }, [dynamicPositions])
 
@@ -154,7 +154,7 @@ function AccountPage({ account }) {
   const [savedAccounts, addAccount, removeAccount] = useSavedAccounts()
   const isBookmarked = savedAccounts.includes(account)
   const handleBookmarkClick = useCallback(() => {
-    ;(isBookmarked ? removeAccount : addAccount)(account)
+    ; (isBookmarked ? removeAccount : addAccount)(account)
   }, [account, isBookmarked, addAccount, removeAccount])
 
   return (
@@ -162,7 +162,7 @@ function AccountPage({ account }) {
       <TWContentWrapper>
         <div className="flex w-full items-center justify-between mb-6">
           <TWIconTextTitle>
-            <i class="las la-wallet text-3xl"></i>
+            <i className="las la-wallet text-3xl"></i>
             <Link lineHeight={'145.23%'} href={'https://explorer.harmony.one/address/' + account} target="_blank">
               <TYPE.header fontSize={24}>{account?.slice(0, 6) + '...' + account?.slice(38, 42)}</TYPE.header>
             </Link>
@@ -177,7 +177,7 @@ function AccountPage({ account }) {
                 {!activePosition && (
                   <RowFixed>
                     <StyledIcon>
-                      <i class="las la-layer-group text-2xl"></i>
+                      <i className="las la-layer-group text-2xl"></i>
                     </StyledIcon>
                     <TYPE.body ml={'10px'}>All Positions</TYPE.body>
                   </RowFixed>
@@ -251,8 +251,8 @@ function AccountPage({ account }) {
                       {positionValue
                         ? formattedNum(positionValue, true)
                         : positionValue === 0
-                        ? formattedNum(0, true)
-                        : '-'}
+                          ? formattedNum(0, true)
+                          : '-'}
                     </TYPE.header>
                   </RowFixed>
                 </AutoColumn>
@@ -283,15 +283,15 @@ function AccountPage({ account }) {
             </PanelWrapper>
           )}
           <TWIconTextTitle className="mt-6">
-            <i class="las la-list-alt text-2xl"></i>
-            <p class="text-base">Positions</p>
+            <i className="las la-list-alt text-2xl"></i>
+            <p className="text-base">Positions</p>
           </TWIconTextTitle>
           <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <PositionList positions={positions} />
           </TWoSwapPanel>
           <TWIconTextTitle className="mt-6">
-            <i class="las la-tint text-2xl"></i>
-            <p class="text-base">Liquidity Mining Pools</p>
+            <i className="las la-tint text-2xl"></i>
+            <p className="text-base">Liquidity Mining Pools</p>
           </TWIconTextTitle>
           <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             {miningPositions && <MiningPositionList miningPositions={miningPositions} />}
@@ -307,15 +307,15 @@ function AccountPage({ account }) {
             )}
           </TWoSwapPanel>
           <TWIconTextTitle className="mt-6">
-            <i class="las la-sync text-2xl"></i>
-            <p class="text-base">Transactions</p>
+            <i className="las la-sync text-2xl"></i>
+            <p className="text-base">Transactions</p>
           </TWIconTextTitle>
           <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <TxnList transactions={transactions} />
           </TWoSwapPanel>
           <TWIconTextTitle className="mt-6">
-            <i class="las la-wallet text-2xl"></i>
-            <p class="text-base">Wallet Stats</p>
+            <i className="las la-wallet text-2xl"></i>
+            <p className="text-base">Wallet Stats</p>
           </TWIconTextTitle>
           <TWoSwapPanel className="px-6" style={{ marginTop: '1.5rem' }}>
             <AutoRow gap="20px">

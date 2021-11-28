@@ -83,7 +83,7 @@ const TWHeaderText = tw(HeaderText)`
 `
 
 const Polling = styled.div`
-  color: ${({ theme }) => (theme.oSText1) };
+  color: ${({ theme }) => (theme.oSText1)};
   opacity: 0.4;
   transition: opacity 0.25s ease;
   :hover {
@@ -113,7 +113,7 @@ function SideNav({ history }) {
                 <BasicLink to="/home">
                   <TWOption activeText={history.location.pathname === '/home' ?? undefined}>
                     <TWIcon>
-                      <i class="las la-chart-line text-xl"></i>
+                      <i className="las la-chart-line text-xl"></i>
                     </TWIcon>
                     <p>Overview</p>
                   </TWOption>
@@ -125,9 +125,9 @@ function SideNav({ history }) {
                         history.location.pathname.split('/')[1] === 'token') ??
                       undefined
                     }
-                  > 
+                  >
                     <TWIcon>
-                      <i class="las la-coins text-xl"></i>
+                      <i className="las la-coins text-xl"></i>
                     </TWIcon>
                     <p>Tokens</p>
                   </TWOption>
@@ -141,7 +141,7 @@ function SideNav({ history }) {
                     }
                   >
                     <TWIcon>
-                      <i class="las la-spinner text-xl"></i>
+                      <i className="las la-spinner text-xl"></i>
                     </TWIcon>
                     <p>Pairs</p>
                   </TWOption>
@@ -156,13 +156,13 @@ function SideNav({ history }) {
                     }
                   >
                     <TWIcon>
-                      <i class="las la-user text-xl"></i>
+                      <i className="las la-user text-xl"></i>
                     </TWIcon>
                     <p>Accounts</p>
                   </TWOption>
                 </BasicLink>
                 <TWPolling>
-                  <i class="las la-clock text-xl text-oswapGreen-dark"></i>
+                  <i className="las la-clock text-xl text-oswapGreen-dark"></i>
                   <a href="/">
                     <TYPE.small>
                       Updated {!!seconds ? seconds + 's' : '-'} ago <br />
@@ -176,25 +176,25 @@ function SideNav({ history }) {
             <TWMenuMiddle>
               <TWHeaderText>
                 <Link className="flex items-center space-x-3" href="https://openswap.one" target="_blank">
-                  <i class="las la-link text-lg"></i>
+                  <i className="las la-link text-lg"></i>
                   <p>Openswap.one</p>
                 </Link>
               </TWHeaderText>
               <TWHeaderText>
                 <Link className="flex items-center space-x-3" href="https://docs.openswap.one/" target="_blank">
-                  <i class="las la-book text-lg"></i>
+                  <i className="las la-book text-lg"></i>
                   <p>Docs</p>
                 </Link>
               </TWHeaderText>
               <TWHeaderText>
                 <Link className="flex items-center space-x-3" href="https://discord.gg/hznnXUxert" target="_blank">
-                  <i class="lab la-discord text-lg"></i>
+                  <i className="lab la-discord text-lg"></i>
                   <p>Discord</p>
                 </Link>
               </TWHeaderText>
               <TWHeaderText>
                 <Link className="flex items-center space-x-3" href="https://twitter.com/OpenSwap_one" target="_blank">
-                  <i class="lab la-twitter text-lg"></i>
+                  <i className="lab la-twitter text-lg"></i>
                   <p>Twitter</p>
                 </Link>
               </TWHeaderText>
