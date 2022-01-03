@@ -24,6 +24,7 @@ const TWIconTextTitle = tw(IconTextTitle)`
 
 function AllTokensPage() {
   const allTokens = useAllTokenData()
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -35,8 +36,8 @@ function AllTokensPage() {
       <TWContentWrapper>
         <div className="flex w-full items-center justify-between mb-6">
           <TWIconTextTitle>
-            <i className="las la-medal text-3xl"></i>
-            <p className="text-3xl">Top Tokens</p>
+            <i class="las la-medal text-3xl"></i>
+            <p class="text-3xl">Top Tokens</p>
           </TWIconTextTitle>
           {!below800 && <Search small={true} />}
         </div>

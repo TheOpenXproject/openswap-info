@@ -42,7 +42,7 @@ const TWIcon = styled.div`
 `
 
 function TWMobileMenu({ history }) {
-
+  
   useEffect(() => {
     var mobileHeader = document.getElementById('mobileMenu')
 
@@ -53,7 +53,7 @@ function TWMobileMenu({ history }) {
         mobileHeader.classList.remove('shadow-xl');
       }
     })
-  }, []);
+  }, []);  
 
   return (
     <TWMobileWrapper id="mobileMenu">
@@ -64,9 +64,9 @@ function TWMobileMenu({ history }) {
         <BasicLink to="/home">
           <TWOption activeText={history.location.pathname === '/home' ?? undefined}>
             <TWIcon>
-              <i className="las la-chart-line text-xl"></i>
+              <i class="las la-chart-line text-xl"></i>
             </TWIcon>
-            <p className="ss:hidden xs:block">Overview</p>
+            <p class="ss:hidden xs:block">Overview</p>
           </TWOption>
         </BasicLink>
         <BasicLink to="/tokens">
@@ -78,9 +78,9 @@ function TWMobileMenu({ history }) {
             }
           >
             <TWIcon>
-              <i className="las la-coins text-xl"></i>
+              <i class="las la-coins text-xl"></i>
             </TWIcon>
-            <p className="ss:hidden xs:block">Tokens</p>
+            <p class="ss:hidden xs:block">Tokens</p>
           </TWOption>
         </BasicLink>
         <BasicLink to="/pairs">
@@ -92,9 +92,9 @@ function TWMobileMenu({ history }) {
             }
           >
             <TWIcon>
-              <i className="las la-spinner text-xl"></i>
+              <i class="las la-spinner text-xl"></i>
             </TWIcon>
-            <p className="ss:hidden xs:block">Pairs</p>
+            <p class="ss:hidden xs:block">Pairs</p>
           </TWOption>
         </BasicLink>
 
@@ -107,9 +107,9 @@ function TWMobileMenu({ history }) {
             }
           >
             <TWIcon>
-              <i className="las la-user text-xl"></i>
+              <i class="las la-user text-xl"></i>
             </TWIcon>
-            <p className="ss:hidden xs:block">Accounts</p>
+            <p class="ss:hidden xs:block">Accounts</p>
           </TWOption>
         </BasicLink>
       </TWMenu>
