@@ -41,14 +41,14 @@ function AllPairsPage() {
       <TWContentWrapper>
         <div className="flex w-full items-center justify-between mb-6">
           <TWIconTextTitle>
-            <i class="las la-trophy text-3xl"></i>
-            <p class="text-3xl">Top Pairs</p>
+            <i className="las la-trophy text-3xl"></i>
+            <p className="text-3xl">Top Pairs</p>
           </TWIconTextTitle>
           {!below800 && <Search small={true} />}
         </div>
         <div className="flex w-full flex-col pb-6">
           <AutoRow gap="4px">
-            <TWCheckbox 
+            <TWCheckbox
               label="Hide untracked pairs"
               value="value"
               checked={useTracked}

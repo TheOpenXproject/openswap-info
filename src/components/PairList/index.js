@@ -182,7 +182,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
 
       const apy = formattedPercent(
         ((pairData.oneDayVolumeUSD ? pairData.oneDayVolumeUSD : pairData.oneDayVolumeUntracked) * 0.003 * 365 * 100) /
-          (pairData.oneDayVolumeUSD ? pairData.trackedReserveUSD : pairData.reserveUSD)
+        (pairData.oneDayVolumeUSD ? pairData.trackedReserveUSD : pairData.reserveUSD)
       )
 
       const weekVolume = formattedNum(
@@ -274,9 +274,9 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
               setSortDirection(sortedColumn !== SORT_FIELD.LIQ ? true : !sortDirection)
             }}
           >
-            Liquidity { 
-              sortedColumn === SORT_FIELD.LIQ ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            Liquidity {
+              sortedColumn === SORT_FIELD.LIQ ?
+                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -288,9 +288,9 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
               setSortDirection(sortedColumn !== SORT_FIELD.VOL ? true : !sortDirection)
             }}
           >
-            Volume (24hrs) { 
-              sortedColumn === SORT_FIELD.VOL ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            Volume (24hrs) {
+              sortedColumn === SORT_FIELD.VOL ?
+                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -303,10 +303,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.VOL_7DAYS ? true : !sortDirection)
               }}
             >
-            Volume (7d) { 
-              sortedColumn === SORT_FIELD.VOL_7DAYS ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              Volume (7d) {
+                sortedColumn === SORT_FIELD.VOL_7DAYS ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -319,10 +319,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.FEES ? true : !sortDirection)
               }}
             >
-            Fees (24hr) { 
-              sortedColumn === SORT_FIELD.FEES ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              Fees (24hr) {
+                sortedColumn === SORT_FIELD.FEES ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -335,10 +335,10 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
                 setSortDirection(sortedColumn !== SORT_FIELD.APY ? true : !sortDirection)
               }}
             >
-            1y Fees / Liquidity { 
-              sortedColumn === SORT_FIELD.APY ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              1y Fees / Liquidity {
+                sortedColumn === SORT_FIELD.APY ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
             <QuestionHelper size="text-xl" text={'Based on 24hr volume annualized'} />
           </Flex>
@@ -353,7 +353,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
           }}
         >
           <Arrow faded={page === 1 ? true : false}>
-            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+            <i className="las la-arrow-left text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
         <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
@@ -363,7 +363,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
           }}
         >
           <Arrow faded={page === maxPage ? true : false}>
-            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+            <i className="las la-arrow-right text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
       </TWPageButtons>

@@ -147,7 +147,6 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
         .map((key) => tokens[key])
     )
   }, [tokens])
-
   useEffect(() => {
     if (tokens && formattedTokens) {
       let extraPages = 1
@@ -221,9 +220,9 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               setSortDirection(sortedColumn !== SORT_FIELD.NAME ? true : !sortDirection)
             }}
           >
-            {below680 ? 'Symbol' : 'Name'} { 
-              sortedColumn === SORT_FIELD.NAME ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            {below680 ? 'Symbol' : 'Name'} {
+              sortedColumn === SORT_FIELD.NAME ?
+                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -236,10 +235,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.SYMBOL ? true : !sortDirection)
               }}
             >
-            Symbol { 
-              sortedColumn === SORT_FIELD.SYMBOL ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              Symbol {
+                sortedColumn === SORT_FIELD.SYMBOL ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -252,9 +251,9 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               setSortDirection(sortedColumn !== SORT_FIELD.LIQ ? true : !sortDirection)
             }}
           >
-            Liquidity { 
-              sortedColumn === SORT_FIELD.LIQ ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            Liquidity {
+              sortedColumn === SORT_FIELD.LIQ ?
+                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -269,8 +268,8 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
             }}
           >
             Volume (24hrs) {
-            sortedColumn === (useTracked ? SORT_FIELD.VOL_UT : SORT_FIELD.VOL) ? 
-              (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              sortedColumn === (useTracked ? SORT_FIELD.VOL_UT : SORT_FIELD.VOL) ?
+                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -283,10 +282,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.PRICE ? true : !sortDirection)
               }}
             >
-            Price { 
-              sortedColumn === SORT_FIELD.PRICE ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              Price {
+                sortedColumn === SORT_FIELD.PRICE ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -299,10 +298,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.CHANGE ? true : !sortDirection)
               }}
             >
-            Price Change (24hrs) { 
-              sortedColumn === SORT_FIELD.CHANGE ? 
-                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
-            }
+              Price Change (24hrs) {
+                sortedColumn === SORT_FIELD.CHANGE ?
+                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              }
             </ClickableText>
           </Flex>
         )}
@@ -326,7 +325,7 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
           }}
         >
           <Arrow faded={page === 1 ? true : false}>
-            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
+            <i className="las la-arrow-left text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
         <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
@@ -336,7 +335,7 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
           }}
         >
           <Arrow faded={page === maxPage ? true : false}>
-            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
+            <i className="las la-arrow-right text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
       </TWPageButtons>

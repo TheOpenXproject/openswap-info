@@ -29,8 +29,8 @@ if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     customBrowserType: !isMobile
       ? 'desktop'
       : 'web3' in window || 'ethereum' in window
-      ? 'mobileWeb3'
-      : 'mobileRegular',
+        ? 'mobileWeb3'
+        : 'mobileRegular',
   })
 } else {
   ReactGA.initialize('test', { testMode: true, debug: true })
@@ -61,16 +61,19 @@ function Updaters() {
     </>
   )
 }
+const rootElement = document.getElementById("root");
+const app = <ContextProviders>
+  <Updaters />
+  <ThemeProvider>
+    <>
+      <GlobalStyle />
+      <App />
+    </>
+  </ThemeProvider>
+</ContextProviders>
 
-ReactDOM.render(
-  <ContextProviders>
-    <Updaters />
-    <ThemeProvider>
-      <>
-        <GlobalStyle />
-        <App />
-      </>
-    </ThemeProvider>
-  </ContextProviders>,
-  document.getElementById('root')
-)
+if (rootElement.hasChildNodes()) {
+  ReactDOM.hydrate(app, rootElement);
+} else {
+  ReactDOM.render(app, rootElement);
+}

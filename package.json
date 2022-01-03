@@ -59,6 +59,7 @@
     "react-scroll": "^1.8.0",
     "react-scroll-parallax": "^2.2.0",
     "react-select": "^3.0.7",
+    "react-spa-prerender": "^1.0.12",
     "react-spring": "^8.0.27",
     "react-springy-parallax": "^1.3.0",
     "react-switch": "^5.0.1",
@@ -78,7 +79,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "react-spa-prerender"
   },
   "browserslist": {
     "production": [

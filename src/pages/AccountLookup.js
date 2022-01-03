@@ -46,8 +46,8 @@ function AccountLookup() {
       <TWContentWrapper>
         <div className="flex w-full items-center justify-between mb-6">
           <TWIconTextTitle>
-            <i class="las la-user text-3xl"></i>
-            <p class="text-3xl">Wallet Analytics</p>
+            <i className="las la-user text-3xl"></i>
+            <p className="text-3xl">Wallet Analytics</p>
           </TWIconTextTitle>
           {!below800 && <Search small={true} />}
         </div>
@@ -56,8 +56,8 @@ function AccountLookup() {
         </TWAccountWrapper>
         <div className="flex w-full items-center justify-between my-6">
           <TWIconTextTitle>
-            <i class="las la-trophy text-3xl"></i>
-            <p class="text-xl">Top Liquidity Positions</p>
+            <i className="las la-trophy text-3xl"></i>
+            <p className="text-xl">Top Liquidity Positions</p>
           </TWIconTextTitle>
         </div>
         <TWoSwapPanel>{topLps && topLps.length > 0 ? <LPList lps={topLps} maxItems={200} /> : <DataLoader />}</TWoSwapPanel>
