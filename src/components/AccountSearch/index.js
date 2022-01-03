@@ -116,7 +116,7 @@ function AccountSearch({ history, small }) {
                         }}
                       >
                         <StyledIcon>
-                          <i className="las la-times text-oswapGreen"></i>
+                          <i class="las la-times text-oswapGreen"></i>
                         </StyledIcon>
                       </Hover>
                     </Flex>

@@ -86,8 +86,8 @@ function GlobalPage() {
         <div>
           <AutoColumn gap="24px" style={{ paddingBottom: below800 ? '0' : '24px' }}>
             <TWIconTextTitle>
-              <i className="las la-chart-line text-3xl"></i>
-              <p className="text-3xl">OpenSwap Analytics</p>
+              <i class="las la-chart-line text-3xl"></i>
+              <p class="text-3xl">OpenSwap Analytics</p>
             </TWIconTextTitle>
             <Search />
             <GlobalStats />
@@ -146,7 +146,7 @@ function GlobalPage() {
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <RowBetween>
               <TWIconTextTitle>
-                <i className="las la-medal text-2xl pl-2"></i>
+                <i class="las la-medal text-2xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Top Tokens
                 </TYPE.main>
@@ -160,13 +160,13 @@ function GlobalPage() {
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <RowBetween>
               <TWIconTextTitle>
-                <i className="las la-trophy text-2xl pl-2"></i>
+                <i class="las la-trophy text-2xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Top Pairs
                 </TYPE.main>
               </TWIconTextTitle>
               <AutoRow gap="4px" width="100%" justifyContent="flex-end">
-                <TWCheckbox
+                <TWCheckbox 
                   label="Hide untracked pairs"
                   value="value"
                   checked={useTracked}
@@ -182,7 +182,7 @@ function GlobalPage() {
           </TWoSwapPanel>
           <span>
             <TWIconTextTitle style={{ marginTop: '2rem' }}>
-              <i className="las la-file-invoice-dollar text-2xl pl-2"></i>
+              <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
               <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                 Transactions
               </TYPE.main>

@@ -58,9 +58,9 @@ function Title() {
             <BasicLink to="/home">
               <TWOption activeText={history.location.pathname === '/home' ?? undefined}>
                 <TWIcon>
-                  <i className="las la-chart-line text-xl"></i>
+                  <i class="las la-chart-line text-xl"></i>
                 </TWIcon>
-                <p className="ss:hidden xs:block">Overview</p>
+                <p class="ss:hidden xs:block">Overview</p>
               </TWOption>
             </BasicLink>
             <BasicLink to="/tokens">
@@ -72,9 +72,9 @@ function Title() {
                 }
               >
                 <TWIcon>
-                  <i className="las la-coins text-xl"></i>
+                  <i class="las la-coins text-xl"></i>
                 </TWIcon>
-                <p className="ss:hidden xs:block">Tokens</p>
+                <p class="ss:hidden xs:block">Tokens</p>
               </TWOption>
             </BasicLink>
             <BasicLink to="/pairs">
@@ -86,9 +86,9 @@ function Title() {
                 }
               >
                 <TWIcon>
-                  <i className="las la-spinner text-xl"></i>
+                  <i class="las la-spinner text-xl"></i>
                 </TWIcon>
-                <p className="ss:hidden xs:block">Pairs</p>
+                <p class="ss:hidden xs:block">Pairs</p>
               </TWOption>
             </BasicLink>
 
@@ -101,9 +101,9 @@ function Title() {
                 }
               >
                 <TWIcon>
-                  <i className="las la-user text-xl"></i>
+                  <i class="las la-user text-xl"></i>
                 </TWIcon>
-                <p className="ss:hidden xs:block">Accounts</p>
+                <p class="ss:hidden xs:block">Accounts</p>
               </TWOption>
             </BasicLink>
           </RowFixed>

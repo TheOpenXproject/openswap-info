@@ -19,11 +19,11 @@ const TWBase = styled.div`
   border-radius: 9999px;
   min-width: fit-content;
   white-space: nowrap;
-  background-color: ${({ active, theme }) => (active ? 'rgba(24, 213, 187, 1)' : theme.bgOSwap1)};
-  color: ${({ active, theme }) => (active ? theme.btnOSwap1 : 'rgba(24, 213, 187, 1)')};
+  background-color: ${({ active, theme }) => ( active ? 'rgba(24, 213, 187, 1)' : theme.bgOSwap1)};
+  color: ${({ active, theme }) => ( active ? theme.btnOSwap1 : 'rgba(24, 213, 187, 1)')};
 
   :hover {
-    color: ${({ theme }) => theme.btnOSwap1};
+    color: ${({ theme }) => theme.btnOSwap1 };
   }
 `
 
@@ -87,7 +87,7 @@ export const ButtonLight = styled(Base)`
 
   :hover {
     background-color: ${({ color, theme }) =>
-    color ? transparentize(0.8, color) : transparentize(0.8, theme.primary1)};
+      color ? transparentize(0.8, color) : transparentize(0.8, theme.primary1)};
   }
 `
 
@@ -98,11 +98,11 @@ export function ButtonDropdown({ disabled = false, children, open, ...rest }) {
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
         {open ? (
           <StyledIcon>
-            <i className="las la-chevron-circle-up text-2xl text-oswapGreen"></i>
+            <i class="las la-chevron-circle-up text-2xl text-oswapGreen"></i>
           </StyledIcon>
         ) : (
           <StyledIcon>
-            <i className="las la-chevron-circle-down text-2xl text-oswapGreen"></i>
+            <i class="las la-chevron-circle-down text-2xl text-oswapGreen"></i>
           </StyledIcon>
         )}
       </RowBetween>
@@ -123,8 +123,8 @@ export const ButtonDark = styled(Base)`
 `
 
 export const ButtonFaded = styled(Base)`
-  background-color: ${({ theme }) => theme.bgOSwap1};
-  color: ${({ theme }) => theme.oSText1}
+  background-color: ${({ theme }) => theme.bgOSwap1 };
+  color: ${({ theme }) => theme.oSText1 }
   white-space: nowrap;
   z-index: 999;
   

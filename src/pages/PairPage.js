@@ -277,8 +277,8 @@ function PairPage({ pairAddress, history }) {
             {!below1080 && (
               <RowFixed>
                 <TWIconTextTitle>
-                  <i className="las la-chart-area text-2xl pl-2"></i>
-                  <p className="text-base">Pair Stats</p>
+                  <i class="las la-chart-area text-2xl pl-2"></i>
+                  <p class="text-base">Pair Stats</p>
                 </TWIconTextTitle>
                 {showUSDWaning ? (
                   <HoverText text={UNTRACKED_COPY}>
@@ -376,7 +376,7 @@ function PairPage({ pairAddress, history }) {
             </PanelWrapper>
             <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
               <TWIconTextTitle>
-                <i className="las la-file-invoice-dollar text-2xl pl-2"></i>
+                <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Transactions
                 </TYPE.main>
@@ -387,7 +387,7 @@ function PairPage({ pairAddress, history }) {
             </TWoSwapPanel>
             <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
               <TWIconTextTitle>
-                <i className="las la-question-circle text-3xl pl-2"></i>
+                <i class="las la-question-circle text-3xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Pair Information
                 </TYPE.main>

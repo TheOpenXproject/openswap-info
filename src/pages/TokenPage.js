@@ -241,8 +241,8 @@ function TokenPage({ address, history }) {
             {!below1080 && (
               <RowFixed>
                 <TWIconTextTitle>
-                  <i className="las la-chart-area text-2xl pl-2"></i>
-                  <p className="text-base">Token Stats</p>
+                  <i class="las la-chart-area text-2xl pl-2"></i>
+                  <p class="text-base">Token Stats</p>
                 </TWIconTextTitle>
                 {usingUtVolume && (
                   <HoverText text={UNTRACKED_COPY}>
@@ -323,7 +323,7 @@ function TokenPage({ address, history }) {
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <RowBetween>
               <TWIconTextTitle>
-                <i className="las la-medal text-2xl pl-2"></i>
+                <i class="las la-medal text-2xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Top Pairs
                 </TYPE.main>
@@ -352,7 +352,7 @@ function TokenPage({ address, history }) {
 
           <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
             <TWIconTextTitle>
-              <i className="las la-file-invoice-dollar text-2xl pl-2"></i>
+              <i class="las la-file-invoice-dollar text-2xl pl-2"></i>
               <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                 Transactions
               </TYPE.main>
@@ -365,7 +365,7 @@ function TokenPage({ address, history }) {
           <>
             <ListOptions gap="10px" style={{ marginTop: '2rem', marginBottom: '.5rem' }}>
               <TWIconTextTitle>
-                <i className="las la-question-circle text-3xl pl-2"></i>
+                <i class="las la-question-circle text-3xl pl-2"></i>
                 <TYPE.main fontSize={'1rem'} style={{ whiteSpace: 'nowrap' }}>
                   Token Information
                 </TYPE.main>

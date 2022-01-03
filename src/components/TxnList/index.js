@@ -365,9 +365,9 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
               setSortDirection(sortedColumn !== SORT_FIELD.VALUE ? true : !sortDirection)
             }}
           >
-            Total Value {
-              sortedColumn === SORT_FIELD.VALUE ?
-                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            Total Value { 
+              sortedColumn === SORT_FIELD.VALUE ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -381,9 +381,9 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.AMOUNT0 ? true : !sortDirection)
               }}
             >
-              {symbol0Override ? symbol0Override + ' Amount' : 'Token Amount'}{' '}
-              {sortedColumn === SORT_FIELD.AMOUNT0 ?
-                (sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              {symbol0Override ? symbol0Override + ' Amount' : 'Token Amount'}{' '}               
+              {sortedColumn === SORT_FIELD.AMOUNT0 ? 
+                (sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
               }
             </ClickableText>
           </Flex>
@@ -399,9 +399,9 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                   setSortDirection(sortedColumn !== SORT_FIELD.AMOUNT1 ? true : !sortDirection)
                 }}
               >
-                {symbol1Override ? symbol1Override + ' Amount' : 'Token Amount'}{' '}
-                {sortedColumn === SORT_FIELD.AMOUNT1 ?
-                  (sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+                {symbol1Override ? symbol1Override + ' Amount' : 'Token Amount'}{' '}               
+                {sortedColumn === SORT_FIELD.AMOUNT1 ? 
+                  (sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
                 }
               </ClickableText>
             </Flex>
@@ -420,8 +420,8 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.TIMESTAMP ? true : !sortDirection)
               }}
             >
-              Time {sortedColumn === SORT_FIELD.TIMESTAMP ?
-                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              Time {sortedColumn === SORT_FIELD.TIMESTAMP ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
               }
             </ClickableText>
           </Flex>
@@ -451,7 +451,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
           }}
         >
           <Arrow faded={page === 1 ? true : false}>
-            <i className="las la-arrow-left text-oswapBlue-light text-xl"></i>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
         <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
@@ -461,7 +461,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
           }}
         >
           <Arrow faded={page === maxPage ? true : false}>
-            <i className="las la-arrow-right text-oswapBlue-light text-xl"></i>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
       </TWPageButtons>

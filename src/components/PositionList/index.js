@@ -212,10 +212,10 @@ function PositionList({ positions }) {
                   <TYPE.small fontWeight={400}>
                     {parseFloat(position.pair.token0.derivedETH)
                       ? formattedNum(
-                        position?.fees.sum / (parseFloat(position.pair.token0.derivedETH) * ethPrice) / 2,
-                        false,
-                        true
-                      )
+                          position?.fees.sum / (parseFloat(position.pair.token0.derivedETH) * ethPrice) / 2,
+                          false,
+                          true
+                        )
                       : 0}{' '}
                   </TYPE.small>
                   <FormattedName
@@ -229,10 +229,10 @@ function PositionList({ positions }) {
                   <TYPE.small fontWeight={400}>
                     {parseFloat(position.pair.token1.derivedETH)
                       ? formattedNum(
-                        position?.fees.sum / (parseFloat(position.pair.token1.derivedETH) * ethPrice) / 2,
-                        false,
-                        true
-                      )
+                          position?.fees.sum / (parseFloat(position.pair.token1.derivedETH) * ethPrice) / 2,
+                          false,
+                          true
+                        )
                       : 0}{' '}
                   </TYPE.small>
                   <FormattedName
@@ -299,9 +299,9 @@ function PositionList({ positions }) {
               setSortDirection(sortedColumn !== SORT_FIELD.VALUE ? true : !sortDirection)
             }}
           >
-            {below740 ? 'Value' : 'Liquidity'}{' '} {
-              sortedColumn === SORT_FIELD.VALUE ?
-                (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+            {below740 ? 'Value' : 'Liquidity'}{' '} { 
+              sortedColumn === SORT_FIELD.VALUE ? 
+              (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
             }
           </ClickableText>
         </Flex>
@@ -314,9 +314,9 @@ function PositionList({ positions }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.UNISWAP_RETURN ? true : !sortDirection)
               }}
             >
-              {below740 ? 'Fees' : 'Total Fees Earned'}{' '} {
-                sortedColumn === SORT_FIELD.UNISWAP_RETURN ?
-                  (!sortDirection ? <i className="las la-arrow-up text-oswapBlue-light"></i> : <i className="las la-arrow-down text-oswapBlue-light"></i>) : ''
+              {below740 ? 'Fees' : 'Total Fees Earned'}{' '} { 
+                sortedColumn === SORT_FIELD.UNISWAP_RETURN ? 
+                (!sortDirection ? <i class="las la-arrow-up text-oswapBlue-light"></i> : <i class="las la-arrow-down text-oswapBlue-light"></i>) : ''
               }
             </ClickableText>
           </Flex>
@@ -331,7 +331,7 @@ function PositionList({ positions }) {
           }}
         >
           <Arrow faded={page === 1 ? true : false}>
-            <i className="las la-arrow-left text-oswapBlue-light text-xl"></i>
+            <i class="las la-arrow-left text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
         <TYPE.body className="text-sm">{'Page ' + page + ' of ' + maxPage}</TYPE.body>
@@ -341,7 +341,7 @@ function PositionList({ positions }) {
           }}
         >
           <Arrow faded={page === maxPage ? true : false}>
-            <i className="las la-arrow-right text-oswapBlue-light text-xl"></i>
+            <i class="las la-arrow-right text-oswapBlue-light text-xl"></i>
           </Arrow>
         </div>
       </TWPageButtons>
